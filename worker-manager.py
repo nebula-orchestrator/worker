@@ -63,7 +63,9 @@ def restart_containers(app_json, registry_auth_user="", registry_auth_password="
 # roll app function
 def roll_containers(app_json, registry_auth_user="", registry_auth_password="", registry_host=""):
     # TODO - get rolling restart module to work
-    print "not yet implemented, do not use"
+    print "not yet implemented, do not use - will restart for the time being"
+    restart_containers(app_json, registry_auth_user=registry_auth_user, registry_auth_password=registry_auth_password,
+                       registry_host=registry_host)
     return
 
 

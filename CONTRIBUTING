@@ -21,8 +21,8 @@ prior to making any pull requests
 
 * documentation - everyone hates them but without them would you be able to figure out how to use Nebula?
 * bug fixes - need I say more?
-* submitting tickets - even if you don't have the time\knowladge to fix a bug just opening a github issue about it will greatly help
-* suggesting improvments
+* submitting tickets - even if you don't have the time\knowledge to fix a bug just opening a github issue about it will greatly help
+* suggesting improvements
 * doing anything off the [wishlist](http://nebula.readthedocs.io/en/latest/wishlist/)
 * spreading the word
 

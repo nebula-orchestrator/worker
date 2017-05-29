@@ -1,4 +1,5 @@
 appdirs==1.4.3
+backports-abc==0.5
 backports.ssl-match-hostname==3.5.0.1
 certifi==2017.4.17
 chardet==3.0.3
@@ -11,13 +12,20 @@ idna==2.5
 ipaddress==1.0.18
 itsdangerous==0.24
 Jinja2==2.9.6
+livereload==2.5.1
+Markdown==2.6.8
 MarkupSafe==1.0
+mkdocs==0.16.3
 packaging==16.8
 pika==0.10.0
-pymongo[tls]==3.4.0
+pkg-resources==0.0.0
+pymongo==3.4.0
 pyparsing==2.2.0
+PyYAML==3.12
 requests==2.16.5
+singledispatch==3.4.0.3
 six==1.10.0
+tornado==4.5.1
 urllib3==1.21.1
 websocket-client==0.40.0
 Werkzeug==0.12.2

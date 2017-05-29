@@ -1,4 +1,4 @@
 # worker-manager
 The worker node manager container which manages nebula nodes
 
-refer to [docs](https://github.com/nebula-orchestrator/docs) for more details
+refer to [readthedocs](http://nebula.readthedocs.io/en/latest/) for more details

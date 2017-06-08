@@ -122,6 +122,7 @@ def run_container(app_name, container_name, image_name, bind_port, ports, env_va
                      create_container_host_config(bind_port, net_mode), ports, env_vars)
     start_container(container_name)
 
+
 # stop and remove container
 def stop_and_remove_container(container_name):
     stop_container(container_name)

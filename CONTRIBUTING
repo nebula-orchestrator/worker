@@ -14,7 +14,7 @@ can help
 
 ### Documentation
 
-Nebula docs are hosted at [readthedocs](http://nebula.readthedocs.io/en/latest/) , reading them is highly recommended
+Nebula docs are hosted at [readthedocs](http://nebula.readthedocs.io/en/latest/) using [MkDocs](http://www.mkdocs.org/) for their creation, reading them is highly recommended
 prior to making any pull requests
 
 ## What you can help with

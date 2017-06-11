@@ -7,9 +7,9 @@ can help
 
 * Fork the latest branch of the component you want to contribute to
 * Make sure you have a [GitHub account](https://github.com/signup/free)
-* use virtualenv to install all requirements from the requirements.txt file
-* fix an issue\ add a feature
-* create a pull request
+* Use virtualenv to install all requirements from the requirements.txt file
+* Fix the issue you \ add a feature
+* Create a pull request
 
 
 ### Documentation
@@ -19,15 +19,16 @@ prior to making any pull requests
 
 ## What you can help with
 
-* documentation - everyone hates them but without them would you be able to figure out how to use Nebula?
-* bug fixes - need I say more?
-* submitting tickets - even if you don't have the time\knowledge to fix a bug just opening a github issue about it will greatly help
-* suggesting improvements
-* doing anything off the [wishlist](http://nebula.readthedocs.io/en/latest/wishlist/)
-* spreading the word
+* Documentation - everyone hates them but without them would you be able to figure out how to use Nebula?
+* Bug fixes / feature requests - anything off github issues lists
+* Submitting tickets - even if you don't have the time\knowledge to fix a bug just opening a github issue about it will greatly help
+* Suggesting improvements
+* For larger tasks - doing anything off the [wishlist](http://nebula.readthedocs.io/en/latest/wishlist/)
+* Spreading the word
 
 ### Summary
+
 * Your awesome for helping, thanks.
 
 P.S.
-don't forget to add yourself to to CONTRIBUTORS file.
+Don't forget to add yourself to to CONTRIBUTORS.md file.

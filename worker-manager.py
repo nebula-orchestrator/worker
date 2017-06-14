@@ -100,7 +100,7 @@ def start_containers(app_json, no_pull=False, registry_auth_user="", registry_au
                 containers_needed = int(cpu_cores * scale_amount)
             elif scale_type == "server" or scale_type == "instance":
                 containers_needed = int(scale_amount)
-        #pull latest image
+        # pull latest image
         if no_pull is False:
             pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
                        registry_pass=registry_auth_password, registry_host=registry_host)

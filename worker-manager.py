@@ -8,6 +8,7 @@ from threading import Thread
 from random import randint
 
 
+# get setting from envvar with failover from conf.json file if envvar not set
 def get_conf_setting(setting, settings_json):
     try:
         setting_value = os.getenv(setting.upper(), settings_json[setting])
@@ -17,6 +18,7 @@ def get_conf_setting(setting, settings_json):
         os._exit(2)
 
 
+# split container image name to the registry, image & version used with default of docker hub if registry not set.
 def split_container_name_version(image_name):
     try:
         image_registry_name, image_name = image_name.rsplit("/", 1)
@@ -33,6 +35,7 @@ def split_container_name_version(image_name):
     return image_registry_name, image_name, version_name
 
 
+# used in rabbitmq queue name as it's partly random
 def randomword():
     return str(uuid.uuid4()).replace('-', '')
 
@@ -160,6 +163,7 @@ def rabbit_work_function(ch, method, properties, body):
         os._exit(2)
 
 
+# recursive so it will always keep trying to reconnect to rabbit in case of any connection issues
 def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name):
     try:
         rabbit_receive(rabbit_channel, rabbit_work_function, rabbit_queue_name)
@@ -225,5 +229,6 @@ cpu_cores = get_number_of_cpu_cores()
 # work against docker socket
 cli = Client(base_url='unix://var/run/docker.sock', version="auto")
 
+# opens a thread for each app so they all listen to rabbit side by side for any changes
 for app_name in app_name_list:
     Thread(target=app_theard, args=(app_name,)).start()

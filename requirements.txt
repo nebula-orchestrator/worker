@@ -4,7 +4,7 @@ backports.ssl-match-hostname==3.5.0.1
 certifi==2017.4.17
 chardet==3.0.3
 click==6.7
-docker-py==1.10.6
+docker==2.4.2
 docker-pycreds==0.2.1
 Flask==0.12.2
 Flask-BasicAuth==0.2.0

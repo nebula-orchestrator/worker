@@ -1,8 +1,8 @@
-from docker import Client
+import docker
 import json, os, time
 
 # work against docker socket
-cli = Client(base_url='unix://var/run/docker.sock', version="auto")
+cli = docker.APIClient(base_url='unix://var/run/docker.sock', version="auto")
 
 
 # list containers based on said image, if no app_name provided gets all

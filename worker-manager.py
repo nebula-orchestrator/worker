@@ -227,7 +227,7 @@ app_name_list = os.environ["APP_NAME"].split(",")
 cpu_cores = get_number_of_cpu_cores()
 
 # work against docker socket
-cli = Client(base_url='unix://var/run/docker.sock', version="auto")
+cli = docker.APIClient(base_url='unix://var/run/docker.sock', version="auto")
 
 # opens a thread for each app so they all listen to rabbit side by side for any changes
 for app_name in app_name_list:

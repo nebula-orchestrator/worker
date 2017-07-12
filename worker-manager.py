@@ -135,6 +135,7 @@ def start_containers(app_json, no_pull=False, registry_auth_user="", registry_au
             y.join()
         return
 
+
 def rabbit_work_function(ch, method, properties, body):
     try:
         # check the message body to get the needed order

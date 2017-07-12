@@ -53,7 +53,7 @@ def restart_containers(app_json, registry_auth_user="", registry_auth_password="
     image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
     # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
     time.sleep(randint(0, max_restart_wait_in_seconds))
-    #pull image to speed up downtime between stop & start
+    # pull image to speed up downtime between stop & start
     pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
                registry_pass=registry_auth_password, registry_host=registry_host)
     # stop running containers

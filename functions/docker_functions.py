@@ -9,7 +9,7 @@ cli = docker.APIClient(base_url='unix://var/run/docker.sock', version="auto")
 def list_containers(app_name=""):
     if app_name == "":
         try:
-            return cli.containers(filters="")
+            return cli.containers(filters={})
         except:
             print "failed getting list of all containers"
             os._exit(2)

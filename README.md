@@ -1,4 +1,5 @@
-# worker-manager
-The worker node manager container which manages nebula nodes
+# Nebula docs
 
-refer to [readthedocs](http://nebula.readthedocs.io/en/latest/) for more details
+##Refer to the [documentation](http://nebula.readthedocs.io/en/latest/) for more details
+
+This repo is the worker manager component of Nebula container orchestrator, it's what manages individual worker servers in the system. 

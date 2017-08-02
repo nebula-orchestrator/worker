@@ -124,7 +124,8 @@ def start_containers(app_json, no_pull=False, registry_auth_user="", registry_au
                 else:
                     print "starting ports can only a list containing intgers or dicts - dropping worker-manager"
                     os._exit(2)
-            t = Thread(target=run_container, args=(app_json["app_name"], app_json["app_name"] + str(container_number),
+            t = Thread(target=run_container, args=(app_json["app_name"], app_json["app_name"] + "-" +
+                                                   str(container_number),
                                                    image_name, port_binds, port_list, app_json["env_vars"],
                                                    app_json["network_mode"], version_name, registry_auth_user,
                                                    registry_auth_password))

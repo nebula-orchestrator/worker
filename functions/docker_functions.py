@@ -53,6 +53,7 @@ def create_container(app_name, container_name, image_name, host_configuration, c
         print "failed creating container " + container_name
         os._exit(2)
 
+
 # stop container, default timeout set to 5 seconds, will try to kill if stop failed
 def stop_container(container_name, stop_timout=5):
     print "stopping " + container_name

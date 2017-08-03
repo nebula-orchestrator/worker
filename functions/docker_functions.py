@@ -41,12 +41,13 @@ def pull_image(image_name, version_tag="latest", registry_user="", registry_pass
 
 
 # create container
-def create_container(app_name, container_name, image_name, host_configuration, container_ports=[], env_vars=[]):
+def create_container(app_name, container_name, image_name, host_configuration, container_ports=[], env_vars=[],
+                     volume_mounts=[]):
     print "creating container " + container_name
     try:
         container_created = cli.create_container(image=image_name, name=container_name, ports=container_ports,
                                                  environment=env_vars, host_config=host_configuration,
-                                                 labels={"app_name": app_name})
+                                                 volumes=volume_mounts, labels={"app_name": app_name})
         print "successfully created container " + container_name
         return container_created
     except:
@@ -107,10 +108,10 @@ def remove_container(container_name):
 
 
 # create host_config
-def create_container_host_config(port_binds, net_mode):
+def create_container_host_config(port_binds, net_mode, volumes):
     try:
         return cli.create_host_config(port_bindings=port_binds, restart_policy={'Name': 'unless-stopped'},
-                                      network_mode=net_mode)
+                                      network_mode=net_mode, binds=volumes)
     except:
         print "problem creating host config"
         os._exit(2)
@@ -118,9 +119,13 @@ def create_container_host_config(port_binds, net_mode):
 
 # pull image, create hostconfig, create and start the container all in one simple function
 def run_container(app_name, container_name, image_name, bind_port, ports, env_vars, net_mode, version_tag="latest",
-                  docker_registry_user="", docker_registry_pass=""):
+                  docker_registry_user="", docker_registry_pass="", volumes=[]):
+    volume_mounts = []
+    for volume in volumes:
+        splitted_volume = volume.split(":")
+        volume_mounts.append(splitted_volume[1])
     create_container(app_name, container_name, image_name + ":" + version_tag,
-                     create_container_host_config(bind_port, net_mode), ports, env_vars)
+                     create_container_host_config(bind_port, net_mode, volumes), ports, env_vars, volume_mounts)
     start_container(container_name)
 
 

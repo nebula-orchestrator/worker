@@ -11,6 +11,14 @@ can help
 * Fix the issue you \ add a feature
 * Create a pull request
 
+## Design philosophy
+Nebula is designed with the following philosophy in mind, any feature\pull requests will be judged against the following:
+
+* Follow Linux philosophy and have each component do one thing & one thing only.
+* Each component needs to be possible to be scaled out to extremely large sizes.
+* Reliability is more important then shiny new features.
+* No vendor\cloud lock-in, if it's only available in one cloud it will not be used.
+* No latency sensitivity, assume workers to have a below average internet access and are in the other side of the world.
 
 ### Documentation
 

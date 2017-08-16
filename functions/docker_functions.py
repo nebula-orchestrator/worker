@@ -108,10 +108,10 @@ def remove_container(container_name):
 
 
 # create host_config
-def create_container_host_config(port_binds, net_mode, volumes):
+def create_container_host_config(port_binds, net_mode, volumes, devices, privileged):
     try:
         return cli.create_host_config(port_bindings=port_binds, restart_policy={'Name': 'unless-stopped'},
-                                      network_mode=net_mode, binds=volumes)
+                                      network_mode=net_mode, binds=volumes, devices=devices, privileged=privileged)
     except:
         print "problem creating host config"
         os._exit(2)
@@ -119,13 +119,14 @@ def create_container_host_config(port_binds, net_mode, volumes):
 
 # pull image, create hostconfig, create and start the container all in one simple function
 def run_container(app_name, container_name, image_name, bind_port, ports, env_vars, net_mode, version_tag="latest",
-                  docker_registry_user="", docker_registry_pass="", volumes=[]):
+                  docker_registry_user="", docker_registry_pass="", volumes=[], devices=[], privileged=False):
     volume_mounts = []
     for volume in volumes:
         splitted_volume = volume.split(":")
         volume_mounts.append(splitted_volume[1])
     create_container(app_name, container_name, image_name + ":" + version_tag,
-                     create_container_host_config(bind_port, net_mode, volumes), ports, env_vars, volume_mounts)
+                     create_container_host_config(bind_port, net_mode, volumes, devices, privileged), ports, env_vars,
+                     volume_mounts)
     start_container(container_name)
 
 

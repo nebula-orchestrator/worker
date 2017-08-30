@@ -54,7 +54,7 @@ def restart_containers(app_json, registry_auth_user="", registry_auth_password="
     # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
     time.sleep(randint(0, max_restart_wait_in_seconds))
     # pull image to speed up downtime between stop & start
-    pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
+    docker_socket.pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
                registry_pass=registry_auth_password, registry_host=registry_host)
     # stop running containers
     stop_containers(app_json)
@@ -75,11 +75,11 @@ def roll_containers(app_json, registry_auth_user="", registry_auth_password="", 
 # stop app function
 def stop_containers(app_json):
     # list current containers
-    containers_list = list_containers(app_json["app_name"])
+    containers_list = docker_socket.list_containers(app_json["app_name"])
     # stop running containers
     threads = []
     for container in containers_list:
-        t = Thread(target=stop_and_remove_container, args=(container["Id"],))
+        t = Thread(target=docker_socket.stop_and_remove_container, args=(container["Id"],))
         threads.append(t)
         t.start()
     for z in threads:
@@ -91,7 +91,7 @@ def stop_containers(app_json):
 def start_containers(app_json, no_pull=False, registry_auth_user="", registry_auth_password="", registry_host=""):
     # list current containers
     split_container_name_version(app_json["docker_image"])
-    containers_list = list_containers(app_json["app_name"])
+    containers_list = docker_socket.list_containers(app_json["app_name"])
     if len(containers_list) > 0:
         print "app already running so restarting rather then starting containers"
         restart_containers(app_json)
@@ -105,7 +105,7 @@ def start_containers(app_json, no_pull=False, registry_auth_user="", registry_au
                 containers_needed = int(scale_amount)
         # pull latest image
         if no_pull is False:
-            pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
+            docker_socket.pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
                        registry_pass=registry_auth_password, registry_host=registry_host)
         # start new containers
         container_number = 1
@@ -124,7 +124,7 @@ def start_containers(app_json, no_pull=False, registry_auth_user="", registry_au
                 else:
                     print "starting ports can only a list containing intgers or dicts - dropping worker-manager"
                     os._exit(2)
-            t = Thread(target=run_container, args=(app_json["app_name"], app_json["app_name"] + "-" +
+            t = Thread(target=docker_socket.run_container, args=(app_json["app_name"], app_json["app_name"] + "-" +
                                                    str(container_number),
                                                    image_name, port_binds, port_list, app_json["env_vars"],
                                                    app_json["network_mode"], version_name, registry_auth_user,
@@ -233,10 +233,10 @@ app_name_list = os.environ["APP_NAME"].split(",")
 cpu_cores = get_number_of_cpu_cores()
 
 # work against docker socket
-cli = docker.APIClient(base_url='unix://var/run/docker.sock', version="auto")
+docker_socket = DockerFunctions()
 
 # ensure default "nebula" named network exists
-create_default_nebula_network()
+docker_socket.create_default_nebula_network()
 
 # opens a thread for each app so they all listen to rabbit side by side for any changes
 for app_name in app_name_list:

@@ -5,6 +5,20 @@ import json, os, time
 cli = docker.APIClient(base_url='unix://var/run/docker.sock', version="auto")
 
 
+# check network exists:
+def check_network_exists(net_name):
+    if len(cli.networks(names=net_name)) > 0:
+        return True
+    else:
+        return False
+
+
+# create default network if doesn't exist
+def create_default_nebula_network():
+    if check_network_exists("nebula") is False:
+        cli.create_network("nebula", driver="bridge", check_duplicate=True)
+
+
 # list containers based on said image, if no app_name provided gets all
 def list_containers(app_name=""):
     if app_name == "":

@@ -24,14 +24,16 @@ class DockerFunctions:
         if app_name == "":
             try:
                 return self.cli.containers(filters={})
-            except:
+            except Exception as e:
+                print e
                 print "failed getting list of all containers"
                 os._exit(2)
         else:
             try:
                 app_label = "app_name=" + app_name
                 return self.cli.containers(filters={"label": app_label}, all=True)
-            except:
+            except Exception as e:
+                print e
                 print "failed getting list of containers where label is app_name=" + app_name
                 os._exit(2)
 
@@ -40,7 +42,8 @@ class DockerFunctions:
         print "logging in to registry"
         try:
             print self.cli.login(registry_user, password=registry_pass, registry=registry_host)
-        except:
+        except Exception as e:
+            print e
             print "problem logging into registry"
             os._exit(2)
         print "pulling " + image_name + ":" + str(version_tag)
@@ -48,21 +51,25 @@ class DockerFunctions:
             print image_name
             for line in self.cli.pull(image_name, str(version_tag), stream=True):
                 print(json.dumps(json.loads(line), indent=4))
-        except:
+        except Exception as e:
+            print e
             print "problem pulling " + image_name + ":" + str(version_tag)
             os._exit(2)
 
     # create container
     def create_container(self, app_name, container_name, image_name, host_configuration, container_ports=[],
-                         env_vars=[], volume_mounts=[]):
+                         env_vars=[], volume_mounts=[], default_network="nebula"):
         print "creating container " + container_name
         try:
             container_created = self.cli.create_container(image=image_name, name=container_name, ports=container_ports,
                                                           environment=env_vars, host_config=host_configuration,
-                                                          volumes=volume_mounts, labels={"app_name": app_name})
+                                                          volumes=volume_mounts, labels={"app_name": app_name},
+                                                          networking_config=self.create_networking_config(
+                                                              default_network))
             print "successfully created container " + container_name
             return container_created
-        except:
+        except Exception as e:
+            print e
             print "failed creating container " + container_name
             os._exit(2)
 
@@ -75,7 +82,8 @@ class DockerFunctions:
             try:
                 reply = self.cli.kill(container_name, 9)
                 time.sleep(3)
-            except:
+            except Exception as e:
+                print e
                 print "problem stopping " + container_name
                 os._exit(2)
         return reply
@@ -85,9 +93,11 @@ class DockerFunctions:
         print "starting " + container_name
         try:
             return self.cli.start(container_name)
-        except "APIError":
+        except "APIError" as e:
+            print e
             print "problem starting container - most likely port bind already taken"
-        except not "APIError":
+        except not "APIError" as e:
+            print e
             print "problem starting " + container_name
             os._exit(2)
 
@@ -96,9 +106,11 @@ class DockerFunctions:
         print "restarting " + container_name
         try:
             return self.cli.restart(container_name, stop_timout)
-        except "APIError":
+        except "APIError" as e:
+            print e
             print "problem starting container - most likely port bind already taken"
-        except not "APIError":
+        except not "APIError" as e:
+            print e
             print "problem restarting " + container_name
             os._exit(2)
 
@@ -110,21 +122,23 @@ class DockerFunctions:
         except:
             try:
                 return self.cli.remove_container(container_name, force=True)
-            except:
+            except Exception as e:
+                print e
                 print "problem removing " + container_name
             os._exit(2)
 
     # create host_config
-    def create_container_host_config(self, port_binds, net_mode, volumes, devices, privileged):
+    def create_container_host_config(self, port_binds, volumes, devices, privileged):
         try:
             return self.cli.create_host_config(port_bindings=port_binds, restart_policy={'Name': 'unless-stopped'},
-                                          network_mode=net_mode, binds=volumes, devices=devices, privileged=privileged)
-        except:
+                                               binds=volumes, devices=devices, privileged=privileged)
+        except Exception as e:
+            print e
             print "problem creating host config"
             os._exit(2)
 
     # create networking_config
-    def create_networking_config(self, starting_network):
+    def create_networking_config(self, starting_network=""):
         try:
             networking_config = self.cli.create_networking_config(
                 {
@@ -132,7 +146,8 @@ class DockerFunctions:
                 }
             )
             return networking_config
-        except:
+        except Exception as e:
+            print e
             print "problem creating network config"
             os._exit(2)
 
@@ -140,22 +155,41 @@ class DockerFunctions:
     def connect_to_network(self, container, net_id):
         try:
             self.cli.connect_container_to_network(container, net_id)
-        except:
-            print "problem connecting to network " + net_id + ", does the net your trying to connect to exist?"
+        except Exception as e:
+            print e
+            print "problem connecting to network " + net_id
             os._exit(2)
 
-    # pull image, create hostconfig, create and start the container all in one simple function
-    def run_container(self, app_name, container_name, image_name, bind_port, ports, env_vars, net_mode,
-                      version_tag="latest", docker_registry_user="", docker_registry_pass="", volumes=[], devices=[],
-                      privileged=False):
+    # get net_id
+    def get_net_id(self, network):
+        requested_net_id = self.cli.networks(names=network)
+        return requested_net_id[0]["Id"]
+
+    # host network
+    def default_net(self, networks):
+        if len(networks) > 0 and networks[0] == "host":
+            return "host"
+        elif len(networks) > 0 and networks[0] == "none":
+            return "none"
+        else:
+            return "nebula"
+
+    # pull image, create hostconfig, create and start the container and bind to networks all in one simple function
+    def run_container(self, app_name, container_name, image_name, bind_port, ports, env_vars, version_tag="latest",
+                      docker_registry_user="", docker_registry_pass="", volumes=[], devices=[], privileged=False,
+                      networks=[]):
         volume_mounts = []
         for volume in volumes:
             splitted_volume = volume.split(":")
             volume_mounts.append(splitted_volume[1])
         self.create_container(app_name, container_name, image_name + ":" + version_tag,
-                              self.create_container_host_config(bind_port, net_mode, volumes, devices, privileged),
-                              ports, env_vars, volume_mounts)
+                              self.create_container_host_config(bind_port, volumes, devices, privileged), ports,
+                              env_vars, volume_mounts, default_network=self.default_net(networks))
         self.start_container(container_name)
+        for network in networks:
+            # special networks which are created from the container creation as they have to be first
+            if network != "nebula" and network != "host" and network != "none":
+                self.connect_to_network(container_name, self.get_net_id(network))
 
     # stop and remove container
     def stop_and_remove_container(self, container_name):

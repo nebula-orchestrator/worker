@@ -13,7 +13,8 @@ def get_conf_setting(setting, settings_json):
     try:
         setting_value = os.getenv(setting.upper(), settings_json[setting])
         return setting_value
-    except:
+    except Exception as e:
+        print e
         print "missing " + setting + " config setting"
         os._exit(2)
 
@@ -161,7 +162,8 @@ def rabbit_work_function(ch, method, properties, body):
             restart_containers(app_json, registry_auth_user, registry_auth_password, registry_host)
         # ack message
         rabbit_ack(ch, method)
-    except pika.exceptions.ConnectionClosed:
+    except pika.exceptions.ConnectionClosed as e:
+        print e
         print "lost rabbitmq connection mid transfer - dropping container to be on the safe side"
         os._exit(2)
 
@@ -176,7 +178,8 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
         try:
             rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(app_name) + "_fanout")
             time.sleep(1)
-        except pika.exceptions.ChannelClosed:
+        except pika.exceptions.ChannelClosed as e:
+            print e
             print "queue no longer exists - can't guarantee order so dropping container"
             os._exit(2)
         rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name)
@@ -189,7 +192,8 @@ def app_theard(theard_app_name):
         rabbit_queue_name = str(theard_app_name) + "_" + randomword() + "_queue"
         rabbit_queue = rabbit_create_queue(rabbit_queue_name, rabbit_channel)
         rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(theard_app_name) + "_fanout")
-    except:
+    except Exception as e:
+        print e
         print "failed first rabbit connection, dropping container to be on the safe side, check your rabbit login " \
               "details are configured correctly and that the rabbit exchange of the tasks this nebula worker-manager " \
               "is set to manage didn't somehow got deleted (or that the nebula app never got created in the first " \
@@ -205,7 +209,8 @@ def app_theard(theard_app_name):
     # start processing rabbit queue
     try:
         rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name)
-    except:
+    except Exception as e:
+        print e
         print "rabbit connection failure - can't guarantee order so dropping container"
         os._exit(2)
 

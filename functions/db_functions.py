@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-import os
+import os, sys
 
 
 # the worker manager only uses mongo at boot time to load current config afterwards it's never needed again so it
@@ -10,14 +10,14 @@ def mongo_connect_get_app_data_disconnect(mongo_connection_string, app_name, sch
         db = client[schema_name]
         collection = db["nebula"]
     except Exception as e:
-        print e
+        print >> sys.stderr, e
         print "error connecting to mongodb"
         os._exit(2)
     try:
         result = collection.find_one({"app_name": app_name})
         client.close()
     except Exception as e:
-        print e
+        print >> sys.stderr, e
         print "error getting app data from mongodb"
         os._exit(2)
     return result

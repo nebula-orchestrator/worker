@@ -123,6 +123,27 @@ class DockerFunctions:
             print "problem creating host config"
             os._exit(2)
 
+    # create networking_config
+    def create_networking_config(self, starting_network):
+        try:
+            networking_config = self.cli.create_networking_config(
+                {
+                    starting_network: self.cli.create_endpoint_config()
+                }
+            )
+            return networking_config
+        except:
+            print "problem creating network config"
+            os._exit(2)
+
+    # connect a container to a network
+    def connect_to_network(self, container, net_id):
+        try:
+            self.cli.connect_container_to_network(container, net_id)
+        except:
+            print "problem connecting to network " + net_id + ", does the net your trying to connect to exist?"
+            os._exit(2)
+
     # pull image, create hostconfig, create and start the container all in one simple function
     def run_container(self, app_name, container_name, image_name, bind_port, ports, env_vars, net_mode,
                       version_tag="latest", docker_registry_user="", docker_registry_pass="", volumes=[], devices=[],

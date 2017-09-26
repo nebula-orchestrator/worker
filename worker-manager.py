@@ -42,9 +42,10 @@ def randomword():
 
 
 # login to rabbit function
-def rabbit_login():
-    rabbit_connection = rabbit_connect(rabbit_user, rabbit_password, rabbit_host, rabbit_port, rabbit_vhost,
-                                       rabbit_heartbeat)
+def rabbit_login(rabbit_login_user, rabbit_login_password, rabbit_login_host, rabbit_login_port, rabbit_login_vhost,
+                 rabbit_login_heartbeat):
+    rabbit_connection = rabbit_connect(rabbit_login_user, rabbit_login_password, rabbit_login_host, rabbit_login_port,
+                                       rabbit_login_vhost, rabbit_login_heartbeat)
     rabbit_connection_channel = rabbit_create_channel(rabbit_connection)
     return rabbit_connection_channel
 
@@ -174,7 +175,8 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
         rabbit_receive(rabbit_channel, rabbit_work_function, rabbit_queue_name)
     except pika.exceptions.ConnectionClosed:
         print "lost rabbitmq connection - reconnecting"
-        rabbit_channel = rabbit_login()
+        rabbit_channel = rabbit_login(rabbit_user, rabbit_password, rabbit_host, rabbit_port, rabbit_vhost,
+                                      rabbit_heartbeat)
         try:
             rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(app_name) + "_fanout")
             time.sleep(1)
@@ -188,7 +190,8 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
 def app_theard(theard_app_name):
     # connect to rabbit and create queue first thing at startup
     try:
-        rabbit_channel = rabbit_login()
+        rabbit_channel = rabbit_login(rabbit_user, rabbit_password, rabbit_host, rabbit_port, rabbit_vhost,
+                                      rabbit_heartbeat)
         rabbit_queue_name = str(theard_app_name) + "_" + randomword() + "_queue"
         rabbit_queue = rabbit_create_queue(rabbit_queue_name, rabbit_channel)
         rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(theard_app_name) + "_fanout")

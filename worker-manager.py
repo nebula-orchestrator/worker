@@ -197,10 +197,10 @@ def app_theard(theard_app_name):
         rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(theard_app_name) + "_fanout")
     except Exception as e:
         print >> sys.stderr, e
-        print "failed first rabbit connection, dropping container to be on the safe side, check your rabbit login " \
-              "details are configured correctly and that the rabbit exchange of the tasks this nebula worker-manager " \
-              "is set to manage didn't somehow got deleted (or that the nebula app never got created in the first " \
-              "place)"
+        print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
+              "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
+              "nebula worker-manager is set to manage didn't somehow got deleted (or that the nebula app never got " \
+              "created in the first place)"
         os._exit(2)
 
     # at startup connect to db, load newest app image and restart containers if configured to run

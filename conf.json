@@ -1,14 +1,14 @@
 {
   "registry_auth_user": "docker_registry_auth_user",
   "registry_auth_password": "docker_registry_auth_password",
-  "registry_host": "https://<docker_registry_host>:5000",
+  "registry_host": "https://index.docker.io/v1/",
   "rabbit_host": "nebula_rabbit_host",
-  "rabbit_port": 5674,
+  "rabbit_port": 5672,
   "rabbit_user": "nebula_rabbit_user",
-  "rabbit_vhost": "nebula_rabbit_vhost",
+  "rabbit_vhost": "/",
   "rabbit_password": "nebula_rabbit_password",
   "mongo_url": "mongodb://<mongo_user>:<mongo_password>@<nebula_mongo_host>:27017/<mongo_schema>?ssl=true&replicaSet=<mongo_replica_set>&authSource=<mongo_auth_schema>",
-  "schema_name": "mongo_schema_name",
-  "max_restart_wait_in_seconds": 10,
+  "schema_name": "nebula",
+  "max_restart_wait_in_seconds": 0,
   "rabbit_heartbeat": 3600
 }

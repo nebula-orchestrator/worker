@@ -191,14 +191,14 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
         rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name)
 
 
-def app_theard(theard_app_name):
+def app_theard(thread_app_name):
     # connect to rabbit and create queue first thing at startup
     try:
         rabbit_channel = rabbit_login(rabbit_user, rabbit_password, rabbit_host, rabbit_port, rabbit_vhost,
                                       rabbit_heartbeat)
-        rabbit_queue_name = str(theard_app_name) + "_" + randomword() + "_queue"
+        rabbit_queue_name = str(thread_app_name) + "_" + randomword() + "_queue"
         rabbit_queue = rabbit_create_queue(rabbit_queue_name, rabbit_channel)
-        rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(theard_app_name) + "_fanout")
+        rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(thread_app_name) + "_fanout")
     except Exception as e:
         print >> sys.stderr, e
         print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
@@ -208,7 +208,7 @@ def app_theard(theard_app_name):
         os._exit(2)
 
     # at startup connect to db, load newest app image and restart containers if configured to run
-    mongo_collection = mongo_connect_get_app_data_disconnect(mongo_url, theard_app_name, schema_name="nebula")
+    mongo_collection = mongo_connect_get_app_data_disconnect(mongo_url, thread_app_name, schema_name="nebula")
     # check if app is set to running state
     if mongo_collection["running"] is True:
         # if answer is yes start it

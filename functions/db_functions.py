@@ -16,8 +16,8 @@ def mongo_connect_get_app_data_disconnect(mongo_connection_string, app_name, sch
     try:
         result = collection.find_one({"app_name": app_name})
         client.close()
+        return result
     except Exception as e:
         print >> sys.stderr, e
         print "error getting app data from mongodb"
         os._exit(2)
-    return result

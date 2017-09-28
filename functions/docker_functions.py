@@ -166,7 +166,7 @@ class DockerFunctions:
         requested_net_id = self.cli.networks(names=network)
         return requested_net_id[0]["Id"]
 
-    # host network
+    # return what the default net needs to be
     def default_net(self, networks):
         if len(networks) > 0 and networks[0] == "host":
             return "host"

@@ -14,10 +14,11 @@ class DockerFunctions:
         else:
             return False
 
-    # create default network if doesn't exist
-    def create_default_nebula_network(self):
-        if self.check_network_exists("nebula") is False:
-            self.cli.create_network("nebula", driver="bridge", check_duplicate=True)
+    # create a network if it doesn't exist
+    def create_docker_network(self, net_name, net_driver):
+        if self.check_network_exists(net_name) is False:
+            self.cli.create_network(net_name, driver=net_driver, check_duplicate=True)
+            print "created a " + net_driver + " type network named " + net_name
 
     # list containers based on said image, if no app_name provided gets all
     def list_containers(self, app_name=""):

@@ -248,7 +248,7 @@ cpu_cores = get_number_of_cpu_cores()
 docker_socket = DockerFunctions()
 
 # ensure default "nebula" named network exists
-docker_socket.create_default_nebula_network()
+docker_socket.create_docker_network("nebula", "bridge")
 
 # opens a thread for each app so they all listen to rabbit side by side for any changes
 for app_name in app_name_list:

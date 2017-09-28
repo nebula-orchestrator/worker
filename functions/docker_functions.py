@@ -79,15 +79,16 @@ class DockerFunctions:
         print "stopping " + container_name
         try:
             reply = self.cli.stop(container_name, stop_timout)
+            return reply
         except:
             try:
                 reply = self.cli.kill(container_name, 9)
                 time.sleep(3)
+                return reply
             except Exception as e:
                 print >> sys.stderr, e
                 print "problem stopping " + container_name
                 os._exit(2)
-        return reply
 
     # start container
     def start_container(self, container_name):

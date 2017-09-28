@@ -191,7 +191,7 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
         rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name)
 
 
-def app_theard(thread_app_name):
+def app_thread(thread_app_name):
     # connect to rabbit and create queue first thing at startup
     try:
         rabbit_channel = rabbit_login(rabbit_user, rabbit_password, rabbit_host, rabbit_port, rabbit_vhost,
@@ -252,4 +252,4 @@ docker_socket.create_docker_network("nebula", "bridge")
 
 # opens a thread for each app so they all listen to rabbit side by side for any changes
 for app_name in app_name_list:
-    Thread(target=app_theard, args=(app_name,)).start()
+    Thread(target=app_thread, args=(app_name,)).start()

@@ -23,7 +23,7 @@ def rabbit_create_channel(rabbit_connection):
 
 # create exchange
 def rabbit_create_exchange(rabbit_channel, exchange_name):
-    rabbit_channel.exchange_declare(exchange=exchange_name, exchange_type='fanout')
+    rabbit_channel.exchange_declare(exchange=exchange_name, exchange_type='fanout', durable=True)
     return None
 
 

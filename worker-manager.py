@@ -103,6 +103,7 @@ def roll_containers(app_json, registry_auth_user="", registry_auth_password="", 
                                                                  registry_auth_user, registry_auth_password,
                                                                  app_json["volumes"], app_json["devices"],
                                                                  app_json["privileged"], app_json["networks"])
+            # wait 5 seconds between container rolls to give each container time to start fully
             time.sleep(5)
     return
 

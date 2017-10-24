@@ -71,10 +71,39 @@ def restart_containers(app_json, registry_auth_user="", registry_auth_password="
 
 # roll app function
 def roll_containers(app_json, registry_auth_user="", registry_auth_password="", registry_host=""):
-    # TODO - get rolling restart module to work
-    print "not yet implemented, do not use - will restart for the time being"
-    restart_containers(app_json, registry_auth_user=registry_auth_user, registry_auth_password=registry_auth_password,
-                       registry_host=registry_host)
+    image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
+    # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
+    time.sleep(randint(0, max_restart_wait_in_seconds))
+    # pull image to speed up downtime between stop & start
+    docker_socket.pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
+                             registry_pass=registry_auth_password, registry_host=registry_host)
+    # list current containers
+    containers_list = docker_socket.list_containers(app_json["app_name"])
+    # roll each container in turn - not threaded as the order is important when rolling
+    containers_needed = containers_required(app_json)
+    for idx, container in enumerate(sorted(containers_list, key=lambda k: k['Names'][0])):
+        docker_socket.stop_and_remove_container(container["Id"])
+        if idx < containers_needed:
+            port_binds = dict()
+            port_list = []
+            for x in app_json["starting_ports"]:
+                if isinstance(x, int):
+                    port_binds[x] = x + idx
+                    port_list.append(x)
+                elif isinstance(x, dict):
+                    for host_port, container_port in x.iteritems():
+                        port_binds[int(container_port)] = int(host_port) + idx
+                        port_list.append(container_port)
+                else:
+                    print "starting ports can only a list containing intgers or dicts - dropping worker-manager"
+                    os._exit(2)
+            docker_socket.run_container(app_json["app_name"], app_json["app_name"] + "-" +
+                                                                 str(idx + 1), image_name, port_binds,
+                                                                 port_list, app_json["env_vars"], version_name,
+                                                                 registry_auth_user, registry_auth_password,
+                                                                 app_json["volumes"], app_json["devices"],
+                                                                 app_json["privileged"], app_json["networks"])
+            time.sleep(5)
     return
 
 
@@ -102,13 +131,8 @@ def start_containers(app_json, no_pull=False, registry_auth_user="", registry_au
         print "app already running so restarting rather then starting containers"
         restart_containers(app_json)
     else:
-        # find out how many containers needed
         image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
-        for scale_type, scale_amount in app_json["containers_per"].iteritems():
-            if scale_type == "cpu":
-                containers_needed = int(cpu_cores * scale_amount)
-            elif scale_type == "server" or scale_type == "instance":
-                containers_needed = int(scale_amount)
+        containers_needed = containers_required(app_json)
         # pull latest image
         if no_pull is False:
             docker_socket.pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
@@ -143,6 +167,14 @@ def start_containers(app_json, no_pull=False, registry_auth_user="", registry_au
             y.join()
         return
 
+# figure out how many containers are needed
+def containers_required(app_json):
+    for scale_type, scale_amount in app_json["containers_per"].iteritems():
+        if scale_type == "cpu":
+            containers_needed = int(cpu_cores * scale_amount)
+        elif scale_type == "server" or scale_type == "instance":
+            containers_needed = int(scale_amount)
+    return containers_needed
 
 def rabbit_work_function(ch, method, properties, body):
     try:

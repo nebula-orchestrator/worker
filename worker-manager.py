@@ -9,18 +9,20 @@ from random import randint
 
 
 # get setting from envvar with failover from conf.json file if envvar not set
-def get_conf_setting(setting, settings_json, default_value=None):
+def get_conf_setting(setting, settings_json, default_value="skip"):
     try:
-        setting_value = os.getenv(setting.upper(), settings_json[setting])
-        return setting_value
+        setting_value = os.getenv(setting.upper(), settings_json.get(setting, default_value))
     except Exception as e:
-        if default_value is not None:
-            setting_value = default_value
-            return setting_value
-        else:
-            print >> sys.stderr, e
-            print "missing " + setting + " config setting"
-            os._exit(2)
+        print >> sys.stderr, "missing " + setting + " config setting"
+        print "missing " + setting + " config setting"
+        os._exit(2)
+    if setting_value == "skip":
+        print >> sys.stderr, "missing " + setting + " config setting"
+        print "missing " + setting + " config setting"
+        os._exit(2)
+    return setting_value
+
+
 
 
 # split container image name to the registry, image & version used with default of docker hub if registry not set.
@@ -55,7 +57,7 @@ def rabbit_login(rabbit_login_user, rabbit_login_password, rabbit_login_host, ra
 
 
 # update\release\restart function
-def restart_containers(app_json, registry_auth_user="", registry_auth_password="", registry_host=""):
+def restart_containers(app_json, registry_auth_user="skip", registry_auth_password="skip", registry_host=""):
     image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
     # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
     time.sleep(randint(0, max_restart_wait_in_seconds))
@@ -70,7 +72,7 @@ def restart_containers(app_json, registry_auth_user="", registry_auth_password="
 
 
 # roll app function
-def roll_containers(app_json, registry_auth_user="", registry_auth_password="", registry_host=""):
+def roll_containers(app_json, registry_auth_user="skip", registry_auth_password=None, registry_host=""):
     image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
     # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
     time.sleep(randint(0, max_restart_wait_in_seconds))
@@ -122,7 +124,7 @@ def stop_containers(app_json):
 
 
 # start app function
-def start_containers(app_json, no_pull=False, registry_auth_user="", registry_auth_password="", registry_host=""):
+def start_containers(app_json, no_pull=False, registry_auth_user=None, registry_auth_password=None, registry_host=""):
     # list current containers
     split_container_name_version(app_json["docker_image"])
     containers_list = docker_socket.list_containers(app_json["app_name"])
@@ -256,8 +258,8 @@ def app_thread(thread_app_name):
 # read config file and config envvars at startup
 print "reading config variables"
 auth_file = json.load(open("conf.json"))
-registry_auth_user = get_conf_setting("registry_auth_user", auth_file)
-registry_auth_password = get_conf_setting("registry_auth_password", auth_file)
+registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)
+registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
 registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")
 rabbit_host = get_conf_setting("rabbit_host", auth_file)
 rabbit_vhost = get_conf_setting("rabbit_vhost", auth_file, "/")

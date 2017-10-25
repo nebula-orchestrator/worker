@@ -39,14 +39,17 @@ class DockerFunctions:
                 os._exit(2)
 
     # pull image with optional version tag and registry auth
-    def pull_image(self, image_name, version_tag="latest", registry_user="", registry_pass="", registry_host=""):
-        print "logging in to registry"
-        try:
-            print self.cli.login(registry_user, password=registry_pass, registry=registry_host)
-        except Exception as e:
-            print >> sys.stderr, e
-            print "problem logging into registry"
-            os._exit(2)
+    def pull_image(self, image_name, version_tag="latest", registry_user=None, registry_pass=None, registry_host=""):
+        if registry_user is not None and registry_pass is not None:
+            print "logging in to registry"
+            try:
+                print self.cli.login(username=registry_user, password=registry_pass, registry=registry_host)
+            except Exception as e:
+                print >> sys.stderr, e
+                print "problem logging into registry"
+                os._exit(2)
+        else:
+            print "no registry user\pass defined, skipping registry login"
         print "pulling " + image_name + ":" + str(version_tag)
         try:
             print image_name
@@ -56,6 +59,7 @@ class DockerFunctions:
             print >> sys.stderr, e
             print "problem pulling " + image_name + ":" + str(version_tag)
             os._exit(2)
+
 
     # create container
     def create_container(self, app_name, container_name, image_name, host_configuration, container_ports=[],
@@ -178,7 +182,7 @@ class DockerFunctions:
 
     # pull image, create hostconfig, create and start the container and bind to networks all in one simple function
     def run_container(self, app_name, container_name, image_name, bind_port, ports, env_vars, version_tag="latest",
-                      docker_registry_user="", docker_registry_pass="", volumes=[], devices=[], privileged=False,
+                      docker_registry_user=None, docker_registry_pass=None, volumes=[], devices=[], privileged=False,
                       networks=[]):
         volume_mounts = []
         for volume in volumes:

@@ -60,7 +60,6 @@ class DockerFunctions:
             print "problem pulling " + image_name + ":" + str(version_tag)
             os._exit(2)
 
-
     # create container
     def create_container(self, app_name, container_name, image_name, host_configuration, container_ports=[],
                          env_vars=[], volume_mounts=[], default_network="nebula"):

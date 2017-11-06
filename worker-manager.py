@@ -25,8 +25,6 @@ def get_conf_setting(setting, settings_json, default_value="skip"):
     return setting_value
 
 
-
-
 # split container image name to the registry, image & version used with default of docker hub if registry not set.
 def split_container_name_version(image_name):
     try:

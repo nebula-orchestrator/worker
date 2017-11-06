@@ -9,6 +9,8 @@ from random import randint
 
 
 # get setting from envvar with failover from conf.json file if envvar not set
+# using skip rather then None so passing a None type will still pass a None value rather then assuming there should be
+# default value thus allowing to have No value set where needed (like in the case of registry user\pass)
 def get_conf_setting(setting, settings_json, default_value="skip"):
     try:
         setting_value = os.getenv(setting.upper(), settings_json.get(setting, default_value))

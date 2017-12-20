@@ -63,7 +63,7 @@ def restart_containers(app_json, registry_auth_user="skip", registry_auth_passwo
     time.sleep(randint(0, max_restart_wait_in_seconds))
     # pull image to speed up downtime between stop & start
     docker_socket.pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
-               registry_pass=registry_auth_password, registry_host=registry_host)
+                             registry_pass=registry_auth_password, registry_host=registry_host)
     # stop running containers
     stop_containers(app_json)
     # start new containers
@@ -137,7 +137,7 @@ def start_containers(app_json, no_pull=False, registry_auth_user=None, registry_
         # pull latest image
         if no_pull is False:
             docker_socket.pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
-                       registry_pass=registry_auth_password, registry_host=registry_host)
+                                     registry_pass=registry_auth_password, registry_host=registry_host)
         # start new containers
         container_number = 1
         threads = []
@@ -168,6 +168,7 @@ def start_containers(app_json, no_pull=False, registry_auth_user=None, registry_
             y.join()
         return
 
+
 # figure out how many containers are needed
 def containers_required(app_json):
     for scale_type, scale_amount in app_json["containers_per"].iteritems():
@@ -176,6 +177,7 @@ def containers_required(app_json):
         elif scale_type == "server" or scale_type == "instance":
             containers_needed = int(scale_amount)
     return containers_needed
+
 
 def rabbit_work_function(ch, method, properties, body):
     try:

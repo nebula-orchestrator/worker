@@ -217,6 +217,7 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
         rabbit_channel = rabbit_login(rabbit_user, rabbit_password, rabbit_host, rabbit_port, rabbit_vhost,
                                       rabbit_heartbeat)
         try:
+            rabbit_create_exchange(rabbit_channel, app_name + "_fanout")
             rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(app_name) + "_fanout")
             time.sleep(1)
         except pika.exceptions.ChannelClosed as e:

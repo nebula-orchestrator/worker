@@ -4,7 +4,7 @@ FROM python:2.7.15-alpine3.8
 # copy the codebase
 COPY . /worker-manager
 
-# install docker-py and rabbitmq required packages
+# install required packages
 RUN pip install -r /worker-manager/requirements.txt
 
 #set python to be unbuffered

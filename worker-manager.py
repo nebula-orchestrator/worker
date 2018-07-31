@@ -208,7 +208,10 @@ def rabbit_work_function(ch, method, properties, body):
         os._exit(2)
 
 
-# recursive so it will always keep trying to reconnect to rabbit in case of any connection issues
+# recursive so it will always keep trying to reconnect to rabbit in case of any connection issues, this avoids killing
+# the worker-manager container on every tiny network hiccup that on distributed systems at scale is common, the
+# worker-manager container will be killed if enough time has passed for it's RabbitMQ queue has deleted itself which
+# by default happens after 5 minutes without connection
 def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name):
     try:
         rabbit_receive(rabbit_channel, rabbit_work_function, rabbit_queue_name)
@@ -249,7 +252,9 @@ def app_thread(thread_app_name):
     if mongo_collection["running"] is True:
         # if answer is yes start it
         restart_containers(mongo_collection, registry_auth_user, registry_auth_password, registry_host)
-    # start processing rabbit queue
+    # start processing rabbit queue, the reasoning behind the create queue -> process mongo -> start processing queue
+    # flow is that it ensures that even if a message is sent to the queue changing the app configuration it will be
+    # processed at the correct order.
     try:
         rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name)
     except Exception as e:
@@ -258,7 +263,7 @@ def app_thread(thread_app_name):
         os._exit(2)
 
 
-# read config file and config envvars at startup
+# read config file and config envvars at startup, preference ordering is envvar>config file>default value (if exists)
 print "reading config variables"
 auth_file = json.load(open("conf.json"))
 registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)

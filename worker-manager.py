@@ -263,6 +263,9 @@ def app_thread(thread_app_name):
         os._exit(2)
 
 
+# static variables
+RABBIT_RPC_QUEUE = "rabbit_api_rpc_queue"
+
 # read config file and config envvars at startup, preference ordering is envvar>config file>default value (if exists)
 print "reading config variables"
 auth_file = json.load(open("conf.json"))

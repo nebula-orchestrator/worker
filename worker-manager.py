@@ -246,9 +246,8 @@ def app_thread(thread_app_name):
 
     # at startup get newest app configuration and restart containers if configured to run
     try:
-        intial_app_configuration = rabbit_connect_get_app_data_disconnect(thread_app_name, rabbit_user, rabbit_password,
-                                                                      rabbit_host, rabbit_port, rabbit_vhost,
-                                                                      rabbit_heartbeat, RABBIT_RPC_QUEUE, intial_start)
+        rabbit_connect_get_app_data_disconnect(thread_app_name, rabbit_user, rabbit_password, rabbit_host, rabbit_port,
+                                               rabbit_vhost, rabbit_heartbeat, RABBIT_RPC_QUEUE, initial_start)
     except Exception as e:
         print >> sys.stderr, e
         print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
@@ -268,7 +267,7 @@ def app_thread(thread_app_name):
         os._exit(2)
 
 
-def intial_start(ch, method_frame, properties, body):
+def initial_start(ch, method_frame, properties, body):
     try:
         print "got initial app configuration from RabbitMQ RPC direct_reply_to for app: " + \
               json.dumps(json.loads(body)["app_name"])

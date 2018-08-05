@@ -1,9 +1,7 @@
 import json, os, time, random, string, uuid, sys
-from functions.db_functions import *
 from functions.rabbit_functions import *
 from functions.docker_functions import *
 from functions.server_functions import *
-from bson.json_util import dumps, loads
 from threading import Thread
 from random import randint
 
@@ -182,7 +180,7 @@ def containers_required(app_json):
 def rabbit_work_function(ch, method, properties, body):
     try:
         # check the message body to get the needed order
-        app_json = loads(body)
+        app_json = json.loads(body)
         # if it's blank stop containers and kill worker-manger container
         if len(app_json) == 0:
             stop_containers(app_json)
@@ -246,13 +244,20 @@ def app_thread(thread_app_name):
               "created in the first place)"
         os._exit(2)
 
-    # at startup connect to db, load newest app image and restart containers if configured to run
-    mongo_collection = mongo_connect_get_app_data_disconnect(mongo_url, thread_app_name, schema_name="nebula")
-    # check if app is set to running state
-    if mongo_collection["running"] is True:
-        # if answer is yes start it
-        restart_containers(mongo_collection, registry_auth_user, registry_auth_password, registry_host)
-    # start processing rabbit queue, the reasoning behind the create queue -> process mongo -> start processing queue
+    # at startup get newest app configuration and restart containers if configured to run
+    try:
+        intial_app_configuration = rabbit_connect_get_app_data_disconnect(thread_app_name, rabbit_user, rabbit_password,
+                                                                      rabbit_host, rabbit_port, rabbit_vhost,
+                                                                      rabbit_heartbeat, RABBIT_RPC_QUEUE, intial_start)
+    except Exception as e:
+        print >> sys.stderr, e
+        print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
+              "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
+              "nebula worker-manager is set to manage didn't somehow got deleted (or that the nebula app never got " \
+              "created in the first place)"
+        os._exit(2)
+
+    # start processing rabbit queue, the reasoning behind the create queue -> direct_reply_to-> start processing queue
     # flow is that it ensures that even if a message is sent to the queue changing the app configuration it will be
     # processed at the correct order.
     try:
@@ -261,6 +266,23 @@ def app_thread(thread_app_name):
         print >> sys.stderr, e
         print "rabbit connection failure - can't guarantee order so dropping container"
         os._exit(2)
+
+
+def intial_start(ch, method_frame, properties, body):
+    try:
+        intial_app_configuration = json.loads(body)
+        # check if app is set to running state
+        if intial_app_configuration["running"] is True:
+            # if answer is yes start it
+            restart_containers(intial_app_configuration, registry_auth_user, registry_auth_password, registry_host)
+    except Exception as e:
+        print >> sys.stderr, e
+        print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
+              "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
+              "nebula worker-manager is set to manage didn't somehow got deleted (or that the nebula app never got " \
+              "created in the first place)"
+        os._exit(2)
+    ch.close()
 
 
 # static variables
@@ -277,8 +299,6 @@ rabbit_vhost = get_conf_setting("rabbit_vhost", auth_file, "/")
 rabbit_port = int(get_conf_setting("rabbit_port", auth_file, 5672))
 rabbit_user = get_conf_setting("rabbit_user", auth_file)
 rabbit_password = get_conf_setting("rabbit_password", auth_file)
-mongo_url = get_conf_setting("mongo_url", auth_file)
-schema_name = get_conf_setting("schema_name", auth_file, "nebula")
 max_restart_wait_in_seconds = int(get_conf_setting("max_restart_wait_in_seconds", auth_file, 0))
 rabbit_heartbeat = int(get_conf_setting("rabbit_heartbeat", auth_file, 3600))
 

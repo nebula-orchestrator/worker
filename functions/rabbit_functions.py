@@ -56,3 +56,16 @@ def rabbit_create_queue(rabbit_queue_name, rabbit_channel):
 def rabbit_bind_queue(rabbit_bind_queue_name, rabbit_bind_channel, rabbit_bind_exchange):
     rabbit_bind_channel.queue_bind(exchange=rabbit_bind_exchange, queue=rabbit_bind_queue_name)
     return None
+
+
+# get the current app config via RabbitMQ direct reply to at boot, also creates it's own connection & closes it
+def rabbit_connect_get_app_data_disconnect(app_name, rabbit_user, rabbit_pass, rabbit_host, rabbit_port,
+                                           rabbit_virtual_host, rabbit_heartbeat, rpc_queue, intial_start):
+    rpc_connection = rabbit_connect(rabbit_user, rabbit_pass, rabbit_host, rabbit_port, rabbit_virtual_host,
+                                    rabbit_heartbeat)
+    rpc_channel = rabbit_create_channel(rpc_connection)
+    rpc_channel.basic_consume(intial_start, queue='amq.rabbitmq.reply-to', no_ack=True)
+    rpc_channel.basic_publish(exchange='', routing_key=rpc_queue, body=app_name,
+                              properties=pika.BasicProperties(reply_to='amq.rabbitmq.reply-to'))
+    rpc_channel.start_consuming()
+    rabbit_close(rpc_connection)

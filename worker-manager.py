@@ -270,6 +270,8 @@ def app_thread(thread_app_name):
 
 def intial_start(ch, method_frame, properties, body):
     try:
+        print "got initial app configuration from RabbitMQ RPC direct_reply_to for app: " + \
+              json.dumps(json.loads(body)["app_name"])
         intial_app_configuration = json.loads(body)
         # check if app is set to running state
         if intial_app_configuration["running"] is True:

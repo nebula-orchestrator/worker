@@ -228,6 +228,7 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
         rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name)
 
 
+# the thread which manages each individual app
 def app_thread(thread_app_name):
     # connect to rabbit and create queue first thing at startup
     try:
@@ -267,6 +268,8 @@ def app_thread(thread_app_name):
         os._exit(2)
 
 
+# this function gets the reply from the RabbitMQ direct_reply_to RPC queue upon the worker initial boot & restarts the
+# containers if they are configured to be in the running state
 def initial_start(ch, method_frame, properties, body):
     try:
         print "got initial app configuration from RabbitMQ RPC direct_reply_to for app: " + \

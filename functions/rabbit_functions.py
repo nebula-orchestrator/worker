@@ -5,7 +5,7 @@ import pika
 def rabbit_connect(rabbit_user, rabbit_pass, rabbit_host, rabbit_port, rabbit_virtual_host, rabbit_heartbeat):
     credentials = pika.PlainCredentials(rabbit_user, rabbit_pass)
     connection = pika.BlockingConnection(pika.ConnectionParameters(rabbit_host, rabbit_port, rabbit_virtual_host,
-                                                                   credentials, heartbeat_interval=rabbit_heartbeat))
+                                                                   credentials, heartbeat=rabbit_heartbeat))
     return connection
 
 

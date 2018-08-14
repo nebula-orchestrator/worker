@@ -247,6 +247,7 @@ def app_thread(thread_app_name):
 
     # at startup get newest app configuration and restart containers if configured to run
     try:
+        print "attmpeting to get intial app config for " + str(thread_app_name)
         rabbit_connect_get_app_data_disconnect(thread_app_name, rabbit_user, rabbit_password, rabbit_host, rabbit_port,
                                                rabbit_vhost, rabbit_heartbeat, RABBIT_RPC_QUEUE, initial_start)
     except Exception as e:

@@ -19,6 +19,7 @@ Nebula is designed with the following philosophy in mind, any feature\pull reque
 * Reliability is more important then shiny new features.
 * No vendor\cloud lock-in, if it's only available in one cloud it will not be used.
 * No latency sensitivity, assume workers to have a below average internet access and are in the other side of the world.
+* Fully stateless, all data is to be saved in the backend DB & all communication between components is to be passed through the massage queue.
 
 ### Documentation
 
@@ -31,7 +32,6 @@ prior to making any pull requests
 * Bug fixes / feature requests - anything off github issues lists
 * Submitting tickets - even if you don't have the time\knowledge to fix a bug just opening a github issue about it will greatly help
 * Suggesting improvements
-* For larger tasks - doing anything off the [wishlist](http://nebula.readthedocs.io/en/latest/wishlist/)
 * Spreading the word
 
 ### Summary

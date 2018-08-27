@@ -290,35 +290,36 @@ def initial_start(ch, method_frame, properties, body):
     ch.close()
 
 
-# static variables
-RABBIT_RPC_QUEUE = "rabbit_api_rpc_queue"
+if __name__ == "__main__":
+    # static variables
+    RABBIT_RPC_QUEUE = "rabbit_api_rpc_queue"
 
-# read config file and config envvars at startup, preference ordering is envvar>config file>default value (if exists)
-print "reading config variables"
-auth_file = json.load(open("conf.json"))
-registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)
-registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
-registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")
-rabbit_host = get_conf_setting("rabbit_host", auth_file)
-rabbit_vhost = get_conf_setting("rabbit_vhost", auth_file, "/")
-rabbit_port = int(get_conf_setting("rabbit_port", auth_file, 5672))
-rabbit_user = get_conf_setting("rabbit_user", auth_file)
-rabbit_password = get_conf_setting("rabbit_password", auth_file)
-max_restart_wait_in_seconds = int(get_conf_setting("max_restart_wait_in_seconds", auth_file, 0))
-rabbit_heartbeat = int(get_conf_setting("rabbit_heartbeat", auth_file, 3600))
+    # read config file and config envvars at startup, order preference is envvar>config file>default value (if exists)
+    print "reading config variables"
+    auth_file = json.load(open("conf.json"))
+    registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)
+    registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
+    registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")
+    rabbit_host = get_conf_setting("rabbit_host", auth_file)
+    rabbit_vhost = get_conf_setting("rabbit_vhost", auth_file, "/")
+    rabbit_port = int(get_conf_setting("rabbit_port", auth_file, 5672))
+    rabbit_user = get_conf_setting("rabbit_user", auth_file)
+    rabbit_password = get_conf_setting("rabbit_password", auth_file)
+    max_restart_wait_in_seconds = int(get_conf_setting("max_restart_wait_in_seconds", auth_file, 0))
+    rabbit_heartbeat = int(get_conf_setting("rabbit_heartbeat", auth_file, 3600))
 
-# get the app name the worker manages
-app_name_list = os.environ["APP_NAME"].split(",")
+    # get the app name the worker manages
+    app_name_list = os.environ["APP_NAME"].split(",")
 
-# get number of cpu cores on host
-cpu_cores = get_number_of_cpu_cores()
+    # get number of cpu cores on host
+    cpu_cores = get_number_of_cpu_cores()
 
-# work against docker socket
-docker_socket = DockerFunctions()
+    # work against docker socket
+    docker_socket = DockerFunctions()
 
-# ensure default "nebula" named network exists
-docker_socket.create_docker_network("nebula", "bridge")
+    # ensure default "nebula" named network exists
+    docker_socket.create_docker_network("nebula", "bridge")
 
-# opens a thread for each app so they all listen to rabbit side by side for any changes
-for app_name in app_name_list:
-    Thread(target=app_thread, args=(app_name,)).start()
+    # opens a thread for each app so they all listen to rabbit side by side for any changes
+    for app_name in app_name_list:
+        Thread(target=app_thread, args=(app_name,)).start()

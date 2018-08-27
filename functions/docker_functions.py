@@ -40,7 +40,8 @@ class DockerFunctions:
 
     # pull image with optional version tag and registry auth
     def pull_image(self, image_name, version_tag="latest", registry_user=None, registry_pass=None, registry_host=""):
-        if registry_user is not None and registry_pass is not None:
+        if registry_user is not None and registry_user != "skip" and registry_pass is not None and \
+                registry_pass != "skip":
             print "logging in to registry"
             try:
                 print self.cli.login(username=registry_user, password=registry_pass, registry=registry_host)

@@ -128,7 +128,7 @@ def start_containers(app_json, no_pull=False, registry_auth_user=None, registry_
     containers_list = docker_socket.list_containers(app_json["app_name"])
     if len(containers_list) > 0:
         print "app already running so restarting rather then starting containers"
-        restart_containers(app_json)
+        restart_containers(app_json, registry_auth_user, registry_auth_password, registry_host)
     else:
         image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
         containers_needed = containers_required(app_json)

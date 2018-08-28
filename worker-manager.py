@@ -129,7 +129,7 @@ def start_containers(app_json, no_pull=False, registry_auth_user=None, registry_
     if len(containers_list) > 0:
         print "app already running so restarting rather then starting containers"
         restart_containers(app_json, registry_auth_user, registry_auth_password, registry_host)
-    else:
+    elif app_json["running"] is True:
         image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
         containers_needed = containers_required(app_json)
         # pull latest image
@@ -273,13 +273,17 @@ def app_thread(thread_app_name):
 # containers if they are configured to be in the running state
 def initial_start(ch, method_frame, properties, body):
     try:
-        print "got initial app configuration from RabbitMQ RPC direct_reply_to for app: " + \
-              json.dumps(json.loads(body)["app_name"])
+        initial_app_name = json.dumps(json.loads(body)["app_name"])
+        print "got initial app configuration from RabbitMQ RPC direct_reply_to for app: " + initial_app_name
         initial_app_configuration = json.loads(body)
         # check if app is set to running state
         if initial_app_configuration["running"] is True:
             # if answer is yes start it
             restart_containers(initial_app_configuration, registry_auth_user, registry_auth_password, registry_host)
+        else:
+            print "app " + initial_app_name + " \"running\" state is false, stopping any existing containers " \
+                                              "belonging to " + initial_app_name
+            stop_containers(initial_app_configuration)
     except Exception as e:
         print >> sys.stderr, e
         print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \

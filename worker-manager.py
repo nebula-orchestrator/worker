@@ -98,9 +98,9 @@ def roll_containers(app_json, registry_auth_user="skip", registry_auth_password=
                     print "starting ports can only a list containing intgers or dicts - dropping worker-manager"
                     os._exit(2)
             docker_socket.run_container(app_json["app_name"], app_json["app_name"] + "-" + str(idx + 1), image_name,
-                                        port_binds, port_list, app_json["env_vars"], version_name, registry_auth_user,
-                                        registry_auth_password, app_json["volumes"], app_json["devices"],
-                                        app_json["privileged"], app_json["networks"])
+                                        port_binds, port_list, app_json["env_vars"], version_name,
+                                        app_json["volumes"], app_json["devices"], app_json["privileged"],
+                                        app_json["networks"])
             # wait 5 seconds between container rolls to give each container time to start fully
             time.sleep(5)
     return
@@ -156,7 +156,6 @@ def start_containers(app_json, no_pull=False, registry_auth_user=None, registry_
             t = Thread(target=docker_socket.run_container, args=(app_json["app_name"], app_json["app_name"] + "-" +
                                                                  str(container_number), image_name, port_binds,
                                                                  port_list, app_json["env_vars"], version_name,
-                                                                 registry_auth_user, registry_auth_password,
                                                                  app_json["volumes"], app_json["devices"],
                                                                  app_json["privileged"], app_json["networks"]))
             threads.append(t)
@@ -247,7 +246,7 @@ def app_thread(thread_app_name):
 
     # at startup get newest app configuration and restart containers if configured to run
     try:
-        print "attempting to get initial app config for " + str(thread_app_name)
+        print "attempting to get initial app config for " + str(thread_app_name) + " from RabbitMQ RPC direct_reply_to"
         rabbit_connect_get_app_data_disconnect(thread_app_name, rabbit_user, rabbit_password, rabbit_host, rabbit_port,
                                                rabbit_vhost, rabbit_heartbeat, RABBIT_RPC_QUEUE, initial_start)
     except Exception as e:

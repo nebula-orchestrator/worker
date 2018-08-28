@@ -182,7 +182,7 @@ class DockerFunctions:
 
     # pull image, create hostconfig, create and start the container and bind to networks all in one simple function
     def run_container(self, app_name, container_name, image_name, bind_port, ports, env_vars, version_tag="latest",
-                      docker_registry_user=None, docker_registry_pass=None, volumes=[], devices=[], privileged=False,
+                      volumes=[], devices=[], privileged=False,
                       networks=[]):
         volume_mounts = []
         for volume in volumes:

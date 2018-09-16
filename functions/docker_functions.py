@@ -44,7 +44,13 @@ class DockerFunctions:
         try:
             container_inspection = self.cli.inspect_container(container_id)
             if "Health" in container_inspection["State"]:
-                if container_inspection["State"]["Health"]["Status"] == "unhealthy":
+                # check if the container is unhealthy and for a bunch of edge cases so it won't try to restart a
+                # container that's in the process of being removed\replaced
+                if container_inspection["State"]["Health"]["Status"] == "unhealthy" and \
+                        container_inspection["State"]["Running"] is True and \
+                        container_inspection["State"]["Restarting"] is False and \
+                        container_inspection["State"]["Paused"] is False and \
+                        container_inspection["State"]["Dead"] is False:
                     container_healthy = False
                 else:
                     container_healthy = True

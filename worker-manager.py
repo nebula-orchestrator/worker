@@ -231,7 +231,7 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
 def restart_unhealthy_containers():
     try:
         while True:
-            time.sleep(5)
+            time.sleep(10)
             nebula_containers = docker_socket.list_containers()
             for nebula_container in nebula_containers:
                 if docker_socket.check_container_healthy(nebula_container["Id"]) is False:

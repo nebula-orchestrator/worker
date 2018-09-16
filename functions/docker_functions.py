@@ -20,11 +20,11 @@ class DockerFunctions:
             self.cli.create_network(net_name, driver=net_driver, check_duplicate=True)
             print "created a " + net_driver + " type network named " + net_name
 
-    # list containers based on said image, if no app_name provided gets all
+    # list containers based on said image, if no app_name provided gets all of nebula managed apps
     def list_containers(self, app_name=""):
         if app_name == "":
             try:
-                return self.cli.containers(filters={})
+                return self.cli.containers(filters={"label": "orchestrator=nebula"})
             except Exception as e:
                 print >> sys.stderr, e
                 print "failed getting list of all containers"
@@ -32,11 +32,32 @@ class DockerFunctions:
         else:
             try:
                 app_label = "app_name=" + app_name
-                return self.cli.containers(filters={"label": app_label}, all=True)
+                return self.cli.containers(filters={"label": [app_label, "orchestrator=nebula"]}, all=True)
             except Exception as e:
                 print >> sys.stderr, e
                 print "failed getting list of containers where label is app_name=" + app_name
                 os._exit(2)
+
+    # check if a container is healthy by examining the result of the dockerfile healthcheck, if no healthcheck is
+    # configured assumes the container to always be healthy.
+    def check_container_healthy(self, container_id):
+        try:
+            container_inspection = self.cli.inspect_container(container_id)
+            if "Health" in container_inspection["State"]:
+                if container_inspection["State"]["Health"]["Status"] == "unhealthy":
+                    container_healthy = False
+                else:
+                    container_healthy = True
+            else:
+                container_healthy = True
+        # if the container doesn't exist it's because it was removed and it means we no longer have to worry about
+        # it's health as a non existing container who's status is non existing is in the require state and therefor
+        # can be considered healthy.
+        except Exception as e:
+            print >> sys.stderr, e
+            print "failed getting health status of container " + container_id
+            container_healthy = True
+        return container_healthy
 
     # pull image with optional version tag and registry auth
     def pull_image(self, image_name, version_tag="latest", registry_user=None, registry_pass=None, registry_host=""):
@@ -68,7 +89,8 @@ class DockerFunctions:
         try:
             container_created = self.cli.create_container(image=image_name, name=container_name, ports=container_ports,
                                                           environment=env_vars, host_config=host_configuration,
-                                                          volumes=volume_mounts, labels={"app_name": app_name},
+                                                          volumes=volume_mounts, labels={"app_name": app_name,
+                                                                                         "orchestrator": "nebula"},
                                                           networking_config=self.create_networking_config(
                                                               default_network))
             print "successfully created container " + container_name

@@ -227,6 +227,21 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
         rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name)
 
 
+# loop forever and in any case where a container healthcheck shows a container as unhealthy restart it
+def restart_unhealthy_containers():
+    try:
+        while True:
+            time.sleep(5)
+            nebula_containers = docker_socket.list_containers()
+            for nebula_container in nebula_containers:
+                if docker_socket.check_container_healthy(nebula_container["Id"]) is False:
+                    docker_socket.restart_container(nebula_container["Id"])
+    except Exception as e:
+        print >> sys.stderr, e
+        print "failed checking containers health"
+        os._exit(2)
+
+
 # the thread which manages each individual app
 def app_thread(thread_app_name):
     # connect to rabbit and create queue first thing at startup
@@ -326,3 +341,6 @@ if __name__ == "__main__":
     # opens a thread for each app so they all listen to rabbit side by side for any changes
     for app_name in app_name_list:
         Thread(target=app_thread, args=(app_name,)).start()
+
+    # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
+    Thread(target=restart_unhealthy_containers).start()

@@ -339,8 +339,11 @@ if __name__ == "__main__":
     docker_socket.create_docker_network("nebula", "bridge")
 
     # opens a thread for each app so they all listen to rabbit side by side for any changes
+    app_threads = {}
     for app_name in app_name_list:
-        Thread(target=app_thread, args=(app_name,)).start()
+        app_threads[app_name] = Thread(target=app_thread, args=(app_name,))
+        app_threads[app_name].start()
 
     # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
     Thread(target=restart_unhealthy_containers).start()
+    app_threads["test123"]

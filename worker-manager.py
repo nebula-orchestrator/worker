@@ -346,4 +346,3 @@ if __name__ == "__main__":
 
     # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
     Thread(target=restart_unhealthy_containers).start()
-    app_threads["test123"]

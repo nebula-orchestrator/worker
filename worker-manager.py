@@ -230,12 +230,13 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
 # loop forever and in any case where a container healthcheck shows a container as unhealthy restart it
 def restart_unhealthy_containers():
     try:
-        while True:
+        while stop_threads is False:
             time.sleep(10)
             nebula_containers = docker_socket.list_containers()
             for nebula_container in nebula_containers:
                 if docker_socket.check_container_healthy(nebula_container["Id"]) is False:
                     docker_socket.restart_container(nebula_container["Id"])
+        print "stopping restart_unhealthy_containers thread"
     except Exception as e:
         print >> sys.stderr, e
         print "failed checking containers health"
@@ -311,6 +312,9 @@ def initial_start(ch, method_frame, properties, body):
 if __name__ == "__main__":
     # static variables
     RABBIT_RPC_QUEUE = "rabbit_api_rpc_queue"
+
+    # global variable used to tell threads to stop when set to True
+    stop_threads = False
 
     # read config file and config envvars at startup, order preference is envvar>config file>default value (if exists)
     print "reading config variables"

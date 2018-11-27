@@ -65,8 +65,8 @@ class DockerFunctions:
             container_healthy = True
         return container_healthy
 
-    # pull image with optional version tag and registry auth
-    def pull_image(self, image_name, version_tag="latest", registry_user=None, registry_pass=None, registry_host=""):
+    # login to docker registry
+    def registry_login(self, registry_user=None, registry_pass=None, registry_host=""):
         if registry_user is not None and registry_user != "skip" and registry_pass is not None and \
                 registry_pass != "skip":
             print "logging in to registry"
@@ -78,6 +78,9 @@ class DockerFunctions:
                 os._exit(2)
         else:
             print "no registry user\pass defined, skipping registry login"
+
+    # pull image with optional version tag and registry auth
+    def pull_image(self, image_name, version_tag="latest"):
         print "pulling " + image_name + ":" + str(version_tag)
         try:
             print image_name

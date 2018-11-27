@@ -55,28 +55,26 @@ def rabbit_login(rabbit_login_user, rabbit_login_password, rabbit_login_host, ra
 
 
 # update\release\restart function
-def restart_containers(app_json, registry_auth_user="skip", registry_auth_password="skip", registry_host=""):
+def restart_containers(app_json):
     image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
     # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
     time.sleep(randint(0, max_restart_wait_in_seconds))
     # pull image to speed up downtime between stop & start
-    docker_socket.pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
-                             registry_pass=registry_auth_password, registry_host=registry_host)
+    docker_socket.pull_image(image_name, version_tag=version_name)
     # stop running containers
     stop_containers(app_json)
     # start new containers
-    start_containers(app_json, True, registry_auth_user, registry_auth_password, registry_host)
+    start_containers(app_json, True)
     return
 
 
 # roll app function
-def roll_containers(app_json, registry_auth_user="skip", registry_auth_password="skip", registry_host=""):
+def roll_containers(app_json):
     image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
     # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
     time.sleep(randint(0, max_restart_wait_in_seconds))
     # pull image to speed up downtime between stop & start
-    docker_socket.pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
-                             registry_pass=registry_auth_password, registry_host=registry_host)
+    docker_socket.pull_image(image_name, version_tag=version_name)
     # list current containers
     containers_list = docker_socket.list_containers(app_json["app_name"])
     # roll each container in turn - not threaded as the order is important when rolling
@@ -122,20 +120,19 @@ def stop_containers(app_json):
 
 
 # start app function
-def start_containers(app_json, no_pull=False, registry_auth_user=None, registry_auth_password=None, registry_host=""):
+def start_containers(app_json, no_pull=False):
     # list current containers
     split_container_name_version(app_json["docker_image"])
     containers_list = docker_socket.list_containers(app_json["app_name"])
     if len(containers_list) > 0:
         print "app already running so restarting rather then starting containers"
-        restart_containers(app_json, registry_auth_user, registry_auth_password, registry_host)
+        restart_containers(app_json)
     elif app_json["running"] is True:
         image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
         containers_needed = containers_required(app_json)
         # pull latest image
         if no_pull is False:
-            docker_socket.pull_image(image_name, version_tag=version_name, registry_user=registry_auth_user,
-                                     registry_pass=registry_auth_password, registry_host=registry_host)
+            docker_socket.pull_image(image_name, version_tag=version_name)
         # start new containers
         container_number = 1
         threads = []
@@ -190,13 +187,13 @@ def rabbit_work_function(ch, method, properties, body):
             stop_containers(app_json)
         # if it's start start containers
         elif app_json["command"] == "start":
-            start_containers(app_json, False, registry_auth_user, registry_auth_password, registry_host)
+            start_containers(app_json, False)
         # if it's roll rolling restart containers
         elif app_json["command"] == "roll":
-            roll_containers(app_json, registry_auth_user, registry_auth_password, registry_host)
+            roll_containers(app_json)
         # elif restart containers
         else:
-            restart_containers(app_json, registry_auth_user, registry_auth_password, registry_host)
+            restart_containers(app_json)
         # ack message
         rabbit_ack(ch, method)
     except pika.exceptions.ConnectionClosed as e:
@@ -294,7 +291,7 @@ def initial_start(ch, method_frame, properties, body):
         # check if app is set to running state
         if initial_app_configuration["running"] is True:
             # if answer is yes start it
-            restart_containers(initial_app_configuration, registry_auth_user, registry_auth_password, registry_host)
+            restart_containers(initial_app_configuration)
         else:
             print "app " + initial_app_name + " \"running\" state is false, stopping any existing containers " \
                                               "belonging to " + initial_app_name
@@ -341,6 +338,10 @@ if __name__ == "__main__":
 
     # ensure default "nebula" named network exists
     docker_socket.create_docker_network("nebula", "bridge")
+
+    # login to the docker registry - if no registry login details are configured will just print a message stating that
+    docker_socket.registry_login(registry_host=registry_host, registry_user=registry_auth_user,
+                                 registry_pass=registry_auth_password)
 
     # opens a thread for each app so they all listen to rabbit side by side for any changes
     app_threads = {}

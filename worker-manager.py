@@ -184,16 +184,24 @@ def rabbit_work_function(ch, method, properties, body):
             os._exit(2)
         # elif it's stopped stop containers
         elif app_json["command"] == "stop":
+            print "stopping app " + app_json["app_name"]
             stop_containers(app_json)
+            print "finished stopping app " + app_json["app_name"]
         # if it's start start containers
         elif app_json["command"] == "start":
+            print "starting app " + app_json["app_name"]
             start_containers(app_json, False)
+            print "finished starting app " + app_json["app_name"]
         # if it's roll rolling restart containers
         elif app_json["command"] == "roll":
+            print "rolling app " + app_json["app_name"]
             roll_containers(app_json)
+            print "finished rolling app " + app_json["app_name"]
         # elif restart containers
         else:
+            print "restarting app " + app_json["app_name"]
             restart_containers(app_json)
+            print "finished restarting app " + app_json["app_name"]
         # ack message
         rabbit_ack(ch, method)
     except pika.exceptions.ConnectionClosed as e:

@@ -18,7 +18,6 @@ def get_conf_setting(setting, settings_json, default_value="skip"):
         print "missing " + setting + " config setting"
         os._exit(2)
     if setting_value == "skip":
-        print >> sys.stderr, e
         print >> sys.stderr, "missing " + setting + " config setting"
         print "missing " + setting + " config setting"
         os._exit(2)

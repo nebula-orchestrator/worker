@@ -56,26 +56,28 @@ def rabbit_login(rabbit_login_user, rabbit_login_password, rabbit_login_host, ra
 
 
 # update\release\restart function
-def restart_containers(app_json):
+def restart_containers(app_json, no_pull=False):
     image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
     # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
     time.sleep(randint(0, max_restart_wait_in_seconds))
     # pull image to speed up downtime between stop & start
-    docker_socket.pull_image(image_name, version_tag=version_name)
+    if no_pull is False:
+        docker_socket.pull_image(image_name, version_tag=version_name)
     # stop running containers
     stop_containers(app_json)
     # start new containers
-    start_containers(app_json, True)
+    start_containers(app_json, no_pull=True)
     return
 
 
 # roll app function
-def roll_containers(app_json):
+def roll_containers(app_json, no_pull=False):
     image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
     # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
     time.sleep(randint(0, max_restart_wait_in_seconds))
     # pull image to speed up downtime between stop & start
-    docker_socket.pull_image(image_name, version_tag=version_name)
+    if no_pull is False:
+        docker_socket.pull_image(image_name, version_tag=version_name)
     # list current containers
     containers_list = docker_socket.list_containers(app_json["app_name"])
     # roll each container in turn - not threaded as the order is important when rolling
@@ -131,7 +133,7 @@ def start_containers(app_json, no_pull=False):
     elif app_json["running"] is True:
         image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
         containers_needed = containers_required(app_json)
-        # pull latest image
+        # pull required image
         if no_pull is False:
             docker_socket.pull_image(image_name, version_tag=version_name)
         # start new containers

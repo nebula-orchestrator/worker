@@ -182,8 +182,10 @@ def rabbit_work_function(ch, method, properties, body):
             stop_containers(app_json)
             print "got a blank massage from rabbit - likely app wasn't created in nebula API yet, dropping container"
             os._exit(2)
+        else:
+            print "got a message from rabbit queue for app " + app_json["app_name"]
         # elif it's stopped stop containers
-        elif app_json["command"] == "stop":
+        if app_json["command"] == "stop":
             print "stopping app " + app_json["app_name"]
             stop_containers(app_json)
             print "finished stopping app " + app_json["app_name"]
@@ -300,10 +302,12 @@ def initial_start(ch, method_frame, properties, body):
         if initial_app_configuration["running"] is True:
             # if answer is yes start it
             restart_containers(initial_app_configuration)
+            print "finished initial start of app " + initial_app_name
         else:
             print "app " + initial_app_name + " \"running\" state is false, stopping any existing containers " \
                                               "belonging to " + initial_app_name
             stop_containers(initial_app_configuration)
+            print "finished initial stop of app " + initial_app_name
     except Exception as e:
         print >> sys.stderr, e
         print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \

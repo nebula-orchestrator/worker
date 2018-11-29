@@ -81,14 +81,14 @@ class DockerFunctions:
 
     # pull image with optional version tag and registry auth
     def pull_image(self, image_name, version_tag="latest"):
-        print "pulling " + image_name + ":" + str(version_tag)
+        print "pulling image " + image_name + ":" + str(version_tag)
         try:
             print image_name
             for line in self.cli.pull(image_name, str(version_tag), stream=True):
                 print(json.dumps(json.loads(line), indent=4))
         except Exception as e:
             print >> sys.stderr, e
-            print "problem pulling " + image_name + ":" + str(version_tag)
+            print "problem pulling image " + image_name + ":" + str(version_tag)
             os._exit(2)
 
     # create container
@@ -111,7 +111,7 @@ class DockerFunctions:
 
     # stop container, default timeout set to 5 seconds, will try to kill if stop failed
     def stop_container(self, container_name, stop_timout=5):
-        print "stopping " + container_name
+        print "stopping container " + container_name
         try:
             reply = self.cli.stop(container_name, stop_timout)
             return reply
@@ -122,12 +122,12 @@ class DockerFunctions:
                 return reply
             except Exception as e:
                 print >> sys.stderr, e
-                print "problem stopping " + container_name
+                print "problem stopping container " + container_name
                 os._exit(2)
 
     # start container
     def start_container(self, container_name):
-        print "starting " + container_name
+        print "starting container " + container_name
         try:
             return self.cli.start(container_name)
         except "APIError" as e:
@@ -135,12 +135,12 @@ class DockerFunctions:
             print "problem starting container - most likely port bind already taken"
         except not "APIError" as e:
             print >> sys.stderr, e
-            print "problem starting " + container_name
+            print "problem starting container " + container_name
             os._exit(2)
 
     # restart container, default timeout set to 2 seconds
     def restart_container(self, container_name, stop_timout=2):
-        print "restarting " + container_name
+        print "restarting container " + container_name
         try:
             return self.cli.restart(container_name, stop_timout)
         except "APIError" as e:
@@ -148,12 +148,12 @@ class DockerFunctions:
             print "problem starting container - most likely port bind already taken"
         except not "APIError" as e:
             print >> sys.stderr, e
-            print "problem restarting " + container_name
+            print "problem restarting container " + container_name
             os._exit(2)
 
     # remove container
     def remove_container(self, container_name):
-        print "removing " + container_name
+        print "removing container " + container_name
         try:
             return self.cli.remove_container(container_name)
         except:
@@ -161,7 +161,7 @@ class DockerFunctions:
                 return self.cli.remove_container(container_name, force=True)
             except Exception as e:
                 print >> sys.stderr, e
-                print "problem removing " + container_name
+                print "problem removing container " + container_name
             os._exit(2)
 
     # create host_config

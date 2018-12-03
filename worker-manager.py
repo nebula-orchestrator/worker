@@ -176,6 +176,11 @@ def containers_required(app_json):
     return containers_needed
 
 
+# prune unused images
+def prune_images():
+    docker_socket.prune_images()
+
+
 def rabbit_work_function(ch, method, properties, body):
     try:
         # check the message body to get the needed order
@@ -187,21 +192,26 @@ def rabbit_work_function(ch, method, properties, body):
             os._exit(2)
         else:
             print "got a message from rabbit queue for app " + app_json["app_name"]
-        # elif it's stopped stop containers
+        # elif it's stop then stop containers
         if app_json["command"] == "stop":
             print "stopping app " + app_json["app_name"]
             stop_containers(app_json)
             print "finished stopping app " + app_json["app_name"]
-        # if it's start start containers
+        # if it's start then start containers
         elif app_json["command"] == "start":
             print "starting app " + app_json["app_name"]
             start_containers(app_json)
             print "finished starting app " + app_json["app_name"]
-        # if it's roll rolling restart containers
+        # if it's roll then do a rolling restart containers
         elif app_json["command"] == "roll":
             print "rolling app " + app_json["app_name"]
             roll_containers(app_json)
             print "finished rolling app " + app_json["app_name"]
+        # if it's prune then prune unused images
+        elif app_json["command"] == "prune":
+            print "pruning images on devices running app " + app_json["app_name"]
+            prune_images()
+            print "finished pruning images on devices app " + app_json["app_name"]
         # elif restart containers
         else:
             print "restarting app " + app_json["app_name"]

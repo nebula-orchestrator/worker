@@ -91,6 +91,17 @@ class DockerFunctions:
             print "problem pulling image " + image_name + ":" + str(version_tag)
             os._exit(2)
 
+    # prune unused images
+    def prune_images(self):
+        print "pruning unused images"
+        try:
+            print self.cli.prune_images()
+        except Exception as e:
+            print >> sys.stderr, e
+            print "problem pruning unused image"
+            os._exit(2)
+
+
     # create container
     def create_container(self, app_name, container_name, image_name, host_configuration, container_ports=[],
                          env_vars=[], volume_mounts=[], default_network="nebula"):

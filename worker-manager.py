@@ -56,27 +56,27 @@ def rabbit_login(rabbit_login_user, rabbit_login_password, rabbit_login_host, ra
 
 
 # update\release\restart function
-def restart_containers(app_json, no_pull=False):
+def restart_containers(app_json, force_pull=True):
     image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
     # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
     time.sleep(randint(0, max_restart_wait_in_seconds))
     # pull image to speed up downtime between stop & start
-    if no_pull is False:
+    if force_pull is True:
         docker_socket.pull_image(image_name, version_tag=version_name)
     # stop running containers
     stop_containers(app_json)
     # start new containers
-    start_containers(app_json, no_pull=True)
+    start_containers(app_json, force_pull=False)
     return
 
 
 # roll app function
-def roll_containers(app_json, no_pull=False):
+def roll_containers(app_json, force_pull=True):
     image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
     # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
     time.sleep(randint(0, max_restart_wait_in_seconds))
     # pull image to speed up downtime between stop & start
-    if no_pull is False:
+    if force_pull is True:
         docker_socket.pull_image(image_name, version_tag=version_name)
     # list current containers
     containers_list = docker_socket.list_containers(app_json["app_name"])
@@ -123,7 +123,7 @@ def stop_containers(app_json):
 
 
 # start app function
-def start_containers(app_json, no_pull=False):
+def start_containers(app_json, force_pull=True):
     # list current containers
     split_container_name_version(app_json["docker_image"])
     containers_list = docker_socket.list_containers(app_json["app_name"])
@@ -134,7 +134,7 @@ def start_containers(app_json, no_pull=False):
         image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
         containers_needed = containers_required(app_json)
         # pull required image
-        if no_pull is False:
+        if force_pull is True:
             docker_socket.pull_image(image_name, version_tag=version_name)
         # start new containers
         container_number = 1
@@ -195,7 +195,7 @@ def rabbit_work_function(ch, method, properties, body):
         # if it's start start containers
         elif app_json["command"] == "start":
             print "starting app " + app_json["app_name"]
-            start_containers(app_json, False)
+            start_containers(app_json)
             print "finished starting app " + app_json["app_name"]
         # if it's roll rolling restart containers
         elif app_json["command"] == "roll":

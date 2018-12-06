@@ -2,14 +2,14 @@
 FROM python:2.7.15-alpine3.8
 
 # copy the codebase
-COPY . /worker-manager
+COPY . /worker
 
 # install required packages
-RUN pip install -r /worker-manager/requirements.txt
+RUN pip install -r /worker/requirements.txt
 
 #set python to be unbuffered
 ENV PYTHONUNBUFFERED=1
 
 # run the worker-manger
-WORKDIR /worker-manager
-CMD [ "python", "/worker-manager/worker-manager.py" ]
+WORKDIR /worker
+CMD [ "python", "/worker/worker.py" ]

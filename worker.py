@@ -96,7 +96,7 @@ def roll_containers(app_json, force_pull=True):
                         port_binds[int(container_port)] = int(host_port) + idx
                         port_list.append(container_port)
                 else:
-                    print "starting ports can only a list containing intgers or dicts - dropping worker-manager"
+                    print "starting ports can only a list containing intgers or dicts - dropping worker"
                     os._exit(2)
             docker_socket.run_container(app_json["app_name"], app_json["app_name"] + "-" + str(idx + 1), image_name,
                                         port_binds, port_list, app_json["env_vars"], version_name,
@@ -151,7 +151,7 @@ def start_containers(app_json, force_pull=True):
                         port_binds[int(container_port)] = int(host_port) + container_number - 1
                         port_list.append(container_port)
                 else:
-                    print "starting ports can only a list containing intgers or dicts - dropping worker-manager"
+                    print "starting ports can only a list containing intgers or dicts - dropping worker"
                     os._exit(2)
             t = Thread(target=docker_socket.run_container, args=(app_json["app_name"], app_json["app_name"] + "-" +
                                                                  str(container_number), image_name, port_binds,
@@ -226,8 +226,8 @@ def rabbit_work_function(ch, method, properties, body):
 
 
 # recursive so it will always keep trying to reconnect to rabbit in case of any connection issues, this avoids killing
-# the worker-manager container on every tiny network hiccup that on distributed systems at scale is common, the
-# worker-manager container will be killed if enough time has passed for it's RabbitMQ queue has deleted itself which
+# the worker container on every tiny network hiccup that on distributed systems at scale is common, the
+# worker container will be killed if enough time has passed for it's RabbitMQ queue has deleted itself which
 # by default happens after 5 minutes without connection
 def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name):
     try:
@@ -276,7 +276,7 @@ def app_thread(thread_app_name):
         print >> sys.stderr, e
         print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
               "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
-              "nebula worker-manager is set to manage didn't somehow got deleted (or that the nebula app never got " \
+              "nebula worker is set to manage didn't somehow got deleted (or that the nebula app never got " \
               "created in the first place)"
         os._exit(2)
 
@@ -289,7 +289,7 @@ def app_thread(thread_app_name):
         print >> sys.stderr, e
         print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
               "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
-              "nebula worker-manager is set to manage didn't somehow got deleted (or that the nebula app never got " \
+              "nebula worker is set to manage didn't somehow got deleted (or that the nebula app never got " \
               "created in the first place)"
         os._exit(2)
 
@@ -325,7 +325,7 @@ def initial_start(ch, method_frame, properties, body):
         print >> sys.stderr, e
         print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
               "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
-              "nebula worker-manager is set to manage didn't somehow got deleted (or that the nebula app never got " \
+              "nebula worker is set to manage didn't somehow got deleted (or that the nebula app never got " \
               "created in the first place)"
         os._exit(2)
     ch.close()

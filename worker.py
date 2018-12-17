@@ -340,7 +340,10 @@ if __name__ == "__main__":
 
     # read config file and config envvars at startup, order preference is envvar>config file>default value (if exists)
     print "reading config variables"
-    auth_file = json.load(open("conf.json"))
+    if os.path.exists("conf.json"):
+        auth_file = json.load(open("conf.json"))
+    else:
+        auth_file = {}
     registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)
     registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
     registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")

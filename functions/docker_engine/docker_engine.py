@@ -1,5 +1,4 @@
-import docker
-import json, os, time, sys
+import json, os, time, sys, docker
 
 
 class DockerFunctions:

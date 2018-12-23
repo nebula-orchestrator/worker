@@ -1,12 +1,12 @@
-import json, os, time, random, string, uuid, sys
-from functions.rabbit_functions import *
-from functions.docker_functions import *
-from functions.server_functions import *
+import uuid
+from functions.message_queue.rabbit import *
+from functions.docker_engine.docker_engine import *
+from functions.misc.server import *
 from threading import Thread
 from random import randint
 
 
-# get setting from envvar with failover from conf.json file if envvar not set
+# get setting from envvar with failover from config/conf.json file if envvar not set
 # using skip rather then None so passing a None type will still pass a None value rather then assuming there should be
 # default value thus allowing to have No value set where needed (like in the case of registry user\pass)
 def get_conf_setting(setting, settings_json, default_value="skip"):
@@ -339,11 +339,13 @@ if __name__ == "__main__":
     stop_threads = False
 
     # read config file and config envvars at startup, order preference is envvar>config file>default value (if exists)
-    print "reading config variables"
-    if os.path.exists("conf.json"):
-        auth_file = json.load(open("conf.json"))
+    if os.path.exists("config/conf.json"):
+        print "reading config file"
+        auth_file = json.load(open("config/conf.json"))
     else:
+        print "config file not found - skipping reading it and checking if needed params are given from envvars"
         auth_file = {}
+    print "reading config variables"
     registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)
     registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
     registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")

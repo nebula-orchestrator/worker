@@ -42,7 +42,7 @@ def split_container_name_version(image_name):
 
 
 # used in rabbitmq queue name as it's partly random
-def randomword():
+def random_word():
     return str(uuid.uuid4()).replace('-', '')
 
 
@@ -269,7 +269,7 @@ def app_thread(thread_app_name):
     try:
         rabbit_channel = rabbit_login(rabbit_user, rabbit_password, rabbit_host, rabbit_port, rabbit_vhost,
                                       rabbit_heartbeat)
-        rabbit_queue_name = str(thread_app_name) + "_" + randomword() + "_queue"
+        rabbit_queue_name = str(thread_app_name) + "_" + random_word() + "_queue"
         rabbit_queue = rabbit_create_queue(rabbit_queue_name, rabbit_channel)
         rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(thread_app_name) + "_fanout")
     except Exception as e:

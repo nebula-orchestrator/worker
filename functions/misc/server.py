@@ -8,5 +8,5 @@ def get_number_of_cpu_cores():
         return cpu_number
     except Exception as e:
         print >> sys.stderr, e
-        print "error getting the number of cpu core"
+        print("error getting the number of cpu core")
         os._exit(2)

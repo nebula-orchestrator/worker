@@ -17,7 +17,7 @@ class DockerFunctions:
     def create_docker_network(self, net_name, net_driver):
         if self.check_network_exists(net_name) is False:
             self.cli.create_network(net_name, driver=net_driver, check_duplicate=True)
-            print "created a " + net_driver + " type network named " + net_name
+            print("created a " + net_driver + " type network named " + net_name)
 
     # list containers based on said image, if no app_name provided gets all of nebula managed apps
     def list_containers(self, app_name=""):
@@ -26,7 +26,7 @@ class DockerFunctions:
                 return self.cli.containers(filters={"label": "orchestrator=nebula"})
             except Exception as e:
                 print >> sys.stderr, e
-                print "failed getting list of all containers"
+                print("failed getting list of all containers")
                 os._exit(2)
         else:
             try:
@@ -34,7 +34,7 @@ class DockerFunctions:
                 return self.cli.containers(filters={"label": [app_label, "orchestrator=nebula"]}, all=True)
             except Exception as e:
                 print >> sys.stderr, e
-                print "failed getting list of containers where label is app_name=" + app_name
+                print("failed getting list of containers where label is app_name=" + app_name)
                 os._exit(2)
 
     # check if a container is healthy by examining the result of the dockerfile healthcheck, if no healthcheck is
@@ -60,7 +60,7 @@ class DockerFunctions:
         # can be considered healthy.
         except Exception as e:
             print >> sys.stderr, e
-            print "failed getting health status of container " + container_id
+            print("failed getting health status of container " + container_id)
             container_healthy = True
         return container_healthy
 
@@ -68,43 +68,43 @@ class DockerFunctions:
     def registry_login(self, registry_user=None, registry_pass=None, registry_host=""):
         if registry_user is not None and registry_user != "skip" and registry_pass is not None and \
                 registry_pass != "skip":
-            print "logging in to registry"
+            print("logging in to registry")
             try:
                 print self.cli.login(username=registry_user, password=registry_pass, registry=registry_host)
             except Exception as e:
                 print >> sys.stderr, e
-                print "problem logging into registry"
+                print("problem logging into registry")
                 os._exit(2)
         else:
-            print "no registry user\pass defined, skipping registry login"
+            print("no registry user\pass defined, skipping registry login")
 
     # pull image with optional version tag and registry auth
     def pull_image(self, image_name, version_tag="latest"):
-        print "pulling image " + image_name + ":" + str(version_tag)
+        print("pulling image " + image_name + ":" + str(version_tag))
         try:
             print image_name
             for line in self.cli.pull(image_name, str(version_tag), stream=True):
                 print(json.dumps(json.loads(line), indent=4))
         except Exception as e:
             print >> sys.stderr, e
-            print "problem pulling image " + image_name + ":" + str(version_tag)
+            print("problem pulling image " + image_name + ":" + str(version_tag))
             os._exit(2)
 
     # prune unused images
     def prune_images(self):
-        print "pruning unused images"
+        print("pruning unused images")
         try:
             print self.cli.prune_images()
         except Exception as e:
             print >> sys.stderr, e
-            print "problem pruning unused image"
+            print("problem pruning unused image")
             os._exit(2)
 
 
     # create container
     def create_container(self, app_name, container_name, image_name, host_configuration, container_ports=[],
                          env_vars=[], volume_mounts=[], default_network="nebula"):
-        print "creating container " + container_name
+        print("creating container " + container_name)
         try:
             container_created = self.cli.create_container(image=image_name, name=container_name, ports=container_ports,
                                                           environment=env_vars, host_config=host_configuration,
@@ -112,16 +112,16 @@ class DockerFunctions:
                                                                                          "orchestrator": "nebula"},
                                                           networking_config=self.create_networking_config(
                                                               default_network))
-            print "successfully created container " + container_name
+            print("successfully created container " + container_name)
             return container_created
         except Exception as e:
             print >> sys.stderr, e
-            print "failed creating container " + container_name
+            print("failed creating container " + container_name)
             os._exit(2)
 
     # stop container, default timeout set to 5 seconds, will try to kill if stop failed
     def stop_container(self, container_name, stop_timout=5):
-        print "stopping container " + container_name
+        print("stopping container " + container_name)
         try:
             reply = self.cli.stop(container_name, stop_timout)
             return reply
@@ -132,38 +132,38 @@ class DockerFunctions:
                 return reply
             except Exception as e:
                 print >> sys.stderr, e
-                print "problem stopping container " + container_name
+                print("problem stopping container " + container_name)
                 os._exit(2)
 
     # start container
     def start_container(self, container_name):
-        print "starting container " + container_name
+        print("starting container " + container_name)
         try:
             return self.cli.start(container_name)
         except "APIError" as e:
             print >> sys.stderr, e
-            print "problem starting container - most likely port bind already taken"
+            print("problem starting container - most likely port bind already taken")
         except not "APIError" as e:
             print >> sys.stderr, e
-            print "problem starting container " + container_name
+            print("problem starting container " + container_name)
             os._exit(2)
 
     # restart container, default timeout set to 2 seconds
     def restart_container(self, container_name, stop_timout=2):
-        print "restarting container " + container_name
+        print("restarting container " + container_name)
         try:
             return self.cli.restart(container_name, stop_timout)
         except "APIError" as e:
             print >> sys.stderr, e
-            print "problem starting container - most likely port bind already taken"
+            print("problem starting container - most likely port bind already taken")
         except not "APIError" as e:
             print >> sys.stderr, e
-            print "problem restarting container " + container_name
+            print("problem restarting container " + container_name)
             os._exit(2)
 
     # remove container
     def remove_container(self, container_name):
-        print "removing container " + container_name
+        print("removing container " + container_name)
         try:
             return self.cli.remove_container(container_name)
         except:
@@ -171,7 +171,7 @@ class DockerFunctions:
                 return self.cli.remove_container(container_name, force=True)
             except Exception as e:
                 print >> sys.stderr, e
-                print "problem removing container " + container_name
+                print("problem removing container " + container_name)
             os._exit(2)
 
     # create host_config
@@ -181,7 +181,7 @@ class DockerFunctions:
                                                binds=volumes, devices=devices, privileged=privileged)
         except Exception as e:
             print >> sys.stderr, e
-            print "problem creating host config"
+            print("problem creating host config")
             os._exit(2)
 
     # create networking_config
@@ -195,7 +195,7 @@ class DockerFunctions:
             return networking_config
         except Exception as e:
             print >> sys.stderr, e
-            print "problem creating network config"
+            print("problem creating network config")
             os._exit(2)
 
     # connect a container to a network
@@ -204,7 +204,7 @@ class DockerFunctions:
             self.cli.connect_container_to_network(container, net_id)
         except Exception as e:
             print >> sys.stderr, e
-            print "problem connecting to network " + net_id
+            print("problem connecting to network " + net_id)
             os._exit(2)
 
     # get net_id
@@ -240,7 +240,7 @@ class DockerFunctions:
                     self.connect_to_network(container_name, self.get_net_id(network))
                 except Exception as e:
                     print >> sys.stderr, e
-                    print "problem connecting to network " + network
+                    print("problem connecting to network " + network)
                     os._exit(2)
 
     # stop and remove container

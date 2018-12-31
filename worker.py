@@ -15,11 +15,11 @@ def get_conf_setting(setting, settings_json, default_value="skip"):
     except Exception as e:
         print >> sys.stderr, e
         print >> sys.stderr, "missing " + setting + " config setting"
-        print "missing " + setting + " config setting"
+        print("missing " + setting + " config setting")
         os._exit(2)
     if setting_value == "skip":
         print >> sys.stderr, "missing " + setting + " config setting"
-        print "missing " + setting + " config setting"
+        print("missing " + setting + " config setting")
         os._exit(2)
     return setting_value
 
@@ -96,7 +96,7 @@ def roll_containers(app_json, force_pull=True):
                         port_binds[int(container_port)] = int(host_port) + idx
                         port_list.append(container_port)
                 else:
-                    print "starting ports can only a list containing intgers or dicts - dropping worker"
+                    print("starting ports can only a list containing intgers or dicts - dropping worker")
                     os._exit(2)
             docker_socket.run_container(app_json["app_name"], app_json["app_name"] + "-" + str(idx + 1), image_name,
                                         port_binds, port_list, app_json["env_vars"], version_name,
@@ -128,7 +128,7 @@ def start_containers(app_json, force_pull=True):
     split_container_name_version(app_json["docker_image"])
     containers_list = docker_socket.list_containers(app_json["app_name"])
     if len(containers_list) > 0:
-        print "app already running so restarting rather then starting containers"
+        print("app already running so restarting rather then starting containers")
         restart_containers(app_json)
     elif app_json["running"] is True:
         image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
@@ -151,7 +151,7 @@ def start_containers(app_json, force_pull=True):
                         port_binds[int(container_port)] = int(host_port) + container_number - 1
                         port_list.append(container_port)
                 else:
-                    print "starting ports can only a list containing intgers or dicts - dropping worker"
+                    print("starting ports can only a list containing intgers or dicts - dropping worker")
                     os._exit(2)
             t = Thread(target=docker_socket.run_container, args=(app_json["app_name"], app_json["app_name"] + "-" +
                                                                  str(container_number), image_name, port_binds,
@@ -188,40 +188,40 @@ def rabbit_work_function(ch, method, properties, body):
         # if it's blank stop containers and kill worker-manger container
         if len(app_json) == 0:
             stop_containers(app_json)
-            print "got a blank massage from rabbit - likely app wasn't created in nebula API yet, dropping container"
+            print("got a blank massage from rabbit - likely app wasn't created in nebula API yet, dropping container")
             os._exit(2)
         else:
-            print "got a message from rabbit queue for app " + app_json["app_name"]
+            print("got a message from rabbit queue for app " + app_json["app_name"])
         # elif it's stop then stop containers
         if app_json["command"] == "stop":
-            print "stopping app " + app_json["app_name"]
+            print("stopping app " + app_json["app_name"])
             stop_containers(app_json)
-            print "finished stopping app " + app_json["app_name"]
+            print("finished stopping app " + app_json["app_name"])
         # if it's start then start containers
         elif app_json["command"] == "start":
-            print "starting app " + app_json["app_name"]
+            print("starting app " + app_json["app_name"])
             start_containers(app_json)
-            print "finished starting app " + app_json["app_name"]
+            print("finished starting app " + app_json["app_name"])
         # if it's roll then do a rolling restart containers
         elif app_json["command"] == "roll":
-            print "rolling app " + app_json["app_name"]
+            print("rolling app " + app_json["app_name"])
             roll_containers(app_json)
-            print "finished rolling app " + app_json["app_name"]
+            print("finished rolling app " + app_json["app_name"])
         # if it's prune then prune unused images
         elif app_json["command"] == "prune":
-            print "pruning images on devices running app " + app_json["app_name"]
+            print("pruning images on devices running app " + app_json["app_name"])
             prune_images()
-            print "finished pruning images on devices app " + app_json["app_name"]
+            print("finished pruning images on devices app " + app_json["app_name"])
         # elif restart containers
         else:
-            print "restarting app " + app_json["app_name"]
+            print("restarting app " + app_json["app_name"])
             restart_containers(app_json)
-            print "finished restarting app " + app_json["app_name"]
+            print("finished restarting app " + app_json["app_name"])
         # ack message
         rabbit_ack(ch, method)
     except pika.exceptions.ConnectionClosed as e:
         print >> sys.stderr, e
-        print "lost rabbitmq connection mid transfer - dropping container to be on the safe side"
+        print("lost rabbitmq connection mid transfer - dropping container to be on the safe side")
         os._exit(2)
 
 
@@ -233,7 +233,7 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
     try:
         rabbit_receive(rabbit_channel, rabbit_work_function, rabbit_queue_name)
     except pika.exceptions.ConnectionClosed:
-        print "lost rabbitmq connection - reconnecting"
+        print("lost rabbitmq connection - reconnecting")
         rabbit_channel = rabbit_login(rabbit_user, rabbit_password, rabbit_host, rabbit_port, rabbit_vhost,
                                       rabbit_heartbeat)
         try:
@@ -242,7 +242,7 @@ def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_
             time.sleep(1)
         except pika.exceptions.ChannelClosed as e:
             print >> sys.stderr, e
-            print "queue no longer exists - can't guarantee order so dropping container"
+            print("queue no longer exists - can't guarantee order so dropping container")
             os._exit(2)
         rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name)
 
@@ -256,10 +256,10 @@ def restart_unhealthy_containers():
             for nebula_container in nebula_containers:
                 if docker_socket.check_container_healthy(nebula_container["Id"]) is False:
                     docker_socket.restart_container(nebula_container["Id"])
-        print "stopping restart_unhealthy_containers thread"
+        print("stopping restart_unhealthy_containers thread")
     except Exception as e:
         print >> sys.stderr, e
-        print "failed checking containers health"
+        print("failed checking containers health")
         os._exit(2)
 
 
@@ -274,23 +274,23 @@ def app_thread(thread_app_name):
         rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(thread_app_name) + "_fanout")
     except Exception as e:
         print >> sys.stderr, e
-        print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
+        print("failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
               "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
               "nebula worker is set to manage didn't somehow got deleted (or that the nebula app never got " \
-              "created in the first place)"
+              "created in the first place)")
         os._exit(2)
 
     # at startup get newest app configuration and restart containers if configured to run
     try:
-        print "attempting to get initial app config for " + str(thread_app_name) + " from RabbitMQ RPC direct_reply_to"
+        print("attempting to get initial app config for " + str(thread_app_name) + " from RabbitMQ RPC direct_reply_to")
         rabbit_connect_get_app_data_disconnect(thread_app_name, rabbit_user, rabbit_password, rabbit_host, rabbit_port,
                                                rabbit_vhost, rabbit_heartbeat, RABBIT_RPC_QUEUE, initial_start)
     except Exception as e:
         print >> sys.stderr, e
-        print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
+        print("failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
               "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
               "nebula worker is set to manage didn't somehow got deleted (or that the nebula app never got " \
-              "created in the first place)"
+              "created in the first place)")
         os._exit(2)
 
     # start processing rabbit queue, the reasoning behind the create queue -> direct_reply_to-> start processing queue
@@ -300,7 +300,7 @@ def app_thread(thread_app_name):
         rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name)
     except Exception as e:
         print >> sys.stderr, e
-        print "rabbit connection failure - can't guarantee order so dropping container"
+        print("rabbit connection failure - can't guarantee order so dropping container")
         os._exit(2)
 
 
@@ -309,24 +309,24 @@ def app_thread(thread_app_name):
 def initial_start(ch, method_frame, properties, body):
     try:
         initial_app_name = json.dumps(json.loads(body)["app_name"])
-        print "got initial app configuration from RabbitMQ RPC direct_reply_to for app: " + initial_app_name
+        print("got initial app configuration from RabbitMQ RPC direct_reply_to for app: " + initial_app_name)
         initial_app_configuration = json.loads(body)
         # check if app is set to running state
         if initial_app_configuration["running"] is True:
             # if answer is yes start it
             restart_containers(initial_app_configuration)
-            print "finished initial start of app " + initial_app_name
+            print("finished initial start of app " + initial_app_name)
         else:
-            print "app " + initial_app_name + " \"running\" state is false, stopping any existing containers " \
-                                              "belonging to " + initial_app_name
+            print("app " + initial_app_name + " \"running\" state is false, stopping any existing containers " \
+                                              "belonging to " + initial_app_name)
             stop_containers(initial_app_configuration)
-            print "finished initial stop of app " + initial_app_name
+            print("finished initial stop of app " + initial_app_name)
     except Exception as e:
         print >> sys.stderr, e
-        print "failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
+        print("failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
               "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
               "nebula worker is set to manage didn't somehow got deleted (or that the nebula app never got " \
-              "created in the first place)"
+              "created in the first place)")
         os._exit(2)
     ch.close()
 
@@ -340,12 +340,12 @@ if __name__ == "__main__":
 
     # read config file and config envvars at startup, order preference is envvar>config file>default value (if exists)
     if os.path.exists("config/conf.json"):
-        print "reading config file"
+        print("reading config file")
         auth_file = json.load(open("config/conf.json"))
     else:
-        print "config file not found - skipping reading it and checking if needed params are given from envvars"
+        print("config file not found - skipping reading it and checking if needed params are given from envvars")
         auth_file = {}
-    print "reading config variables"
+    print("reading config variables")
     registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)
     registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
     registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")

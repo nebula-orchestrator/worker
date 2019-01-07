@@ -203,22 +203,13 @@ if __name__ == "__main__":
         print("config file not found - skipping reading it and checking if needed params are given from envvars")
         auth_file = {}
     print("reading config variables")
-    # TODO - get rid of rabbit envvars here, in pycharm envvars and in the example config file
     # TODO - add envvars needs to login to nebula api via the sdk package
     registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)
     registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
     registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")
-    rabbit_host = get_conf_setting("rabbit_host", auth_file)
-    rabbit_vhost = get_conf_setting("rabbit_vhost", auth_file, "/")
-    rabbit_port = int(get_conf_setting("rabbit_port", auth_file, 5672))
-    rabbit_user = get_conf_setting("rabbit_user", auth_file)
-    rabbit_password = get_conf_setting("rabbit_password", auth_file)
     max_restart_wait_in_seconds = int(get_conf_setting("max_restart_wait_in_seconds", auth_file, 0))
     rabbit_heartbeat = int(get_conf_setting("rabbit_heartbeat", auth_file, 3600))
-
-    # get the app name the worker manages
-    # TODO - change from app_name list to a single device_group
-    app_name_list = os.environ["APP_NAME"].split(",")
+    device_group = get_conf_setting("device_group", auth_file)
 
     # get number of cpu cores on host
     cpu_cores = get_number_of_cpu_cores()

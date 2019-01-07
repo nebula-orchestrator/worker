@@ -261,9 +261,12 @@ if __name__ == "__main__":
 
                 # TODO - if no create app
 
-        # TODO - check for any app that exists in the local memory save config and not in the config pulled from nebula:
+        # TODO - check if device_group_id in the config pulled from nebula is bigger then the one save in memory:
 
-            # TODO - for each one find remove all app containers
+            # TODO - if yes then check for any app that exists in the local memory save config and not in the config
+            #  pulled from nebula:
+
+                # TODO - for each one found remove all app containers
 
         # TODO - compare local prune_id in the local memory save config and the config pulled from nebula:
 

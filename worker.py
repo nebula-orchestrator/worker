@@ -248,20 +248,20 @@ if __name__ == "__main__":
 
         remote_device_group_info = nebula_connection.list_device_group_info(device_group)
 
-        # TODO - for each app in the config:
+        # TODO - for each app in the remote_device_group_info:
 
-            # TODO - check if app exists in local memory saved config:
+            # TODO - check if app exists in local_device_group_info:
 
-                # TODO - if yes compare app_id to local memory app_id:
+                # TODO - if yes compare remote_device_group_info app_id to local_device_group_info app_id:
 
                     # TODO - if the remote is bigger then replace the app containers
 
                 # TODO - if no create app
 
-        # TODO - check if device_group_id in the config pulled from nebula is bigger then the one save in memory:
+        # TODO - check if device_group_id in the remote_device_group_info is bigger then the in local_device_group_info:
 
-            # TODO - if yes then check for any app that exists in the local memory save config and not in the config
-            #  pulled from nebula:
+            # TODO - if yes then check for any app that exists in the local_device_group_info and not in the
+            #  remote_device_group_info
 
                 # TODO - for each one found remove all app containers
 

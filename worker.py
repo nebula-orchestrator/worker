@@ -229,7 +229,10 @@ if __name__ == "__main__":
     docker_socket.registry_login(registry_host=registry_host, registry_user=registry_auth_user,
                                  registry_pass=registry_auth_password)
 
-    # TODO - login to nebula api AKA create nebula sdk connection object
+    # login to the nebula manager
+    nebula_connection = Nebula(username=nebula_manager_auth_user, password=nebula_manager_auth_password,
+                               host=nebula_manager_host, port=nebula_manager_port, protocol=nebula_manager_protocol,
+                               request_timeout=nebula_manager_request_timeout)
 
     # TODO - create start logic:
 

@@ -235,9 +235,9 @@ if __name__ == "__main__":
     # stop all nebula managed containers on start to ensure a clean slate to work on
     stop_containers({"app_name": ""})
 
-    device_group_info = nebula_connection.list_device_group_info(device_group)
+    local_device_group_info = nebula_connection.list_device_group_info(device_group)
 
-    for nebula_app in device_group_info["reply"]["apps"]:
+    for nebula_app in local_device_group_info["reply"]["apps"]:
         start_containers(nebula_app)
 
     # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
@@ -246,7 +246,7 @@ if __name__ == "__main__":
     while True:
         time.sleep(nebula_manager_check_in_time)
 
-        # TODO - read info from api device_group_info endpoint
+        remote_device_group_info = nebula_connection.list_device_group_info(device_group)
 
         # TODO - for each app in the config:
 
@@ -265,8 +265,7 @@ if __name__ == "__main__":
 
                 # TODO - for each one found remove all app containers
 
-        # TODO - compare local prune_id in the local memory save config and the config pulled from nebula:
+        if remote_device_group_info["reply"]["prune_id"] > local_device_group_info["reply"]["prune_id"]:
+            prune_images()
 
-            # TODO - if the remote is bigger then run image pruning on the server
-
-        # TODO - replace local memory save config with the one pulled from nebula
+        local_device_group_info = remote_device_group_info

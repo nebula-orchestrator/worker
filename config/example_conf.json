@@ -9,5 +9,6 @@
   "nebula_manager_port": 80,
   "nebula_manager_protocol": "http",
   "nebula_manager_request_timeout": 60,
-  "device_group": "example_device_group_name"
+  "device_group": "example_device_group_name",
+  "nebula_manager_check_in_time": 30
 }

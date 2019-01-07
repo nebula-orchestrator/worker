@@ -206,6 +206,7 @@ if __name__ == "__main__":
     nebula_manager_port = int(get_conf_setting("nebula_manager_port", auth_file, "80"))
     nebula_manager_protocol = get_conf_setting("nebula_manager_protocol", auth_file, "http")
     nebula_manager_request_timeout = int(get_conf_setting("nebula_manager_request_timeout", auth_file, "60"))
+    nebula_manager_check_in_time = int(get_conf_setting("nebula_manager_check_in_time", auth_file, "30"))
     registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)
     registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
     registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")
@@ -242,7 +243,8 @@ if __name__ == "__main__":
     # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
     Thread(target=restart_unhealthy_containers).start()
 
-    # TODO - run never ending update loop (configurable from param how often):
+    while True:
+        time.sleep(nebula_manager_check_in_time)
 
         # TODO - read info from api device_group_info endpoint
 

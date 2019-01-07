@@ -1,5 +1,5 @@
 import uuid
-from functions.message_queue.rabbit import *
+from NebulaPythonSDK import Nebula
 from functions.docker_engine.docker_engine import *
 from functions.misc.server import *
 from threading import Thread
@@ -44,15 +44,6 @@ def split_container_name_version(image_name):
 # used in rabbitmq queue name as it's partly random
 def random_word():
     return str(uuid.uuid4()).replace('-', '')
-
-
-# login to rabbit function
-def rabbit_login(rabbit_login_user, rabbit_login_password, rabbit_login_host, rabbit_login_port, rabbit_login_vhost,
-                 rabbit_login_heartbeat):
-    rabbit_connection = rabbit_connect(rabbit_login_user, rabbit_login_password, rabbit_login_host, rabbit_login_port,
-                                       rabbit_login_vhost, rabbit_login_heartbeat)
-    rabbit_connection_channel = rabbit_create_channel(rabbit_connection)
-    return rabbit_connection_channel
 
 
 # update\release\restart function
@@ -181,72 +172,6 @@ def prune_images():
     docker_socket.prune_images()
 
 
-def rabbit_work_function(ch, method, properties, body):
-    try:
-        # check the message body to get the needed order
-        app_json = json.loads(body)
-        # if it's blank stop containers and kill worker-manger container
-        if len(app_json) == 0:
-            stop_containers(app_json)
-            print("got a blank massage from rabbit - likely app wasn't created in nebula API yet, dropping container")
-            os._exit(2)
-        else:
-            print("got a message from rabbit queue for app " + app_json["app_name"])
-        # elif it's stop then stop containers
-        if app_json["command"] == "stop":
-            print("stopping app " + app_json["app_name"])
-            stop_containers(app_json)
-            print("finished stopping app " + app_json["app_name"])
-        # if it's start then start containers
-        elif app_json["command"] == "start":
-            print("starting app " + app_json["app_name"])
-            start_containers(app_json)
-            print("finished starting app " + app_json["app_name"])
-        # if it's roll then do a rolling restart containers
-        elif app_json["command"] == "roll":
-            print("rolling app " + app_json["app_name"])
-            roll_containers(app_json)
-            print("finished rolling app " + app_json["app_name"])
-        # if it's prune then prune unused images
-        elif app_json["command"] == "prune":
-            print("pruning images on devices running app " + app_json["app_name"])
-            prune_images()
-            print("finished pruning images on devices app " + app_json["app_name"])
-        # elif restart containers
-        else:
-            print("restarting app " + app_json["app_name"])
-            restart_containers(app_json)
-            print("finished restarting app " + app_json["app_name"])
-        # ack message
-        rabbit_ack(ch, method)
-    except pika.exceptions.ConnectionClosed as e:
-        print >> sys.stderr, e
-        print("lost rabbitmq connection mid transfer - dropping container to be on the safe side")
-        os._exit(2)
-
-
-# recursive so it will always keep trying to reconnect to rabbit in case of any connection issues, this avoids killing
-# the worker container on every tiny network hiccup that on distributed systems at scale is common, the
-# worker container will be killed if enough time has passed for it's RabbitMQ queue has deleted itself which
-# by default happens after 5 minutes without connection
-def rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name):
-    try:
-        rabbit_receive(rabbit_channel, rabbit_work_function, rabbit_queue_name)
-    except pika.exceptions.ConnectionClosed:
-        print("lost rabbitmq connection - reconnecting")
-        rabbit_channel = rabbit_login(rabbit_user, rabbit_password, rabbit_host, rabbit_port, rabbit_vhost,
-                                      rabbit_heartbeat)
-        try:
-            rabbit_create_exchange(rabbit_channel, app_name + "_fanout")
-            rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(app_name) + "_fanout")
-            time.sleep(1)
-        except pika.exceptions.ChannelClosed as e:
-            print >> sys.stderr, e
-            print("queue no longer exists - can't guarantee order so dropping container")
-            os._exit(2)
-        rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name)
-
-
 # loop forever and in any case where a container healthcheck shows a container as unhealthy restart it
 def restart_unhealthy_containers():
     try:
@@ -261,74 +186,6 @@ def restart_unhealthy_containers():
         print >> sys.stderr, e
         print("failed checking containers health")
         os._exit(2)
-
-
-# the thread which manages each individual app
-def app_thread(thread_app_name):
-    # connect to rabbit and create queue first thing at startup
-    try:
-        rabbit_channel = rabbit_login(rabbit_user, rabbit_password, rabbit_host, rabbit_port, rabbit_vhost,
-                                      rabbit_heartbeat)
-        rabbit_queue_name = str(thread_app_name) + "_" + random_word() + "_queue"
-        rabbit_queue = rabbit_create_queue(rabbit_queue_name, rabbit_channel)
-        rabbit_bind_queue(rabbit_queue_name, rabbit_channel, str(thread_app_name) + "_fanout")
-    except Exception as e:
-        print >> sys.stderr, e
-        print("failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
-              "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
-              "nebula worker is set to manage didn't somehow got deleted (or that the nebula app never got " \
-              "created in the first place)")
-        os._exit(2)
-
-    # at startup get newest app configuration and restart containers if configured to run
-    try:
-        print("attempting to get initial app config for " + str(thread_app_name) + " from RabbitMQ RPC direct_reply_to")
-        rabbit_connect_get_app_data_disconnect(thread_app_name, rabbit_user, rabbit_password, rabbit_host, rabbit_port,
-                                               rabbit_vhost, rabbit_heartbeat, RABBIT_RPC_QUEUE, initial_start)
-    except Exception as e:
-        print >> sys.stderr, e
-        print("failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
-              "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
-              "nebula worker is set to manage didn't somehow got deleted (or that the nebula app never got " \
-              "created in the first place)")
-        os._exit(2)
-
-    # start processing rabbit queue, the reasoning behind the create queue -> direct_reply_to-> start processing queue
-    # flow is that it ensures that even if a message is sent to the queue changing the app configuration it will be
-    # processed at the correct order.
-    try:
-        rabbit_recursive_connect(rabbit_channel, rabbit_work_function, rabbit_queue_name)
-    except Exception as e:
-        print >> sys.stderr, e
-        print("rabbit connection failure - can't guarantee order so dropping container")
-        os._exit(2)
-
-
-# this function gets the reply from the RabbitMQ direct_reply_to RPC queue upon the worker initial boot & restarts the
-# containers if they are configured to be in the running state
-def initial_start(ch, method_frame, properties, body):
-    try:
-        initial_app_name = json.dumps(json.loads(body)["app_name"])
-        print("got initial app configuration from RabbitMQ RPC direct_reply_to for app: " + initial_app_name)
-        initial_app_configuration = json.loads(body)
-        # check if app is set to running state
-        if initial_app_configuration["running"] is True:
-            # if answer is yes start it
-            restart_containers(initial_app_configuration)
-            print("finished initial start of app " + initial_app_name)
-        else:
-            print("app " + initial_app_name + " \"running\" state is false, stopping any existing containers " \
-                                              "belonging to " + initial_app_name)
-            stop_containers(initial_app_configuration)
-            print("finished initial stop of app " + initial_app_name)
-    except Exception as e:
-        print >> sys.stderr, e
-        print("failed first rabbit connection, dropping container to be on the safe side, check to make sure that " \
-              "your rabbit login details are configured correctly and that the rabbit exchange of the tasks this " \
-              "nebula worker is set to manage didn't somehow got deleted (or that the nebula app never got " \
-              "created in the first place)")
-        os._exit(2)
-    ch.close()
 
 
 if __name__ == "__main__":
@@ -372,12 +229,6 @@ if __name__ == "__main__":
     # login to the docker registry - if no registry login details are configured will just print a message stating that
     docker_socket.registry_login(registry_host=registry_host, registry_user=registry_auth_user,
                                  registry_pass=registry_auth_password)
-
-    # opens a thread for each app so they all listen to rabbit side by side for any changes
-    app_threads = {}
-    for app_name in app_name_list:
-        app_threads[app_name] = Thread(target=app_thread, args=(app_name,))
-        app_threads[app_name].start()
 
     # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
     Thread(target=restart_unhealthy_containers).start()

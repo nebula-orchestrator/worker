@@ -203,6 +203,8 @@ if __name__ == "__main__":
         print("config file not found - skipping reading it and checking if needed params are given from envvars")
         auth_file = {}
     print("reading config variables")
+    # TODO - get rid of rabbit envvars here, in pycharm envvars and in the example config file
+    # TODO - add envvars needs to login to nebula api via the sdk package
     registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)
     registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
     registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")
@@ -215,6 +217,7 @@ if __name__ == "__main__":
     rabbit_heartbeat = int(get_conf_setting("rabbit_heartbeat", auth_file, 3600))
 
     # get the app name the worker manages
+    # TODO - change from app_name list to a single device_group
     app_name_list = os.environ["APP_NAME"].split(",")
 
     # get number of cpu cores on host
@@ -230,5 +233,42 @@ if __name__ == "__main__":
     docker_socket.registry_login(registry_host=registry_host, registry_user=registry_auth_user,
                                  registry_pass=registry_auth_password)
 
+    # TODO - login to nebula api AKA create nebula sdk connection object
+
+    # TODO - create start logic:
+
+        # TODO - read info from api device_group_info endpoint
+
+        # TODO - removes all nebula managed containers from server
+
+        # TODO - start all apps
+
+        # TODO - save config to local memory
+
     # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
     Thread(target=restart_unhealthy_containers).start()
+
+    # TODO - run never ending update loop (configurable from param how often):
+
+        # TODO - read info from api device_group_info endpoint
+
+        # TODO - for each app in the config:
+
+            # TODO - check if app exists in local memory saved config:
+
+                # TODO - if yes compare app_id to local memory app_id:
+
+                    # TODO - if they're not the same replace app containers
+
+                # TODO - if no create app
+
+        # TODO - check for any app that exists in the local memory save config and not in the config pulled from nebula:
+
+            # TODO - for each one find remove all app containers
+
+        # TODO - compare local prune_id in the local memory save config and the config pulled from nebula:
+
+            # TODO - if diffrent then run image pruning on the server
+
+        # TODO - replace local memory save config with the one pulled from nebula
+

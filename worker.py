@@ -175,7 +175,7 @@ def prune_images():
 # loop forever and in any case where a container healthcheck shows a container as unhealthy restart it
 def restart_unhealthy_containers():
     try:
-        while stop_threads is False:
+        while True:
             time.sleep(10)
             nebula_containers = docker_socket.list_containers()
             for nebula_container in nebula_containers:
@@ -191,9 +191,6 @@ def restart_unhealthy_containers():
 if __name__ == "__main__":
     # static variables
     RABBIT_RPC_QUEUE = "rabbit_api_rpc_queue"
-
-    # global variable used to tell threads to stop when set to True
-    stop_threads = False
 
     # read config file and config envvars at startup, order preference is envvar>config file>default value (if exists)
     if os.path.exists("config/conf.json"):
@@ -234,11 +231,10 @@ if __name__ == "__main__":
                                host=nebula_manager_host, port=nebula_manager_port, protocol=nebula_manager_protocol,
                                request_timeout=nebula_manager_request_timeout)
 
-    # TODO - create start logic:
+    # stop all nebula managed containers on start to ensure a clean slate to work on
+    stop_containers({"app_name": ""})
 
         # TODO - read info from api device_group_info endpoint
-
-        # TODO - removes all nebula managed containers from server
 
         # TODO - start all apps
 

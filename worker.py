@@ -249,7 +249,7 @@ if __name__ == "__main__":
 
                 # TODO - if yes compare app_id to local memory app_id:
 
-                    # TODO - if they're not the same replace app containers
+                    # TODO - if the remote is bigger then replace the app containers
 
                 # TODO - if no create app
 
@@ -259,7 +259,7 @@ if __name__ == "__main__":
 
         # TODO - compare local prune_id in the local memory save config and the config pulled from nebula:
 
-            # TODO - if diffrent then run image pruning on the server
+            # TODO - if the remote is bigger then run image pruning on the server
 
         # TODO - replace local memory save config with the one pulled from nebula
 

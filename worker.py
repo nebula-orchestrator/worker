@@ -269,3 +269,5 @@ if __name__ == "__main__":
             prune_images()
 
         local_device_group_info = remote_device_group_info
+
+# TODO - add retrying to worker requests to the device_group/info endpoint

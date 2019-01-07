@@ -3,5 +3,11 @@
   "registry_auth_password": "docker_registry_auth_password",
   "registry_host": "https://index.docker.io/v1/",
   "max_restart_wait_in_seconds": 0,
+  "nebula_manager_auth_user": "your_nebula_manager_api_user",
+  "nebula_manager_auth_password": "your_nebula_manager_api_pass",
+  "nebula_manager_host": "your_nebula_manager_FQDN",
+  "nebula_manager_port": 80,
+  "nebula_manager_protocol": "http",
+  "nebula_manager_request_timeout": 60,
   "device_group": "example_device_group_name"
 }

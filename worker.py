@@ -203,7 +203,12 @@ if __name__ == "__main__":
         print("config file not found - skipping reading it and checking if needed params are given from envvars")
         auth_file = {}
     print("reading config variables")
-    # TODO - add envvars needs to login to nebula api via the sdk package
+    nebula_manager_auth_user = get_conf_setting("nebula_manager_auth_user", auth_file, None)
+    nebula_manager_auth_password = get_conf_setting("nebula_manager_auth_password", auth_file, None)
+    nebula_manager_host = get_conf_setting("nebula_manager_host", auth_file, "127.0.0.1")
+    nebula_manager_port = int(get_conf_setting("nebula_manager_port", auth_file, "80"))
+    nebula_manager_protocol = get_conf_setting("nebula_manager_protocol", auth_file, "http")
+    nebula_manager_request_timeout = int(get_conf_setting("nebula_manager_request_timeout", auth_file, "60"))
     registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)
     registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
     registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")

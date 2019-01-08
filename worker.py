@@ -246,10 +246,13 @@ if __name__ == "__main__":
     # stop all nebula managed containers on start to ensure a clean slate to work on
     stop_containers({"app_name": ""})
 
+    # get the initial device_group configuration
     local_device_group_info = get_device_group_info(nebula_connection, device_group)
 
+    # start all apps that are set to running on boot
     for nebula_app in local_device_group_info["reply"]["apps"]:
-        start_containers(nebula_app)
+        if nebula_app["running"] is True:
+            start_containers(nebula_app)
 
     # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
     Thread(target=restart_unhealthy_containers).start()

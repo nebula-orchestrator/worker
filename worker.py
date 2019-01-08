@@ -246,7 +246,7 @@ if __name__ == "__main__":
     # stop all nebula managed containers on start to ensure a clean slate to work on
     stop_containers({"app_name": ""})
 
-    # get the initial device_group configuration
+    # get the initial device_group configuration and store it in memory
     local_device_group_info = get_device_group_info(nebula_connection, device_group)
 
     # start all apps that are set to running on boot
@@ -257,11 +257,17 @@ if __name__ == "__main__":
     # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
     Thread(target=restart_unhealthy_containers).start()
 
+    # loop forever
     while True:
+
+        # wait the configurable time before checking the device_group info page again
         time.sleep(nebula_manager_check_in_time)
 
+        # get the device_group configuration
         remote_device_group_info = get_device_group_info(nebula_connection, device_group)
 
+        # logic that checks if the each app_id was increased and updates the app containers if the answer is yes
+        # the logic also starts containers of newly added apps to the device_group
         for remote_nebula_app in remote_device_group_info["reply"]["apps"]:
             if remote_nebula_app["app_name"] in local_device_group_info["reply"]["apps_list"]:
                 local_app_index = local_device_group_info["reply"]["apps_list"].index(remote_nebula_app["app_name"])
@@ -276,14 +282,17 @@ if __name__ == "__main__":
             else:
                 restart_containers(remote_nebula_app)
 
+        # logic that removes containers of apps that was removed from the device_group
         if remote_device_group_info["reply"]["device_group_id"] > local_device_group_info["reply"]["device_group_id"]:
             for local_nebula_app in local_device_group_info["reply"]["apps"]:
                 if local_nebula_app["app_name"] not in remote_device_group_info["reply"]["apps_list"]:
                     stop_containers(local_nebula_app)
 
+        # logic that runs image pruning if prune_id increased
         if remote_device_group_info["reply"]["prune_id"] > local_device_group_info["reply"]["prune_id"]:
             prune_images()
 
+        # set the in memory device_group info to be the one recently received
         local_device_group_info = remote_device_group_info
 
 # TODO - add more logging

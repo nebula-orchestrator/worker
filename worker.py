@@ -184,7 +184,6 @@ def restart_unhealthy_containers():
             for nebula_container in nebula_containers:
                 if docker_socket.check_container_healthy(nebula_container["Id"]) is False:
                     docker_socket.restart_container(nebula_container["Id"])
-        print("stopping restart_unhealthy_containers thread")
     except Exception as e:
         print >> sys.stderr, e
         print("failed checking containers health")

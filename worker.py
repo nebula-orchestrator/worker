@@ -45,7 +45,7 @@ def split_container_name_version(image_name):
 # update\release\restart function
 def restart_containers(app_json, force_pull=True):
     image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
-    # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
+    # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids roaring horde of the registry
     time.sleep(randint(0, max_restart_wait_in_seconds))
     # pull image to speed up downtime between stop & start
     if force_pull is True:
@@ -61,7 +61,7 @@ def restart_containers(app_json, force_pull=True):
 def roll_containers(app_json, force_pull=True):
     try:
         image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
-        # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
+        # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids roaring horde of the registry
         time.sleep(randint(0, max_restart_wait_in_seconds))
         # pull image to speed up downtime between stop & start
         if force_pull is True:

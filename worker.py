@@ -42,11 +42,6 @@ def split_container_name_version(image_name):
     return image_registry_name, image_name, version_name
 
 
-# used in rabbitmq queue name as it's partly random
-def random_word():
-    return str(uuid.uuid4()).replace('-', '')
-
-
 # update\release\restart function
 def restart_containers(app_json, force_pull=True):
     image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
@@ -198,8 +193,6 @@ def get_device_group_info(nebula_connection_object, device_group_to_get_info):
 
 
 if __name__ == "__main__":
-    # static variables
-    RABBIT_RPC_QUEUE = "rabbit_api_rpc_queue"
 
     # read config file and config envvars at startup, order preference is envvar>config file>default value (if exists)
     if os.path.exists("config/conf.json"):
@@ -220,7 +213,6 @@ if __name__ == "__main__":
     registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
     registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")
     max_restart_wait_in_seconds = int(get_conf_setting("max_restart_wait_in_seconds", auth_file, 0))
-    rabbit_heartbeat = int(get_conf_setting("rabbit_heartbeat", auth_file, 3600))
     device_group = get_conf_setting("device_group", auth_file)
 
     # get number of cpu cores on host
@@ -241,9 +233,22 @@ if __name__ == "__main__":
                                host=nebula_manager_host, port=nebula_manager_port, protocol=nebula_manager_protocol,
                                request_timeout=nebula_manager_request_timeout)
 
-    # todo - add check to ensure connection string is correct against the api ping page
+    # make sure the nebula manager connects properly
+    try:
+        print("checking nebula manager connection")
+        api_check = nebula_connection.check_api()
+        if api_check["status_code"] == 200 and api_check["reply"]["api_available"] is True:
+            print("nebula manager connection ok")
+        else:
+            print("nebula manager initial connection check failure, dropping container")
+    except Exception as e:
+        print >> sys.stderr, e
+        print("error confirming connection to nebula manager - please check connection & authentication params and "
+              "that the manager is online")
+        os._exit(2)
 
     # stop all nebula managed containers on start to ensure a clean slate to work on
+    print("stopping all preexisting nebula manager containers in order to ensure a clean slate on boot")
     stop_containers({"app_name": ""})
 
     # get the initial device_group configuration and store it in memory
@@ -252,12 +257,17 @@ if __name__ == "__main__":
     # start all apps that are set to running on boot
     for nebula_app in local_device_group_info["reply"]["apps"]:
         if nebula_app["running"] is True:
+            print("initial start of " + nebula_app["app_name"] + " app")
             start_containers(nebula_app)
+            print("completed initial start of " + nebula_app["app_name"] + " app")
 
     # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
+    print("starting work container health checking thread")
     Thread(target=restart_unhealthy_containers).start()
 
     # loop forever
+    print("starting device_group " + device_group + " /info check loop, configured to check for changes every "
+          + str(nebula_manager_check_in_time) + " seconds")
     while True:
 
         # wait the configurable time before checking the device_group info page again
@@ -273,26 +283,33 @@ if __name__ == "__main__":
                 local_app_index = local_device_group_info["reply"]["apps_list"].index(remote_nebula_app["app_name"])
                 if remote_nebula_app["app_id"] > local_device_group_info["reply"]["apps"][local_app_index]["app_id"]:
                     if remote_nebula_app["running"] is False:
+                        print("stopping app " + remote_nebula_app["app_name"] +
+                              " do to changes in the app configuration")
                         stop_containers(remote_nebula_app)
                     elif remote_nebula_app["rolling_restart"] is True and \
                             local_device_group_info["reply"]["apps"][local_app_index]["running"] is True:
+                        print("stopping app " + remote_nebula_app["app_name"] +
+                              "do to changes in the app configuration")
                         roll_containers(remote_nebula_app)
                     else:
+                        print("restarting app " + remote_nebula_app["app_name"] +
+                              "do to changes in the app configuration")
                         restart_containers(remote_nebula_app)
             else:
+                print("restarting app " + remote_nebula_app["app_name"] + "do to changes in the app configuration")
                 restart_containers(remote_nebula_app)
 
         # logic that removes containers of apps that was removed from the device_group
         if remote_device_group_info["reply"]["device_group_id"] > local_device_group_info["reply"]["device_group_id"]:
             for local_nebula_app in local_device_group_info["reply"]["apps"]:
                 if local_nebula_app["app_name"] not in remote_device_group_info["reply"]["apps_list"]:
+                    print("removing app " + local_nebula_app["app_name"] + "do to changes in the app configuration")
                     stop_containers(local_nebula_app)
 
         # logic that runs image pruning if prune_id increased
         if remote_device_group_info["reply"]["prune_id"] > local_device_group_info["reply"]["prune_id"]:
+            print("pruning images do to changes in the app configuration")
             prune_images()
 
         # set the in memory device_group info to be the one recently received
         local_device_group_info = remote_device_group_info
-
-# TODO - add more logging

@@ -63,38 +63,41 @@ def restart_containers(app_json, force_pull=True):
 
 # roll app function
 def roll_containers(app_json, force_pull=True):
-    image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
-    # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
-    time.sleep(randint(0, max_restart_wait_in_seconds))
-    # pull image to speed up downtime between stop & start
-    if force_pull is True:
-        docker_socket.pull_image(image_name, version_tag=version_name)
-    # list current containers
-    containers_list = docker_socket.list_containers(app_json["app_name"])
-    # roll each container in turn - not threaded as the order is important when rolling
-    containers_needed = containers_required(app_json)
-    for idx, container in enumerate(sorted(containers_list, key=lambda k: k['Names'][0])):
-        docker_socket.stop_and_remove_container(container["Id"])
-        if idx < containers_needed:
-            port_binds = dict()
-            port_list = []
-            for x in app_json["starting_ports"]:
-                if isinstance(x, int):
-                    port_binds[x] = x + idx
-                    port_list.append(x)
-                elif isinstance(x, dict):
-                    for host_port, container_port in x.iteritems():
-                        port_binds[int(container_port)] = int(host_port) + idx
-                        port_list.append(container_port)
-                else:
-                    print("starting ports can only a list containing intgers or dicts - dropping worker")
-                    os._exit(2)
-            docker_socket.run_container(app_json["app_name"], app_json["app_name"] + "-" + str(idx + 1), image_name,
-                                        port_binds, port_list, app_json["env_vars"], version_name,
-                                        app_json["volumes"], app_json["devices"], app_json["privileged"],
-                                        app_json["networks"])
-            # wait 5 seconds between container rolls to give each container time to start fully
-            time.sleep(5)
+    try:
+        image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
+        # wait between zero to max_restart_wait_in_seconds seconds before rolling - avoids overloading backend
+        time.sleep(randint(0, max_restart_wait_in_seconds))
+        # pull image to speed up downtime between stop & start
+        if force_pull is True:
+            docker_socket.pull_image(image_name, version_tag=version_name)
+        # list current containers
+        containers_list = docker_socket.list_containers(app_json["app_name"])
+        # roll each container in turn - not threaded as the order is important when rolling
+        containers_needed = containers_required(app_json)
+        for idx, container in enumerate(sorted(containers_list, key=lambda k: k['Names'][0])):
+            docker_socket.stop_and_remove_container(container["Id"])
+            if idx < containers_needed:
+                port_binds = dict()
+                port_list = []
+                for x in app_json["starting_ports"]:
+                    if isinstance(x, int):
+                        port_binds[x] = x + idx
+                        port_list.append(x)
+                    elif isinstance(x, dict):
+                        for host_port, container_port in x.iteritems():
+                            port_binds[int(container_port)] = int(host_port) + idx
+                            port_list.append(container_port)
+                    else:
+                        print("starting ports can only a list containing intgers or dicts - dropping worker")
+                        os._exit(2)
+                docker_socket.run_container(app_json["app_name"], app_json["app_name"] + "-" + str(idx + 1), image_name,
+                                            port_binds, port_list, app_json["env_vars"], version_name,
+                                            app_json["volumes"], app_json["devices"], app_json["privileged"],
+                                            app_json["networks"])
+                # wait 5 seconds between container rolls to give each container time to start fully
+                time.sleep(5)
+    except Exception as e:
+        print e
     return
 
 
@@ -250,15 +253,19 @@ if __name__ == "__main__":
 
         remote_device_group_info = nebula_connection.list_device_group_info(device_group)
 
-        # TODO - for each app in the remote_device_group_info:
-
-            # TODO - check if app exists in local_device_group_info:
-
-                # TODO - if yes compare remote_device_group_info app_id to local_device_group_info app_id:
-
-                    # TODO - if the remote is bigger then replace the app containers
-
-                # TODO - if no create app
+        for remote_nebula_app in remote_device_group_info["reply"]["apps"]:
+            if remote_nebula_app["app_name"] in local_device_group_info["reply"]["apps_list"]:
+                local_app_index = local_device_group_info["reply"]["apps_list"].index(remote_nebula_app["app_name"])
+                if remote_nebula_app["app_id"] > local_device_group_info["reply"]["apps"][local_app_index]["app_id"]:
+                    if remote_nebula_app["running"] is False:
+                        stop_containers(remote_nebula_app)
+                    elif remote_nebula_app["rolling_restart"] is True and \
+                            local_device_group_info["reply"]["apps"][local_app_index]["running"] is True:
+                        roll_containers(remote_nebula_app)
+                    else:
+                        restart_containers(remote_nebula_app)
+            else:
+                restart_containers(remote_nebula_app)
 
         # TODO - check if device_group_id in the remote_device_group_info is bigger then the in local_device_group_info:
 

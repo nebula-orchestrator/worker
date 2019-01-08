@@ -283,22 +283,22 @@ if __name__ == "__main__":
                         stop_containers(remote_nebula_app)
                     elif remote_nebula_app["rolling_restart"] is True and \
                             local_device_group_info["reply"]["apps"][local_app_index]["running"] is True:
-                        print("stopping app " + remote_nebula_app["app_name"] +
-                              "do to changes in the app configuration")
+                        print("rolling app " + remote_nebula_app["app_name"] +
+                              " do to changes in the app configuration")
                         roll_containers(remote_nebula_app)
                     else:
                         print("restarting app " + remote_nebula_app["app_name"] +
-                              "do to changes in the app configuration")
+                              " do to changes in the app configuration")
                         restart_containers(remote_nebula_app)
             else:
-                print("restarting app " + remote_nebula_app["app_name"] + "do to changes in the app configuration")
+                print("restarting app " + remote_nebula_app["app_name"] + " do to changes in the app configuration")
                 restart_containers(remote_nebula_app)
 
         # logic that removes containers of apps that was removed from the device_group
         if remote_device_group_info["reply"]["device_group_id"] > local_device_group_info["reply"]["device_group_id"]:
             for local_nebula_app in local_device_group_info["reply"]["apps"]:
                 if local_nebula_app["app_name"] not in remote_device_group_info["reply"]["apps_list"]:
-                    print("removing app " + local_nebula_app["app_name"] + "do to changes in the app configuration")
+                    print("removing app " + local_nebula_app["app_name"] + " do to changes in the app configuration")
                     stop_containers(local_nebula_app)
 
         # logic that runs image pruning if prune_id increased

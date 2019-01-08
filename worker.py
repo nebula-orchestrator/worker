@@ -232,6 +232,8 @@ if __name__ == "__main__":
                                host=nebula_manager_host, port=nebula_manager_port, protocol=nebula_manager_protocol,
                                request_timeout=nebula_manager_request_timeout)
 
+    # todo - add check to ensure connection string is correct against the api ping page
+
     # stop all nebula managed containers on start to ensure a clean slate to work on
     stop_containers({"app_name": ""})
 
@@ -271,3 +273,4 @@ if __name__ == "__main__":
         local_device_group_info = remote_device_group_info
 
 # TODO - add retrying to worker requests to the device_group/info endpoint
+# TODO - add more logging

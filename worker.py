@@ -267,12 +267,10 @@ if __name__ == "__main__":
             else:
                 restart_containers(remote_nebula_app)
 
-        # TODO - check if device_group_id in the remote_device_group_info is bigger then the in local_device_group_info:
-
-            # TODO - if yes then check for any app that exists in the local_device_group_info and not in the
-            #  remote_device_group_info
-
-                # TODO - for each one found remove all app containers
+        if remote_device_group_info["reply"]["device_group_id"] > local_device_group_info["reply"]["device_group_id"]:
+            for local_nebula_app in local_device_group_info["reply"]["apps"]:
+                if local_nebula_app["app_name"] not in remote_device_group_info["reply"]["apps_list"]:
+                    stop_containers(local_nebula_app)
 
         if remote_device_group_info["reply"]["prune_id"] > local_device_group_info["reply"]["prune_id"]:
             prune_images()

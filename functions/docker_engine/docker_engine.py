@@ -76,7 +76,7 @@ class DockerFunctions:
                 print("problem logging into registry")
                 os._exit(2)
         else:
-            print("no registry user\pass defined, skipping registry login")
+            print("no registry user pass combo defined, skipping registry login")
 
     # pull image with optional version tag and registry auth
     def pull_image(self, image_name, version_tag="latest"):
@@ -99,7 +99,6 @@ class DockerFunctions:
             print >> sys.stderr, e
             print("problem pruning unused image")
             os._exit(2)
-
 
     # create container
     def create_container(self, app_name, container_name, image_name, host_configuration, container_ports=[],

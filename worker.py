@@ -86,9 +86,8 @@ def roll_containers(app_json, force_pull=True):
                     print("starting ports can only a list containing intgers or dicts - dropping worker")
                     os._exit(2)
             docker_socket.run_container(app_json["app_name"], app_json["app_name"] + "-" + str(idx + 1), image_name,
-                                        port_binds, port_list, app_json["env_vars"], version_name,
-                                        app_json["volumes"], app_json["devices"], app_json["privileged"],
-                                        app_json["networks"])
+                                        port_binds, port_list, app_json["env_vars"], version_name, app_json["volumes"],
+                                        app_json["devices"], app_json["privileged"], app_json["networks"])
             # wait 5 seconds between container rolls to give each container time to start fully
             time.sleep(5)
 

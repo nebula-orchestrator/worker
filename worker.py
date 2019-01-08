@@ -4,6 +4,7 @@ from functions.docker_engine.docker_engine import *
 from functions.misc.server import *
 from threading import Thread
 from random import randint
+from retrying import retry
 
 
 # get setting from envvar with failover from config/conf.json file if envvar not set
@@ -190,6 +191,12 @@ def restart_unhealthy_containers():
         os._exit(2)
 
 
+# retry getting the device_group info
+@retry(wait_exponential_multiplier=200, wait_exponential_max=1000, stop_max_attempt_number=10)
+def get_device_group_info(nebula_connection_object, device_group_to_get_info):
+    return nebula_connection_object.list_device_group_info(device_group_to_get_info)
+
+
 if __name__ == "__main__":
     # static variables
     RABBIT_RPC_QUEUE = "rabbit_api_rpc_queue"
@@ -239,7 +246,7 @@ if __name__ == "__main__":
     # stop all nebula managed containers on start to ensure a clean slate to work on
     stop_containers({"app_name": ""})
 
-    local_device_group_info = nebula_connection.list_device_group_info(device_group)
+    local_device_group_info = get_device_group_info(nebula_connection, device_group)
 
     for nebula_app in local_device_group_info["reply"]["apps"]:
         start_containers(nebula_app)
@@ -250,7 +257,7 @@ if __name__ == "__main__":
     while True:
         time.sleep(nebula_manager_check_in_time)
 
-        remote_device_group_info = nebula_connection.list_device_group_info(device_group)
+        remote_device_group_info = get_device_group_info(nebula_connection, device_group)
 
         for remote_nebula_app in remote_device_group_info["reply"]["apps"]:
             if remote_nebula_app["app_name"] in local_device_group_info["reply"]["apps_list"]:
@@ -276,5 +283,4 @@ if __name__ == "__main__":
 
         local_device_group_info = remote_device_group_info
 
-# TODO - add retrying to worker requests to the device_group/info endpoint
 # TODO - add more logging

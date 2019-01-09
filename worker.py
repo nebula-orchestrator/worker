@@ -268,6 +268,8 @@ if __name__ == "__main__":
         # wait the configurable time before checking the device_group info page again
         time.sleep(nebula_manager_check_in_time)
 
+        monotonic_id_increase = False
+
         # get the device_group configuration
         remote_device_group_info = get_device_group_info(nebula_connection, device_group)
 
@@ -277,6 +279,7 @@ if __name__ == "__main__":
             if remote_nebula_app["app_name"] in local_device_group_info["reply"]["apps_list"]:
                 local_app_index = local_device_group_info["reply"]["apps_list"].index(remote_nebula_app["app_name"])
                 if remote_nebula_app["app_id"] > local_device_group_info["reply"]["apps"][local_app_index]["app_id"]:
+                    monotonic_id_increase = True
                     if remote_nebula_app["running"] is False:
                         print("stopping app " + remote_nebula_app["app_name"] +
                               " do to changes in the app configuration")
@@ -292,10 +295,12 @@ if __name__ == "__main__":
                         restart_containers(remote_nebula_app)
             else:
                 print("restarting app " + remote_nebula_app["app_name"] + " do to changes in the app configuration")
+                monotonic_id_increase = True
                 restart_containers(remote_nebula_app)
 
         # logic that removes containers of apps that was removed from the device_group
         if remote_device_group_info["reply"]["device_group_id"] > local_device_group_info["reply"]["device_group_id"]:
+            monotonic_id_increase = True
             for local_nebula_app in local_device_group_info["reply"]["apps"]:
                 if local_nebula_app["app_name"] not in remote_device_group_info["reply"]["apps_list"]:
                     print("removing app " + local_nebula_app["app_name"] + " do to changes in the app configuration")
@@ -304,7 +309,9 @@ if __name__ == "__main__":
         # logic that runs image pruning if prune_id increased
         if remote_device_group_info["reply"]["prune_id"] > local_device_group_info["reply"]["prune_id"]:
             print("pruning images do to changes in the app configuration")
+            monotonic_id_increase = True
             prune_images()
 
-        # set the in memory device_group info to be the one recently received
-        local_device_group_info = remote_device_group_info
+        # set the in memory device_group info to be the one recently received if anything increased
+        if monotonic_id_increase is True:
+            local_device_group_info = remote_device_group_info

@@ -312,6 +312,6 @@ if __name__ == "__main__":
             monotonic_id_increase = True
             prune_images()
 
-        # set the in memory device_group info to be the one recently received if anything increased
+        # set the in memory device_group info to be the one recently received if any id increased
         if monotonic_id_increase is True:
             local_device_group_info = remote_device_group_info

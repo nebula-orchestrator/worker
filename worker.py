@@ -249,6 +249,12 @@ if __name__ == "__main__":
     # get the initial device_group configuration and store it in memory
     local_device_group_info = get_device_group_info(nebula_connection, device_group)
 
+    # make sure the device_group exists in the nebula cluster
+    while local_device_group_info["status_code"] == 403 and \
+            local_device_group_info["reply"]["device_group_exists"] is False:
+        print("device_group " + device_group + " doesn't exist in nebula cluster, waiting for it to be created")
+        time.sleep(5)
+
     # start all apps that are set to running on boot
     for nebula_app in local_device_group_info["reply"]["apps"]:
         if nebula_app["running"] is True:

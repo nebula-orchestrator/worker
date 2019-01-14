@@ -19,7 +19,7 @@ Nebula is designed with the following philosophy in mind, any feature\pull reque
 * Reliability is more important then shiny new features.
 * No vendor\cloud lock-in, if it's only available in one cloud it will not be used.
 * No latency sensitivity, assume workers to have a below average internet access and are in the other side of the world.
-* Fully stateless, all data is to be saved in the backend DB & all communication between components is to be passed through the massage queue.
+* Fully stateless, all data is to be saved in the backend DB.
 
 ### Documentation
 

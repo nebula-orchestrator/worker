@@ -76,7 +76,7 @@ class DockerFunctions:
                 print("problem logging into registry")
                 os._exit(2)
         else:
-            print("no registry user\pass defined, skipping registry login")
+            print("no registry user pass combo defined, skipping registry login")
 
     # pull image with optional version tag and registry auth
     def pull_image(self, image_name, version_tag="latest"):
@@ -99,7 +99,6 @@ class DockerFunctions:
             print >> sys.stderr, e
             print("problem pruning unused image")
             os._exit(2)
-
 
     # create container
     def create_container(self, app_name, container_name, image_name, host_configuration, container_ports=[],
@@ -175,10 +174,11 @@ class DockerFunctions:
             os._exit(2)
 
     # create host_config
-    def create_container_host_config(self, port_binds, volumes, devices, privileged):
+    def create_container_host_config(self, port_binds, volumes, devices, privileged, network_mode):
         try:
             return self.cli.create_host_config(port_bindings=port_binds, restart_policy={'Name': 'unless-stopped'},
-                                               binds=volumes, devices=devices, privileged=privileged)
+                                               binds=volumes, devices=devices, privileged=privileged,
+                                               network_mode=network_mode)
         except Exception as e:
             print >> sys.stderr, e
             print("problem creating host config")
@@ -223,15 +223,20 @@ class DockerFunctions:
 
     # pull image, create hostconfig, create and start the container and bind to networks all in one simple function
     def run_container(self, app_name, container_name, image_name, bind_port, ports, env_vars, version_tag="latest",
-                      volumes=[], devices=[], privileged=False,
-                      networks=[]):
+                      volumes=[], devices=[], privileged=False, networks=[]):
         volume_mounts = []
         for volume in volumes:
             splitted_volume = volume.split(":")
             volume_mounts.append(splitted_volume[1])
+        if networks[0] == "host":
+            network_mode = "host"
+        elif networks[0] == "none":
+            network_mode = "none"
+        else:
+            network_mode = "bridge"
         self.create_container(app_name, container_name, image_name + ":" + version_tag,
-                              self.create_container_host_config(bind_port, volumes, devices, privileged), ports,
-                              env_vars, volume_mounts, default_network=self.default_net(networks))
+                              self.create_container_host_config(bind_port, volumes, devices, privileged, network_mode),
+                              ports, env_vars, volume_mounts, default_network=self.default_net(networks))
         self.start_container(container_name)
         for network in networks:
             # special networks which are created from the container creation as they have to be first

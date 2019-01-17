@@ -326,6 +326,7 @@ if __name__ == "__main__":
             # set the in memory device_group info to be the one recently received if any id increased
             if monotonic_id_increase is True:
                 local_device_group_info = remote_device_group_info
+
     except Exception as e:
         print >> sys.stderr, e
         print("failed main loop - exiting")

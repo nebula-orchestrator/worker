@@ -1,0 +1,8 @@
+language: python
+python:
+  - "2.7"
+install:
+  - pip install -r requirements.txt
+script:
+  - sudo sh test/travis_ci_scripts/travis_ci_build_script.sh
+  - python -m unittest discover

@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+   mongo:
+     container_name: mongo
+     hostname: mongo
+     image: mongo:4.0.1
+     ports:
+       - "27017:27017"
+     restart: unless-stopped
+     environment:
+       MONGO_INITDB_ROOT_USERNAME: nebula
+       MONGO_INITDB_ROOT_PASSWORD: nebula
+
+   manager:
+     container_name: manager
+     hostname: manager
+     depends_on:
+       - mongo
+     image: nebulaorchestrator/manager
+     ports:
+       - "80:80"
+     restart: unless-stopped
+     environment:
+       MONGO_URL: mongodb://nebula:nebula@mongo:27017/nebula?authSource=admin
+       SCHEMA_NAME: nebula
+       BASIC_AUTH_PASSWORD: nebula
+       BASIC_AUTH_USER: nebula

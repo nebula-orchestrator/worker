@@ -283,7 +283,7 @@ if __name__ == "__main__":
             # get the device_group configuration
             remote_device_group_info = get_device_group_info(nebula_connection, device_group)
 
-            # logic that checks if the each app_id was increased and updates the app containers if the answer is yes
+            # logic that checks if each of the app_id was increased and updates the app containers if the answer is yes
             # the logic also starts containers of newly added apps to the device_group
             for remote_nebula_app in remote_device_group_info["reply"]["apps"]:
                 if remote_nebula_app["app_name"] in local_device_group_info["reply"]["apps_list"]:

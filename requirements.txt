@@ -8,6 +8,7 @@ freeze==1.0.10
 idna==2.7
 ipaddress==1.0.22
 NebulaPythonSDK==2.0.0
+psutil==5.5.0
 requests==2.20.0
 retrying==1.3.3
 six==1.11.0

@@ -156,6 +156,8 @@ def containers_required(app_json):
     for scale_type, scale_amount in app_json["containers_per"].iteritems():
         if scale_type == "cpu":
             containers_needed = int(cpu_cores * scale_amount)
+        elif scale_type == "memory" or scale_type == "mem":
+            containers_needed = int(total_memory_size_in_mb / scale_amount)
         elif scale_type == "server" or scale_type == "instance":
             containers_needed = int(scale_amount)
     return containers_needed
@@ -213,6 +215,9 @@ if __name__ == "__main__":
 
         # get number of cpu cores on host
         cpu_cores = get_number_of_cpu_cores()
+
+        # get total memory on the host in mb
+        total_memory_size_in_mb = get_total_memory_size_in_mb()
 
         # work against docker socket
         docker_socket = DockerFunctions()

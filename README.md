@@ -1,4 +1,4 @@
-# Nebula docs
+# Nebula worker
 
 Travis CI unit tests: [![Build Status](https://travis-ci.org/nebula-orchestrator/worker.svg?branch=master)](https://travis-ci.org/nebula-orchestrator/worker)
 

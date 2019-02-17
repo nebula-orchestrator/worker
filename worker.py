@@ -14,13 +14,13 @@ def get_conf_setting(setting, settings_json, default_value="skip"):
     try:
         setting_value = os.getenv(setting.upper(), settings_json.get(setting, default_value))
     except Exception as e:
-        print >> sys.stderr, e
-        print >> sys.stderr, "missing " + setting + " config setting"
-        print("missing " + setting + " config setting")
+        print(e, file=sys.stderr)
+        print("missing " + setting + " config setting", file=sys.stderr)
+        print(("missing " + setting + " config setting"))
         os._exit(2)
     if setting_value == "skip":
-        print >> sys.stderr, "missing " + setting + " config setting"
-        print("missing " + setting + " config setting")
+        print("missing " + setting + " config setting", file=sys.stderr)
+        print(("missing " + setting + " config setting"))
         os._exit(2)
     return setting_value
 
@@ -79,7 +79,7 @@ def roll_containers(app_json, force_pull=True):
                     port_binds[x] = x + idx
                     port_list.append(x)
                 elif isinstance(x, dict):
-                    for host_port, container_port in x.iteritems():
+                    for host_port, container_port in x.items():
                         port_binds[int(container_port)] = int(host_port) + idx
                         port_list.append(container_port)
                 else:
@@ -132,7 +132,7 @@ def start_containers(app_json, force_pull=True):
                     port_binds[x] = x + container_number - 1
                     port_list.append(x)
                 elif isinstance(x, dict):
-                    for host_port, container_port in x.iteritems():
+                    for host_port, container_port in x.items():
                         port_binds[int(container_port)] = int(host_port) + container_number - 1
                         port_list.append(container_port)
                 else:
@@ -153,7 +153,7 @@ def start_containers(app_json, force_pull=True):
 
 # figure out how many containers are needed
 def containers_required(app_json):
-    for scale_type, scale_amount in app_json["containers_per"].iteritems():
+    for scale_type, scale_amount in app_json["containers_per"].items():
         if scale_type == "cpu":
             containers_needed = int(cpu_cores * scale_amount)
         elif scale_type == "memory" or scale_type == "mem":
@@ -178,7 +178,7 @@ def restart_unhealthy_containers():
                 if docker_socket.check_container_healthy(nebula_container["Id"]) is False:
                     docker_socket.restart_container(nebula_container["Id"])
     except Exception as e:
-        print >> sys.stderr, e
+        print(e, file=sys.stderr)
         print("failed checking containers health")
         os._exit(2)
 
@@ -245,7 +245,7 @@ if __name__ == "__main__":
                 print("nebula manager initial connection check failure, dropping container")
                 os._exit(2)
         except Exception as e:
-            print >> sys.stderr, e
+            print(e, file=sys.stderr)
             print("error confirming connection to nebula manager - please check connection & authentication params and "
                   "that the manager is online")
             os._exit(2)
@@ -260,24 +260,24 @@ if __name__ == "__main__":
         # make sure the device_group exists in the nebula cluster
         while local_device_group_info["status_code"] == 403 and \
                 local_device_group_info["reply"]["device_group_exists"] is False:
-            print("device_group " + device_group + " doesn't exist in nebula cluster, waiting for it to be created")
+            print(("device_group " + device_group + " doesn't exist in nebula cluster, waiting for it to be created"))
             local_device_group_info = get_device_group_info(nebula_connection, device_group)
             time.sleep(nebula_manager_check_in_time)
 
         # start all apps that are set to running on boot
         for nebula_app in local_device_group_info["reply"]["apps"]:
             if nebula_app["running"] is True:
-                print("initial start of " + nebula_app["app_name"] + " app")
+                print(("initial start of " + nebula_app["app_name"] + " app"))
                 start_containers(nebula_app)
-                print("completed initial start of " + nebula_app["app_name"] + " app")
+                print(("completed initial start of " + nebula_app["app_name"] + " app"))
 
         # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
         print("starting work container health checking thread")
         Thread(target=restart_unhealthy_containers).start()
 
         # loop forever
-        print("starting device_group " + device_group + " /info check loop, configured to check for changes every "
-              + str(nebula_manager_check_in_time) + " seconds")
+        print(("starting device_group " + device_group + " /info check loop, configured to check for changes every "
+              + str(nebula_manager_check_in_time) + " seconds"))
         while True:
 
             # wait the configurable time before checking the device_group info page again
@@ -296,20 +296,20 @@ if __name__ == "__main__":
                     if remote_nebula_app["app_id"] > local_device_group_info["reply"]["apps"][local_app_index]["app_id"]:
                         monotonic_id_increase = True
                         if remote_nebula_app["running"] is False:
-                            print("stopping app " + remote_nebula_app["app_name"] +
-                                  " do to changes in the app configuration")
+                            print(("stopping app " + remote_nebula_app["app_name"] +
+                                  " do to changes in the app configuration"))
                             stop_containers(remote_nebula_app)
                         elif remote_nebula_app["rolling_restart"] is True and \
                                 local_device_group_info["reply"]["apps"][local_app_index]["running"] is True:
-                            print("rolling app " + remote_nebula_app["app_name"] +
-                                  " do to changes in the app configuration")
+                            print(("rolling app " + remote_nebula_app["app_name"] +
+                                  " do to changes in the app configuration"))
                             roll_containers(remote_nebula_app)
                         else:
-                            print("restarting app " + remote_nebula_app["app_name"] +
-                                  " do to changes in the app configuration")
+                            print(("restarting app " + remote_nebula_app["app_name"] +
+                                  " do to changes in the app configuration"))
                             restart_containers(remote_nebula_app)
                 else:
-                    print("restarting app " + remote_nebula_app["app_name"] + " do to changes in the app configuration")
+                    print(("restarting app " + remote_nebula_app["app_name"] + " do to changes in the app configuration"))
                     monotonic_id_increase = True
                     restart_containers(remote_nebula_app)
 
@@ -318,8 +318,8 @@ if __name__ == "__main__":
                 monotonic_id_increase = True
                 for local_nebula_app in local_device_group_info["reply"]["apps"]:
                     if local_nebula_app["app_name"] not in remote_device_group_info["reply"]["apps_list"]:
-                        print("removing app " + local_nebula_app["app_name"] +
-                              " do to changes in the app configuration")
+                        print(("removing app " + local_nebula_app["app_name"] +
+                              " do to changes in the app configuration"))
                         stop_containers(local_nebula_app)
 
             # logic that runs image pruning if prune_id increased
@@ -333,6 +333,6 @@ if __name__ == "__main__":
                 local_device_group_info = remote_device_group_info
 
     except Exception as e:
-        print >> sys.stderr, e
+        print(e, file=sys.stderr)
         print("failed main loop - exiting")
         os._exit(2)

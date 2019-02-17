@@ -7,7 +7,7 @@ def get_number_of_cpu_cores():
         cpu_number = multiprocessing.cpu_count()
         return cpu_number
     except Exception as e:
-        print >> sys.stderr, e
+        print(e, file=sys.stderr)
         print("error getting the number of cpu core")
         os._exit(2)
 
@@ -19,6 +19,6 @@ def get_total_memory_size_in_mb():
         total_memory_in_mb = int(memory_in_bytes.total / 1024 / 1024)
         return total_memory_in_mb
     except Exception as e:
-        print >> sys.stderr, e
+        print(e, file=sys.stderr)
         print("error getting the number of cpu core")
         os._exit(2)

@@ -70,4 +70,9 @@ def get_memory_usage():
 
 # return host fqdn
 def get_fqdn():
-    return socket.getfqdn()
+    try:
+        return socket.getfqdn()
+    except Exception as e:
+        print(e, file=sys.stderr)
+        print("error getting host fqdn")
+        os._exit(2)

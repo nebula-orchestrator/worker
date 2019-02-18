@@ -14,7 +14,10 @@ class ReportingDocument:
         report = {
             "memory_usage": get_memory_usage(),
             "root_disk_usage": get_root_disk_usage(),
-            "cpu_usage": {"cores": self.server_number_of_cores, "used_percent": get_cpu_use_percentage()},
+            "cpu_usage": {
+                "cores": self.server_number_of_cores,
+                "used_percent": get_cpu_use_percentage()
+            },
             "apps_containers": self.docker_connection.list_containers_stats(),
             "current_device_group_config": device_group_config,
             "device_group": self.device_group,

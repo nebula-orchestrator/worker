@@ -71,4 +71,3 @@ def get_memory_usage():
 # return host fqdn
 def get_fqdn():
     return socket.getfqdn()
-

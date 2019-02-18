@@ -2,7 +2,8 @@ from functions.docker_engine.docker_engine import *
 from functions.misc.server import *
 import time
 
-class Reporting_document:
+
+class ReportingDocument:
 
     def __init__(self, docker_connection_object, device_group):
         self.docker_connection = docker_connection_object

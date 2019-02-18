@@ -37,6 +37,19 @@ class DockerFunctions:
                 print("failed getting list of containers where label is app_name=" + app_name)
                 os._exit(2)
 
+    # list containers stats on said image, if no app_name provided gets all of nebula managed apps
+    def list_containers_stats(self, app_name=""):
+        try:
+            containers_list = self.list_containers(app_name)
+            containers_stats = []
+            for container in containers_list:
+                containers_stats.append(self.cli.stats(container['Id'], stream=False))
+            return containers_stats
+        except Exception as e:
+            print(e, file=sys.stderr)
+            print("failed getting stats of containers where label is app_name=" + app_name)
+            os._exit(2)
+
     # check if a container is healthy by examining the result of the dockerfile healthcheck, if no healthcheck is
     # configured assumes the container to always be healthy.
     def check_container_healthy(self, container_id):

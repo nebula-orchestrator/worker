@@ -200,7 +200,9 @@ if __name__ == "__main__":
         else:
             print("config file not found - skipping reading it and checking if needed params are given from envvars")
             auth_file = {}
+
         print("reading config variables")
+        # the following config variables are for configuring Nebula workers
         nebula_manager_auth_user = get_conf_setting("nebula_manager_auth_user", auth_file, None)
         nebula_manager_auth_password = get_conf_setting("nebula_manager_auth_password", auth_file, None)
         nebula_manager_host = get_conf_setting("nebula_manager_host", auth_file)
@@ -213,6 +215,32 @@ if __name__ == "__main__":
         registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")
         max_restart_wait_in_seconds = int(get_conf_setting("max_restart_wait_in_seconds", auth_file, 0))
         device_group = get_conf_setting("device_group", auth_file)
+
+        # the following config variables are for configuring Nebula workers optional reporting, being optional non of it
+        # is mandatory
+        kafka_bootstrap_servers = get_conf_setting("kafka_bootstrap_servers", auth_file, None)
+        kafka_security_protocol = get_conf_setting("kafka_security_protocol", auth_file, "plaintext")
+        kafka_sasl_mechanism = get_conf_setting("kafka_sasl_mechanism", auth_file, "GSSAPI")
+        kafka_sasl_username = get_conf_setting("kafka_sasl_username", auth_file, None)
+        kafka_sasl_password = get_conf_setting("kafka_sasl_password", auth_file, None)
+        kafka_ssl_cipher_suites = get_conf_setting("kafka_ssl_cipher_suites", auth_file, None)
+        kafka_ssl_curves_list = get_conf_setting("kafka_ssl_curves_list", auth_file, None)
+        kafka_ssl_sigalgs_list = get_conf_setting("kafka_ssl_sigalgs_list", auth_file, None)
+        kafka_ssl_key_location = get_conf_setting("kafka_ssl_key_location", auth_file, None)
+        kafka_ssl_key_password = get_conf_setting("kafka_ssl_key_password", auth_file, None)
+        kafka_ssl_certificate_location = get_conf_setting("kafka_ssl_certificate_location", auth_file, None)
+        kafka_ssl_ca_location = get_conf_setting("kafka_ssl_ca_location", auth_file, None)
+        kafka_ssl_crl_location = get_conf_setting("kafka_ssl_crl_location", auth_file, None)
+        kafka_ssl_keystore_location = get_conf_setting("kafka_ssl_keystore_location", auth_file, None)
+        kafka_ssl_keystore_password = get_conf_setting("kafka_ssl_keystore_password", auth_file, None)
+        kafka_retries = int(get_conf_setting("kafka_retries", auth_file, "2"))
+        kafka_sasl_kerberos_service_name = get_conf_setting("kafka_sasl_kerberos_service_name", auth_file, "kafka")
+        kafka_sasl_kerberos_principal = get_conf_setting("kafka_sasl_kerberos_principal", auth_file, "kafkaclient")
+        kafka_queue_buffering_max_ms = int(get_conf_setting("kafka_queue_buffering_max_ms", auth_file, "0"))
+        kafka_queue_buffering_max_messages = int(get_conf_setting("kafka_queue_buffering_max_messages", auth_file,
+                                                                  "100000"))
+        kafka_queue_buffering_max_kbytes = int(get_conf_setting("kafka_queue_buffering_max_kbytes", auth_file,
+                                                                "1048576"))
 
         # get number of cpu cores on host
         cpu_cores = get_number_of_cpu_cores()
@@ -252,7 +280,7 @@ if __name__ == "__main__":
             os._exit(2)
 
         # stop all nebula managed containers on start to ensure a clean slate to work on
-        print("stopping all preexisting nebula manager containers in order to ensure a clean slate on boot")
+        print("stopping all preexisting nebula managed app containers in order to ensure a clean slate on boot")
         stop_containers({"app_name": ""})
 
         # get the initial device_group configuration and store it in memory

@@ -202,7 +202,7 @@ if __name__ == "__main__":
         print("reading config variables")
         nebula_manager_auth_user = get_conf_setting("nebula_manager_auth_user", auth_file, None)
         nebula_manager_auth_password = get_conf_setting("nebula_manager_auth_password", auth_file, None)
-        nebula_manager_host = get_conf_setting("nebula_manager_host", auth_file, "127.0.0.1")
+        nebula_manager_host = get_conf_setting("nebula_manager_host", auth_file)
         nebula_manager_port = int(get_conf_setting("nebula_manager_port", auth_file, "80"))
         nebula_manager_protocol = get_conf_setting("nebula_manager_protocol", auth_file, "http")
         nebula_manager_request_timeout = int(get_conf_setting("nebula_manager_request_timeout", auth_file, "60"))

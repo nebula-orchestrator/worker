@@ -218,29 +218,22 @@ if __name__ == "__main__":
 
         # the following config variables are for configuring Nebula workers optional reporting, being optional non of it
         # is mandatory
+        reporting_fail_hard = get_conf_setting("kafka_bootstrap_servers", auth_file, True)
         kafka_bootstrap_servers = get_conf_setting("kafka_bootstrap_servers", auth_file, None)
-        kafka_security_protocol = get_conf_setting("kafka_security_protocol", auth_file, "plaintext")
-        kafka_sasl_mechanism = get_conf_setting("kafka_sasl_mechanism", auth_file, "GSSAPI")
-        kafka_sasl_username = get_conf_setting("kafka_sasl_username", auth_file, None)
-        kafka_sasl_password = get_conf_setting("kafka_sasl_password", auth_file, None)
-        kafka_ssl_cipher_suites = get_conf_setting("kafka_ssl_cipher_suites", auth_file, None)
-        kafka_ssl_curves_list = get_conf_setting("kafka_ssl_curves_list", auth_file, None)
-        kafka_ssl_sigalgs_list = get_conf_setting("kafka_ssl_sigalgs_list", auth_file, None)
-        kafka_ssl_key_location = get_conf_setting("kafka_ssl_key_location", auth_file, None)
-        kafka_ssl_key_password = get_conf_setting("kafka_ssl_key_password", auth_file, None)
-        kafka_ssl_certificate_location = get_conf_setting("kafka_ssl_certificate_location", auth_file, None)
-        kafka_ssl_ca_location = get_conf_setting("kafka_ssl_ca_location", auth_file, None)
-        kafka_ssl_crl_location = get_conf_setting("kafka_ssl_crl_location", auth_file, None)
-        kafka_ssl_keystore_location = get_conf_setting("kafka_ssl_keystore_location", auth_file, None)
-        kafka_ssl_keystore_password = get_conf_setting("kafka_ssl_keystore_password", auth_file, None)
-        kafka_retries = int(get_conf_setting("kafka_retries", auth_file, "2"))
+        kafka_security_protocol = get_conf_setting("kafka_security_protocol", auth_file, "PLAINTEXT")
+        kafka_sasl_mechanism = get_conf_setting("kafka_sasl_mechanism", auth_file, None)
+        kafka_sasl_plain_username = get_conf_setting("kafka_sasl_plain_username", auth_file, None)
+        kafka_sasl_plain_password = get_conf_setting("kafka_sasl_plain_password", auth_file, None)
+        kafka_ssl_keyfile = get_conf_setting("kafka_ssl_keyfile", auth_file, None)
+        kafka_ssl_password = get_conf_setting("kafka_ssl_password", auth_file, None)
+        kafka_ssl_certfile = get_conf_setting("kafka_ssl_certfile", auth_file, None)
+        kafka_ssl_cafile = get_conf_setting("kafka_ssl_cafile", auth_file, None)
+        kafka_ssl_crlfile = get_conf_setting("kafka_ssl_crlfile", auth_file, None)
         kafka_sasl_kerberos_service_name = get_conf_setting("kafka_sasl_kerberos_service_name", auth_file, "kafka")
-        kafka_sasl_kerberos_principal = get_conf_setting("kafka_sasl_kerberos_principal", auth_file, "kafkaclient")
-        kafka_queue_buffering_max_ms = int(get_conf_setting("kafka_queue_buffering_max_ms", auth_file, "0"))
-        kafka_queue_buffering_max_messages = int(get_conf_setting("kafka_queue_buffering_max_messages", auth_file,
-                                                                  "100000"))
-        kafka_queue_buffering_max_kbytes = int(get_conf_setting("kafka_queue_buffering_max_kbytes", auth_file,
-                                                                "1048576"))
+        kafka_sasl_kerberos_domain_name = get_conf_setting("kafka_sasl_kerberos_domain_name", auth_file, "kafka")
+        kafka_topic = get_conf_setting("kafka_topic", auth_file, "nebula-reports")
+        kafka_number_partitions = int(get_conf_setting("kafka_number_partitions", auth_file, "1"))
+        kafka_number_of_replicas = int(get_conf_setting("kafka_number_of_replicas", auth_file, "1"))
 
         # get number of cpu cores on host
         cpu_cores = get_number_of_cpu_cores()
@@ -304,6 +297,46 @@ if __name__ == "__main__":
         print("starting work container health checking thread")
         Thread(target=restart_unhealthy_containers).start()
 
+        # if the optional reporting system is configured start a kafka connection object that will be used to send the
+        # reports to
+        if kafka_bootstrap_servers is not None:
+            try:
+                print("creating reporting kafka connection object")
+                kafka_connection = KafkaConnection(kafka_bootstrap_servers,
+                                                   security_protocol=kafka_security_protocol,
+                                                   sasl_mechanism=kafka_sasl_mechanism,
+                                                   sasl_plain_username=kafka_sasl_plain_username,
+                                                   sasl_plain_password=kafka_sasl_plain_password,
+                                                   ssl_keyfile=kafka_ssl_keyfile,
+                                                   ssl_password=kafka_ssl_password,
+                                                   ssl_certfile=kafka_ssl_certfile,
+                                                   ssl_cafile=kafka_ssl_cafile,
+                                                   ssl_crlfile=kafka_ssl_crlfile,
+                                                   sasl_kerberos_service_name=kafka_sasl_kerberos_service_name,
+                                                   sasl_kerberos_domain_name=kafka_sasl_kerberos_domain_name,
+                                                   topic=kafka_topic,
+                                                   number_partitions=kafka_number_partitions,
+                                                   number_of_replicas=kafka_number_of_replicas)
+            except Exception as e:
+                print(e, file=sys.stderr)
+                if reporting_fail_hard is False:
+                    print("failed creating reporting kafka connection object")
+                    pass
+                else:
+                    print("failed creating reporting kafka connection object - exiting")
+                    os._exit(2)
+
+            try:
+                reporting_object = ReportingDocument(docker_socket, device_group)
+            except Exception as e:
+                print(e, file=sys.stderr)
+                if reporting_fail_hard is False:
+                    print("failed creating reporting object")
+                    pass
+                else:
+                    print("failed creating reporting object - exiting")
+                    os._exit(2)
+
         # loop forever
         print(("starting device_group " + device_group + " /info check loop, configured to check for changes every "
               + str(nebula_manager_check_in_time) + " seconds"))
@@ -360,6 +393,22 @@ if __name__ == "__main__":
             # set the in memory device_group info to be the one recently received if any id increased
             if monotonic_id_increase is True:
                 local_device_group_info = remote_device_group_info
+
+            # send report to the optional kafka reporting if configured to be used
+            if kafka_bootstrap_servers is not None:
+                try:
+                    print("creating state report")
+                    report = reporting_object.current_status_report(local_device_group_info)
+                    print("reporting state to kafka")
+                    kafka_connection.push_report(report)
+                except Exception as e:
+                    print(e, file=sys.stderr)
+                    if reporting_fail_hard is False:
+                        print("failed reporting state to kafka")
+                        pass
+                    else:
+                        print("failed reporting state to kafka - exiting")
+                        os._exit(2)
 
     except Exception as e:
         print(e, file=sys.stderr)

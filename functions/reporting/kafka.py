@@ -1,51 +1,31 @@
-from confluent_kafka import Producer
-import sys
+from kafka import KafkaProducer
+import sys, json
 
 
 class KafkaConnection:
 
-    def __init__(self, bootstrap_servers, security_protocol="plaintext", sasl_mechanism="GSSAPI", sasl_username=None,
-                 sasl_password=None, ssl_cipher_suites=None, ssl_curves_list=None, ssl_sigalgs_list=None,
-                 ssl_key_location=None, ssl_key_password=None, ssl_certificate_location=None, ssl_ca_location=None,
-                 ssl_crl_location=None, ssl_keystore_location=None, ssl_keystore_password=None, retries=2,
-                 sasl_kerberos_service_name="kafka", sasl_kerberos_principal="kafkaclient", queue_buffering_max_ms=0,
-                 queue_buffering_max_messages=100000, queue_buffering_max_kbytes=1048576):
-        self.producer = Producer(
-            {
-                'bootstrap.servers': bootstrap_servers,
-                'security.protocol': security_protocol,
-                'sasl.mechanism': sasl_mechanism,
-                'sasl.username': sasl_username,
-                'sasl.password': sasl_password,
-                'ssl.cipher.suites': ssl_cipher_suites,
-                'ssl.curves.list': ssl_curves_list,
-                'ssl.sigalgs.list': ssl_sigalgs_list,
-                'ssl.key.location': ssl_key_location,
-                'ssl.key.password': ssl_key_password,
-                'ssl.certificate.location': ssl_certificate_location,
-                'ssl.ca.location': ssl_ca_location,
-                'ssl.crl.location': ssl_crl_location,
-                'ssl.keystore.location': ssl_keystore_location,
-                'ssl.keystore.password': ssl_keystore_password,
-                'sasl.kerberos.service.name': sasl_kerberos_service_name,
-                'sasl.kerberos.principal': sasl_kerberos_principal,
-                'retries': retries,
-                'queue.buffering.max.messages': queue_buffering_max_messages,
-                'queue.buffering.max.kbytes': queue_buffering_max_kbytes,
-                'queue.buffering.max.ms': queue_buffering_max_ms
-            }
-        )
+    def __init__(self, bootstrap_servers, security_protocol="PLAINTEXT", sasl_mechanism=None, sasl_plain_username=None,
+                 sasl_plain_password=None,
+                 ssl_keyfile=None, ssl_password=None, ssl_certfile=None, ssl_cafile=None, ssl_crlfile=None,
+                 sasl_kerberos_service_name="kafka", sasl_kerberos_domain_name="kafka",  topic="nebula-reports",
+                 number_partitions=1, number_of_replicas=1):
+        self.topic = topic
+        self.producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('ascii'),
+                                      bootstrap_servers=bootstrap_servers, security_protocol=security_protocol,
+                                      sasl_mechanism=sasl_mechanism, sasl_plain_username=sasl_plain_username,
+                                      sasl_plain_password=sasl_plain_password, ssl_keyfile=ssl_keyfile,
+                                      ssl_password=ssl_password, ssl_certfile=ssl_certfile, ssl_cafile=ssl_cafile,
+                                      ssl_crlfile=ssl_crlfile, sasl_kerberos_service_name=sasl_kerberos_service_name,
+                                      sasl_kerberos_domain_name=sasl_kerberos_domain_name)
+
 
     @staticmethod
-    def delivery_report(err, msg):
-        if err is not None:
-            print('Report delivery to kafka failed: {}'.format(err))
+    def on_send_error(excp):
+            print("Report delivery to kafka failed: " + str(excp))
 
-    def push_report(self, report, topic="nebula_reports"):
+    def push_report(self, report):
         try:
-            self.producer.poll(0)
-            self.producer.produce(topic, report.encode('utf-8'), callback=self.delivery_report)
-            self.producer.flush()
+            self.producer.send(self.topic, report).add_errback(self.on_send_error)
         except Exception as e:
             print(e, file=sys.stderr)
             print("Report delivery to kafka failed")

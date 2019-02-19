@@ -5,7 +5,7 @@ FROM python:3.7.2-alpine3.9
 COPY . /worker
 
 # install required packages - requires build-base due to psutil GCC complier requirements
-RUN apk add --no-cache build-base python3-dev linux-headers
+RUN apk add --no-cache build-base python3-dev linux-headers librdkafka librdkafka-dev
 RUN pip install -r /worker/requirements.txt
 
 #set python to be unbuffered

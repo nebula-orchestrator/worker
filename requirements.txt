@@ -1,6 +1,7 @@
 backports.ssl-match-hostname==3.5.0.1
 certifi==2018.11.29
 chardet==3.0.4
+confluent-kafka==0.11.6
 dnspython==1.16.0
 docker==3.7.0
 docker-pycreds==0.4.0

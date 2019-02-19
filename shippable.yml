@@ -15,11 +15,10 @@ env:
 
 build:
   ci:
-    - echo "skipping stright to container build"
-  post_ci:
     - if [ "$BRANCH" == "master" ] && [ "$IS_PULL_REQUEST" == false ]; then docker build -t $DOCKER_HUB_ORG/$DOCKER_HUB_REPO:arm64v8 .; fi
-    - if [ "$BRANCH" == "master" ] && [ "$IS_PULL_REQUEST" == false ]; then docker push $DOCKER_HUB_ORG/$DOCKER_HUB_REPO:arm64v8; fi
     - if [ "$BRANCH" != "master" ] && [ "$IS_PULL_REQUEST" == false ]; then docker build -t $DOCKER_HUB_ORG/$DOCKER_HUB_REPO:$BRANCH-arm64v8 .; fi
+  post_ci:
+    - if [ "$BRANCH" == "master" ] && [ "$IS_PULL_REQUEST" == false ]; then docker push $DOCKER_HUB_ORG/$DOCKER_HUB_REPO:arm64v8; fi
     - if [ "$BRANCH" != "master" ] && [ "$IS_PULL_REQUEST" == false ]; then docker push $DOCKER_HUB_ORG/$DOCKER_HUB_REPO:$BRANCH-arm64v8; fi
 
 runtime:

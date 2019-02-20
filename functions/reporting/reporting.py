@@ -7,7 +7,7 @@ class ReportingDocument:
 
     def __init__(self, docker_connection_object, device_group):
         self.docker_connection = docker_connection_object
-        self.server_number_of_cores = get_total_memory_size_in_mb()
+        self.server_number_of_cores = get_number_of_cpu_cores()
         self.device_group = device_group
 
     def current_status_report(self, device_group_config):

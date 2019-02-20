@@ -17,7 +17,6 @@ class KafkaConnection:
                                       ssl_crlfile=ssl_crlfile, sasl_kerberos_service_name=sasl_kerberos_service_name,
                                       sasl_kerberos_domain_name=sasl_kerberos_domain_name)
 
-
     @staticmethod
     def on_send_error(excp):
             print("Report delivery to kafka failed: " + str(excp))

@@ -232,9 +232,6 @@ if __name__ == "__main__":
         kafka_sasl_kerberos_service_name = get_conf_setting("kafka_sasl_kerberos_service_name", auth_file, "kafka")
         kafka_sasl_kerberos_domain_name = get_conf_setting("kafka_sasl_kerberos_domain_name", auth_file, "kafka")
         kafka_topic = get_conf_setting("kafka_topic", auth_file, "nebula-reports")
-        kafka_number_partitions = int(get_conf_setting("kafka_number_partitions", auth_file, "1"))
-        kafka_number_of_replicas = int(get_conf_setting("kafka_number_of_replicas", auth_file, "1"))
-
         # get number of cpu cores on host
         cpu_cores = get_number_of_cpu_cores()
 
@@ -314,9 +311,7 @@ if __name__ == "__main__":
                                                    ssl_crlfile=kafka_ssl_crlfile,
                                                    sasl_kerberos_service_name=kafka_sasl_kerberos_service_name,
                                                    sasl_kerberos_domain_name=kafka_sasl_kerberos_domain_name,
-                                                   topic=kafka_topic,
-                                                   number_partitions=kafka_number_partitions,
-                                                   number_of_replicas=kafka_number_of_replicas)
+                                                   topic=kafka_topic)
             except Exception as e:
                 print(e, file=sys.stderr)
                 if reporting_fail_hard is False:

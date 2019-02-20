@@ -7,8 +7,7 @@ class KafkaConnection:
     def __init__(self, bootstrap_servers, security_protocol="PLAINTEXT", sasl_mechanism=None, sasl_plain_username=None,
                  sasl_plain_password=None,
                  ssl_keyfile=None, ssl_password=None, ssl_certfile=None, ssl_cafile=None, ssl_crlfile=None,
-                 sasl_kerberos_service_name="kafka", sasl_kerberos_domain_name="kafka",  topic="nebula-reports",
-                 number_partitions=1, number_of_replicas=1):
+                 sasl_kerberos_service_name="kafka", sasl_kerberos_domain_name="kafka",  topic="nebula-reports"):
         self.topic = topic
         self.producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('ascii'),
                                       bootstrap_servers=bootstrap_servers, security_protocol=security_protocol,

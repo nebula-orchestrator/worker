@@ -397,9 +397,7 @@ if __name__ == "__main__":
             # send report to the optional kafka reporting if configured to be used
             if kafka_bootstrap_servers is not None:
                 try:
-                    print("creating state report")
                     report = reporting_object.current_status_report(local_device_group_info)
-                    print("reporting state to kafka")
                     kafka_connection.push_report(report)
                 except Exception as e:
                     print(e, file=sys.stderr)

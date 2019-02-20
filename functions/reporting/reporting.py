@@ -21,7 +21,7 @@ class ReportingDocument:
             "apps_containers": self.docker_connection.list_containers_stats(),
             "current_device_group_config": device_group_config,
             "device_group": self.device_group,
-            "check_in_time": int(time.time()),
+            "report_creation_time": int(time.time()),
             "hostname": get_fqdn()
         }
         return report

@@ -232,6 +232,7 @@ if __name__ == "__main__":
         kafka_sasl_kerberos_service_name = get_conf_setting("kafka_sasl_kerberos_service_name", auth_file, "kafka")
         kafka_sasl_kerberos_domain_name = get_conf_setting("kafka_sasl_kerberos_domain_name", auth_file, "kafka")
         kafka_topic = get_conf_setting("kafka_topic", auth_file, "nebula-reports")
+
         # get number of cpu cores on host
         cpu_cores = get_number_of_cpu_cores()
 

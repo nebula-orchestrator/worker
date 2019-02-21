@@ -218,7 +218,7 @@ if __name__ == "__main__":
 
         # the following config variables are for configuring Nebula workers optional reporting, being optional non of it
         # is mandatory
-        reporting_fail_hard = get_conf_setting("kafka_bootstrap_servers", auth_file, True)
+        reporting_fail_hard = get_conf_setting("reporting_fail_hard", auth_file, True)
         kafka_bootstrap_servers = get_conf_setting("kafka_bootstrap_servers", auth_file, None)
         kafka_security_protocol = get_conf_setting("kafka_security_protocol", auth_file, "PLAINTEXT")
         kafka_sasl_mechanism = get_conf_setting("kafka_sasl_mechanism", auth_file, None)

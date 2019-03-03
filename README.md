@@ -1,10 +1,8 @@
 # Nebula worker
 
-Travis CI unit tests: [![Build Status](https://travis-ci.org/nebula-orchestrator/worker.svg?branch=master)](https://travis-ci.org/nebula-orchestrator/worker)
+Travis CI unit tests & autobuild: [![Build Status](https://travis-ci.org/nebula-orchestrator/worker.svg?branch=master)](https://travis-ci.org/nebula-orchestrator/worker)
 
 Shippable ARM autobuild: [![Run Status](https://api.shippable.com/projects/5bab745d36c1700700ded430/badge?branch=master)]() 
-
-Docker Hub autobuild: ![](https://img.shields.io/docker/build/nebulaorchestrator/worker.svg)
 
 ## Main website available [here](https://nebula-orchestrator.github.io/), refer to the [documentation](http://nebula.readthedocs.io/en/latest/) for more details about how to install & use.
 

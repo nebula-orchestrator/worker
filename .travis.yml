@@ -1,9 +1,15 @@
 language: python
 dist: xenial
 python:
-  - "3.7"
+- '3.7'
+env:
+  global:
+  - secure: nIScPdnBs+aDt1bGUiKX7nYHQ8AVExruc+MRh3FjOzp4kxqrhEasZGd390s9v219OAkDUh2l1VBLQnNF748eYi43ws+c8bJdra4cO4UcwZJct6bOJTub8hTFwjzX3Bs9uQQRqMPmc/7pmAU1F+DInwJBnf4eQppw9mrXUQhS3Xbd5lxm8fMoCdhFGX8ZuOBZ9AhmBNuaTvuoffkKXF1pdnrM4zmwkfjVE4BhIbhPuI9uSLcFMwyFmzQI0fIPjyM5ojFcJ5/sB7YJ6LZu1JXRKeOXVfjvcjW7B87kvs2Fv3ca1sCLpTVySBL/kWvyDb8ewjU+34X5ev49QZJuVE7ntvEjdLQtAfJb133keuP64vX7uaH7YY6tvADJL01TitJl/n0M0oasV8bE/9Q/rP9M+6zgRwMd6R1mjG+WPAH6F/ga0XpYEiUtw3pQii4c6q1E1jNVNBLx2TMPlsUOGQ93FgdxxkUshwNAMbMXqTJpOny9oDQexBJK7CHFvnOq6//BeaEz/XF5vUQerpjMAQ2Y41tykHjTKFWvL1JJ3bh93DJ0sTqbWpoTh2rnIRc5GZuBMAsqMEqIPKZygBtPI4T5n/Lltu58cCTNOSjxN0VtcbioudxMldGqpQszfCZyliJ5TKiWpVpsdbEC2Zl5UbU8Ijw8UILJ1dP1vjYMdnb9u6M=
+  - secure: ccRo+ISk/Ym4VS3DFN6bDJd3ze3eN7YqIDhUYL1+nOblWbQaOqrV6o8cwdU8azkpxxfgXuvUC96O3cU23OS74/df4EG/0sYDwR/7uMwsuRKfhCQQBvUNqfIjlnhzC/6tDK6XRnUVTcrlZ/K8xWHnT0sc+bSMgyJogoRhwM34B6ALhigjcm3sVQxCIEWh1IuaFGTX3GCk85XDkERXSrs69AvKpU9z4F/zlZ/ysZS7XBaQFXP7T8KdZJ9zV5CtFdFHjMTrV2n3vXqEVjc340TKWY+bwPGFL6dGFfP5vdRnxi2NOqRrs36M6wqZHb8vISEuIMJMi/6LLE6Lp0aJRCfiQyLOSelwm9oI2/HCsxOr8QQSaEB6Uyim2g3YdaSGZoz0W/r3sV7bJXS6D6LfhM++QZCIkdBv7YdWqlVn9msQJ8RAGQkKehkClkhUhS6y2Wh915v5oZ5L7WpiwnCKo/EbFyGpIoid0ujqg428pxX5FfSNSU5XtgYLz6c2toQFbJqkSs9J2kPaQ6gNXikMjI0VwYHHHx+rL/ec1tC3TMJ+3NN9MDCcS7jYNg9fhMYAqTp1rBZ97SfduiEy4GVx/uamliXL35g0yXk5RJ4U/wRLj9gcP00W4VXLAP4Sb+s53XQ85kvL1Vu6MY1R2P2ei7c3JV6EUtvW/VO4euJVuthWJZI=
+  - DOCKER_HUB_ORG=nebulaorchestrator
+  - DOCKER_HUB_REPO=worker
 install:
-  - pip install -r requirements.txt
+- pip install -r requirements.txt
 script:
-  - sudo sh test/travis_ci_scripts/travis_ci_build_script.sh
-  - python -m unittest discover
+- sudo sh test/travis_ci_scripts/travis_ci_build_script.sh
+- python -m unittest discover

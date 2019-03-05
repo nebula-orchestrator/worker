@@ -8,7 +8,7 @@ freeze==1.0.10
 idna==2.8
 ipaddress==1.0.22
 kafka-python==1.4.4
-NebulaPythonSDK==2.2.0
+NebulaPythonSDK==2.2.1
 psutil==5.5.1
 requests==2.21.0
 retrying==1.3.3

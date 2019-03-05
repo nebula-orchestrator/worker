@@ -205,6 +205,7 @@ if __name__ == "__main__":
         # the following config variables are for configuring Nebula workers
         nebula_manager_auth_user = get_conf_setting("nebula_manager_auth_user", auth_file, None)
         nebula_manager_auth_password = get_conf_setting("nebula_manager_auth_password", auth_file, None)
+        nebula_manager_auth_token = get_conf_setting("nebula_manager_auth_token", auth_file, None)
         nebula_manager_host = get_conf_setting("nebula_manager_host", auth_file)
         nebula_manager_port = int(get_conf_setting("nebula_manager_port", auth_file, "80"))
         nebula_manager_protocol = get_conf_setting("nebula_manager_protocol", auth_file, "http")
@@ -253,7 +254,7 @@ if __name__ == "__main__":
         # login to the nebula manager
         nebula_connection = Nebula(username=nebula_manager_auth_user, password=nebula_manager_auth_password,
                                    host=nebula_manager_host, port=nebula_manager_port, protocol=nebula_manager_protocol,
-                                   request_timeout=nebula_manager_request_timeout)
+                                   request_timeout=nebula_manager_request_timeout, token=nebula_manager_auth_token)
 
         # make sure the nebula manager connects properly
         try:

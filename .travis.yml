@@ -14,5 +14,6 @@ script:
 - sudo sh test/travis_ci_scripts/travis_ci_build_script.sh
 - python -m unittest discover
 deploy:
+  all_branches: true
   provider: script
   script: bash  test/travis_ci_scripts/deploy.sh

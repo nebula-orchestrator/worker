@@ -8,6 +8,7 @@ from random import randint
 from retrying import retry
 import os, sys
 
+
 # get setting from envvar with failover from config/conf.json file if envvar not set
 # using skip rather then None so passing a None type will still pass a None value rather then assuming there should be
 # default value thus allowing to have No value set where needed (like in the case of registry user\pass)

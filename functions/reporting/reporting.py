@@ -10,6 +10,7 @@ class ReportingDocument:
         self.server_number_of_cores = get_number_of_cpu_cores()
         self.device_group = device_group
 
+    # TODO - add cron_jobs containers last run exit code and time of each run
     def current_status_report(self, device_group_config):
         report = {
             "memory_usage": get_memory_usage(),

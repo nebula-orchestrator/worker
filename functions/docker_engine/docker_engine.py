@@ -187,6 +187,7 @@ class DockerFunctions:
             os._exit(2)
 
     # create host_config
+    # TODO - change the restart_policy to be default unless-stopped but allow to have a never restart policy too
     def create_container_host_config(self, port_binds, volumes, devices, privileged, network_mode):
         try:
             return self.cli.create_host_config(port_bindings=port_binds, restart_policy={'Name': 'unless-stopped'},
@@ -265,3 +266,8 @@ class DockerFunctions:
     def stop_and_remove_container(self, container_name):
         self.stop_container(container_name)
         self.remove_container(container_name)
+
+    # TODO - add functions that return if the exit of a container is OK (if 0 then True all else False)
+
+    # TODO - add run cron_job container function which removes the logs/data/container of previous runs and starts a new
+    # TODO - container without the restart_policy flag

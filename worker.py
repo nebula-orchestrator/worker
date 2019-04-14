@@ -109,6 +109,9 @@ def stop_containers(app_json):
     return
 
 
+# TODO - add start cron_job containers function
+
+
 # start app function
 def start_containers(app_json, force_pull=True):
     # list current containers
@@ -293,6 +296,11 @@ if __name__ == "__main__":
                 start_containers(nebula_app)
                 print(("completed initial start of " + nebula_app["app_name"] + " app"))
 
+        # TODO - start the cron object
+
+        # TODO - read all the cron_jobs, filter their cron to whatever needed format and add them to the cron object
+        # TODO - and updates their next run time
+
         # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
         print("starting work container health checking thread")
         Thread(target=restart_unhealthy_containers).start()
@@ -381,6 +389,15 @@ if __name__ == "__main__":
                         print(("removing app " + local_nebula_app["app_name"] +
                               " do to changes in the app configuration"))
                         stop_containers(local_nebula_app)
+
+            # TODO - logic that checks the cron_job_id of each cron_job and if it increased updates the cron_job and
+            # TODO - also attaches new cron jobs to the cron job object if any where added to the device_group
+
+            # TODO - logic that removes cron jobs from the cron_job object if that cron_job was removed from the
+            # TODO - device_group
+
+            # TODO - logic that runs the container of any cron_job that is scheduled to start since the last run in the
+            # TODO - cron_job object & doesn't wait for it to run (OOB process) and updates it next run time
 
             # logic that runs image pruning if prune_id increased
             if remote_device_group_info["reply"]["prune_id"] > local_device_group_info["reply"]["prune_id"]:

@@ -1,10 +1,22 @@
 from croniter import croniter
 from datetime import datetime
 
-# TODO - create class for the cron scheduler & __init__
 
-    # TODO - add a function that adds a cron to the cron object
+class CronJobs:
 
-    # TODO - add a function that removes a cron from the cron object
+    def __init__(self):
+        self.cron_jobs = {}
 
-    # TODO - add a function that returns the next run time of a single cron
+    def add_cron_job(self, cron_job_name, cron_schedule):
+        self.cron_jobs[cron_job_name] = cron_schedule
+        return self.return_cron_job_next_runtime(cron_job_name)
+
+    def update_cron_job(self, cron_job_name, cron_schedule):
+        return self.add_cron_job(cron_job_name, cron_schedule)
+
+    def remove_cron_job(self, cron_job_name):
+        return self.cron_jobs.pop(cron_job_name, None)
+
+    def return_cron_job_next_runtime(self, cron_job_name):
+        next_run_dict = croniter(self.cron_jobs[cron_job_name], datetime.now())
+        return next_run_dict.get_next(datetime)

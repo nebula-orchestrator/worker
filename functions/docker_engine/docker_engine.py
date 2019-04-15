@@ -187,12 +187,13 @@ class DockerFunctions:
             os._exit(2)
 
     # create host_config
-    # TODO - change the restart_policy to be default unless-stopped but allow to have a never restart policy too
-    def create_container_host_config(self, port_binds, volumes, devices, privileged, network_mode):
+    def create_container_host_config(self, port_binds, volumes, devices, privileged, network_mode,
+                                     restart_policy='unless-stopped'):
         try:
-            return self.cli.create_host_config(port_bindings=port_binds, restart_policy={'Name': 'unless-stopped'},
-                                               binds=volumes, devices=devices, privileged=privileged,
-                                               network_mode=network_mode)
+            if restart_policy == "unless-stopped":
+                restart_policy = {'Name': 'unless-stopped'}
+            return self.cli.create_host_config(port_bindings=port_binds, restart_policy=restart_policy, binds=volumes,
+                                               devices=devices, privileged=privileged, network_mode=network_mode)
         except Exception as e:
             print(e, file=sys.stderr)
             print("problem creating host config")
@@ -249,7 +250,8 @@ class DockerFunctions:
         else:
             network_mode = "bridge"
         self.create_container(app_name, container_name, image_name + ":" + version_tag,
-                              self.create_container_host_config(bind_port, volumes, devices, privileged, network_mode),
+                              self.create_container_host_config(bind_port, volumes, devices, privileged, network_mode,
+                                                                restart_policy={'Name': 'unless-stopped'}),
                               ports, env_vars, volume_mounts, default_network=self.default_net(networks))
         self.start_container(container_name)
         for network in networks:

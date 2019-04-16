@@ -3,6 +3,7 @@ from functions.reporting.reporting import *
 from functions.reporting.kafka import *
 from functions.docker_engine.docker_engine import *
 from functions.misc.server import *
+from functions.misc.cron_schedule import *
 from threading import Thread
 from random import randint
 from retrying import retry
@@ -296,7 +297,8 @@ if __name__ == "__main__":
                 start_containers(nebula_app)
                 print(("completed initial start of " + nebula_app["app_name"] + " app"))
 
-        # TODO - start the cron object
+        # start the object which will manage cron_jobs
+        cron_job_object = CronJobs()
 
         # TODO - read all the cron_jobs, filter their cron to whatever needed format and add them to the cron object
         # TODO - and updates their next run time

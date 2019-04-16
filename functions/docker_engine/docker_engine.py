@@ -19,11 +19,12 @@ class DockerFunctions:
             self.cli.create_network(net_name, driver=net_driver, check_duplicate=True)
             print("created a " + net_driver + " type network named " + net_name)
 
-    # list containers based on said image, if no app_name provided gets all of nebula managed apps
-    def list_containers(self, app_name=""):
+    # list containers based on said image, if no app_name provided gets all of nebula managed apps, if all=True will
+    # also show containers that have exited
+    def list_containers(self, app_name="", show_all_containers=False):
         if app_name == "":
             try:
-                return self.cli.containers(filters={"label": "orchestrator=nebula"})
+                return self.cli.containers(filters={"label": "orchestrator=nebula"}, all=show_all_containers)
             except Exception as e:
                 print(e, file=sys.stderr)
                 print("failed getting list of all containers")
@@ -37,10 +38,11 @@ class DockerFunctions:
                 print("failed getting list of containers where label is app_name=" + app_name)
                 os._exit(2)
 
-    # list containers stats on said image, if no app_name provided gets all of nebula managed apps
-    def list_containers_stats(self, app_name=""):
+    # list containers stats on said image, if no app_name provided gets all of nebula managed apps, if all=True will
+    # also show containers that have exited
+    def list_containers_stats(self, app_name="", show_all_containers=False):
         try:
-            containers_list = self.list_containers(app_name)
+            containers_list = self.list_containers(app_name, show_all_containers=show_all_containers)
             containers_stats = []
             for container in containers_list:
                 containers_stats.append(self.cli.stats(container['Id'], stream=False))

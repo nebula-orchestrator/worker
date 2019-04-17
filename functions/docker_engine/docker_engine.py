@@ -272,6 +272,3 @@ class DockerFunctions:
         self.remove_container(container_name)
 
     # TODO - add functions that return if the exit of a container is OK (if 0 then True all else False)
-
-    # TODO - add run cron_job container function which removes the logs/data/container of previous runs and starts a new
-    # TODO - container without the restart_policy flag

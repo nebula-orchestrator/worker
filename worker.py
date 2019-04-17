@@ -396,17 +396,17 @@ if __name__ == "__main__":
                     if remote_nebula_app["app_id"] > local_device_group_info["reply"]["apps"][local_app_index]["app_id"]:
                         monotonic_id_increase = True
                         if remote_nebula_app["running"] is False:
-                            print(("stopping app " + remote_nebula_app["app_name"] +
-                                  " do to changes in the app configuration"))
+                            print("stopping app " + remote_nebula_app["app_name"] +
+                                  " do to changes in the app configuration")
                             stop_containers(remote_nebula_app)
                         elif remote_nebula_app["rolling_restart"] is True and \
                                 local_device_group_info["reply"]["apps"][local_app_index]["running"] is True:
-                            print(("rolling app " + remote_nebula_app["app_name"] +
-                                  " do to changes in the app configuration"))
+                            print("rolling app " + remote_nebula_app["app_name"] +
+                                  " do to changes in the app configuration")
                             roll_containers(remote_nebula_app)
                         else:
-                            print(("restarting app " + remote_nebula_app["app_name"] +
-                                  " do to changes in the app configuration"))
+                            print("restarting app " + remote_nebula_app["app_name"] +
+                                  " do to changes in the app configuration")
                             restart_containers(remote_nebula_app)
                 else:
                     print(("restarting app " + remote_nebula_app["app_name"] + " do to changes in the app "
@@ -419,12 +419,32 @@ if __name__ == "__main__":
                 monotonic_id_increase = True
                 for local_nebula_app in local_device_group_info["reply"]["apps"]:
                     if local_nebula_app["app_name"] not in remote_device_group_info["reply"]["apps_list"]:
-                        print(("removing app " + local_nebula_app["app_name"] +
-                              " do to changes in the app configuration"))
+                        print("removing app " + local_nebula_app["app_name"] +
+                              " do to changes in the app configuration")
                         stop_containers(local_nebula_app)
 
-            # TODO - logic that checks the cron_job_id of each cron_job and if it increased updates the cron_job and
-            # TODO - also attaches new cron jobs to the cron job object if any where added to the device_group
+            for remote_nebula_cron_job in remote_device_group_info["reply"]["cron_jobs"]:
+                if remote_nebula_cron_job["cron_job_name"] in local_device_group_info["reply"]["cron_jobs_list"]:
+                    local_cron_job_index = local_device_group_info["reply"]["cron_jobs_list"].index(remote_nebula_cron_job["cron_job_name"])
+                    if remote_nebula_cron_job["cron_job_id"] > local_device_group_info["reply"]["cron_jobs"][local_cron_job_index]["cron_job_id"]:
+                        monotonic_id_increase = True
+                        if remote_nebula_cron_job["running"] is False:
+                            print("removing cron_job " + remote_nebula_cron_job["cron_job_name"] +
+                                  " schedule do to changes in the app configuration")
+                            cron_job_object.remove_cron_job(remote_nebula_cron_job["cron_job_name"])
+                            cron_next_run_dict.pop(remote_nebula_cron_job["cron_job_name"], None)
+                        else:
+                            print("updating cron_job " + remote_nebula_cron_job["cron_job_name"] +
+                                  " schedule do to changes in the app configuration")
+                            cron_next_run_dict[remote_nebula_cron_job["cron_job_name"]] = \
+                                cron_job_object.update_cron_job(remote_nebula_cron_job["cron_job_name"],
+                                                                remote_nebula_cron_job["schedule"])
+                else:
+                    monotonic_id_increase = True
+                    print("updating cron_job " + remote_nebula_cron_job["cron_job_name"] +
+                          " schedule do to changes in the app configuration")
+                    cron_next_run_dict[remote_nebula_cron_job["cron_job_name"]] = cron_job_object.add_cron_job(
+                        remote_nebula_cron_job["cron_job_name"], remote_nebula_cron_job["schedule"])
 
             # TODO - logic that removes cron jobs from the cron_job object if that cron_job was removed from the
             # TODO - device_group

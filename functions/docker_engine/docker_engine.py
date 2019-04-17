@@ -21,6 +21,7 @@ class DockerFunctions:
 
     # list containers based on said image, if no app_name provided gets all of nebula managed apps, if all=True will
     # also show containers that have exited
+    # TODO - add label for cron/app type of container support
     def list_containers(self, app_name="", show_all_containers=False):
         if app_name == "":
             try:
@@ -40,6 +41,7 @@ class DockerFunctions:
 
     # list containers stats on said image, if no app_name provided gets all of nebula managed apps, if all=True will
     # also show containers that have exited
+    # TODO - add label for cron/app type of container support
     def list_containers_stats(self, app_name="", show_all_containers=False):
         try:
             containers_list = self.list_containers(app_name, show_all_containers=show_all_containers)
@@ -116,6 +118,7 @@ class DockerFunctions:
             os._exit(2)
 
     # create container
+    # TODO - add label for cron/app type of container support
     def create_container(self, app_name, container_name, image_name, host_configuration, container_ports=[],
                          env_vars=[], volume_mounts=[], default_network="nebula"):
         print("creating container " + container_name)

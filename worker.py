@@ -69,6 +69,7 @@ def roll_containers(app_json, force_pull=True):
     if force_pull is True:
         docker_socket.pull_image(image_name, version_tag=version_name)
     # list current containers
+    # TODO - add label for app type of container support in list_containers
     containers_list = docker_socket.list_containers(app_json["app_name"])
     # roll each container in turn - not threaded as the order is important when rolling
     containers_needed = containers_required(app_json)
@@ -99,6 +100,7 @@ def roll_containers(app_json, force_pull=True):
 # stop app function
 def stop_containers(app_json):
     # list current containers
+    # TODO - add label for app/cron type of container support in list_containers
     containers_list = docker_socket.list_containers(app_json["app_name"])
     # stop running containers
     threads = []
@@ -118,6 +120,7 @@ def stop_containers(app_json):
 def start_containers(app_json, force_pull=True):
     # list current containers
     split_container_name_version(app_json["docker_image"])
+    # TODO - add label for app/cron type of container support in list_containers
     containers_list = docker_socket.list_containers(app_json["app_name"])
     if len(containers_list) > 0:
         print("app already running so restarting rather then starting containers")
@@ -181,6 +184,7 @@ def restart_unhealthy_containers():
     try:
         while True:
             time.sleep(10)
+            # TODO - add label for app type of container support in list_containers
             nebula_containers = docker_socket.list_containers()
             for nebula_container in nebula_containers:
                 if docker_socket.check_container_healthy(nebula_container["Id"]) is False:

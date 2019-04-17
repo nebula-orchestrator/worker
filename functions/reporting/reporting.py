@@ -19,6 +19,7 @@ class ReportingDocument:
                 "cores": self.server_number_of_cores,
                 "used_percent": get_cpu_use_percentage()
             },
+            # TODO - add label for app type of container support in list_containers_stats
             "apps_containers": self.docker_connection.list_containers_stats(),
             "current_device_group_config": device_group_config,
             "device_group": self.device_group,

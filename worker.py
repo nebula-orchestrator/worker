@@ -409,7 +409,8 @@ if __name__ == "__main__":
                                   " do to changes in the app configuration"))
                             restart_containers(remote_nebula_app)
                 else:
-                    print(("restarting app " + remote_nebula_app["app_name"] + " do to changes in the app configuration"))
+                    print(("restarting app " + remote_nebula_app["app_name"] + " do to changes in the app "
+                                                                               "configuration"))
                     monotonic_id_increase = True
                     restart_containers(remote_nebula_app)
 

@@ -281,7 +281,6 @@ if __name__ == "__main__":
         # stop all nebula managed containers on start to ensure a clean slate to work on
         print("stopping all preexisting nebula managed app containers in order to ensure a clean slate on boot")
         stop_containers({"app_name": ""}, container_type="all")
-        # TODO - stop all cron containers that might still be running
 
         # get the initial device_group configuration and store it in memory
         local_device_group_info = get_device_group_info(nebula_connection, device_group)

@@ -333,7 +333,7 @@ if __name__ == "__main__":
                     nebula_cron_job["cron_job_name"], nebula_cron_job["schedule"])
                 print(("added initial cron of " + nebula_cron_job["cron_job_name"] + " cron job"))
 
-        # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
+        # open a thread which is in charge of restarting any containers which health check shows them as unhealthy
         print("starting work container health checking thread")
         Thread(target=restart_unhealthy_containers).start()
 

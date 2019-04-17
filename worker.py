@@ -7,7 +7,7 @@ from functions.misc.cron_schedule import *
 from threading import Thread
 from random import randint
 from retrying import retry
-import os, sys
+import os, sys, time
 
 
 # get setting from envvar with failover from config/conf.json file if envvar not set
@@ -111,13 +111,35 @@ def stop_containers(app_json, container_type="app"):
     return
 
 
-# TODO - add start cron_job containers function with a unix timestamp name part (to allow multiple runs at same time)
+# start cron container function
+def start_cron_job_container(app_json, force_pull=True):
+    # list current containers
+    if app_json["running"] is True:
+        image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
+        containers_needed = 1
+        # pull required image
+        if force_pull is True:
+            docker_socket.pull_image(image_name, version_tag=version_name)
+        # start new containers
+        container_number = 1
+        threads = []
+        while container_number <= containers_needed:
+            t = Thread(target=docker_socket.run_container, args=(app_json["app_name"], app_json["app_name"] + "-" +
+                                                                 str(int(time.time())) + "-" + str(container_number),
+                                                                 image_name, {}, [], app_json["env_vars"], version_name,
+                                                                 app_json["volumes"], app_json["devices"],
+                                                                 app_json["privileged"], app_json["networks"], None))
+            threads.append(t)
+            t.start()
+            container_number = container_number + 1
+        for y in threads:
+            y.join()
+        return
 
 
 # start app function
 def start_containers(app_json, force_pull=True):
     # list current containers
-    split_container_name_version(app_json["docker_image"])
     containers_list = docker_socket.list_containers(app_json["app_name"], container_type="app")
     if len(containers_list) > 0:
         print("app already running so restarting rather then starting containers")
@@ -301,9 +323,15 @@ if __name__ == "__main__":
 
         # start the object which will manage cron_jobs
         cron_job_object = CronJobs()
+        cron_next_run_dict = {}
 
-        # TODO - read all the cron_jobs, filter their cron to whatever needed format and add them to the cron object
-        # TODO - and updates their next run time
+        # add all cron_jobs that are included in the device_group to this worker schedule
+        for nebula_cron_job in local_device_group_info["reply"]["cron_jobs"]:
+            if nebula_cron_job["running"] is True:
+                print(("adding cron of " + nebula_cron_job["cron_job_name"] + " cron job"))
+                cron_next_run_dict[nebula_cron_job["cron_job_name"]] = cron_job_object.add_cron_job(
+                    nebula_cron_job["cron_job_name"], nebula_cron_job["schedule"])
+                print(("added initial cron of " + nebula_cron_job["cron_job_name"] + " cron job"))
 
         # open a thread which is in charge of restarting any containers which healthcheck shows them as unhealthy
         print("starting work container health checking thread")

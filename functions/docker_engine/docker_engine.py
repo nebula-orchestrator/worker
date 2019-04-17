@@ -32,13 +32,14 @@ class DockerFunctions:
         else:
             try:
                 app_label = container_type + "_name=" + app_name
-                return self.cli.containers(filters={"label": [app_label, "orchestrator=nebula"]}, all=True)
+                return self.cli.containers(filters={"label": [app_label, "orchestrator=nebula"]},
+                                           all=show_all_containers)
             except Exception as e:
                 print(e, file=sys.stderr)
                 print("failed getting list of containers where label is app_name=" + app_name)
                 os._exit(2)
 
-    # list containers stats on said image, if no app_name provided gets all of nebula managed apps, if all=True will
+    # list containers stats on said container, if no app_name provided gets all of nebula managed apps, if all=True will
     # also show containers that have exited
     def list_containers_stats(self, app_name="", show_all_containers=False, container_type="app"):
         try:
@@ -271,5 +272,3 @@ class DockerFunctions:
     def stop_and_remove_container(self, container_name):
         self.stop_container(container_name)
         self.remove_container(container_name)
-
-    # TODO - add functions that return if the exit of a container is OK (if 0 then True all else False)

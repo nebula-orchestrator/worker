@@ -21,8 +21,7 @@ class DockerFunctions:
 
     # list containers based on said image, if no app_name provided gets all of nebula managed apps, if all=True will
     # also show containers that have exited
-    # TODO - add label for cron/app type of container support
-    def list_containers(self, app_name="", show_all_containers=False):
+    def list_containers(self, app_name="", show_all_containers=False, container_type="app"):
         if app_name == "":
             try:
                 return self.cli.containers(filters={"label": "orchestrator=nebula"}, all=show_all_containers)
@@ -32,7 +31,7 @@ class DockerFunctions:
                 os._exit(2)
         else:
             try:
-                app_label = "app_name=" + app_name
+                app_label = container_type + "_name=" + app_name
                 return self.cli.containers(filters={"label": [app_label, "orchestrator=nebula"]}, all=True)
             except Exception as e:
                 print(e, file=sys.stderr)
@@ -41,17 +40,17 @@ class DockerFunctions:
 
     # list containers stats on said image, if no app_name provided gets all of nebula managed apps, if all=True will
     # also show containers that have exited
-    # TODO - add label for cron/app type of container support
-    def list_containers_stats(self, app_name="", show_all_containers=False):
+    def list_containers_stats(self, app_name="", show_all_containers=False, container_type="app"):
         try:
-            containers_list = self.list_containers(app_name, show_all_containers=show_all_containers)
+            containers_list = self.list_containers(app_name, show_all_containers=show_all_containers,
+                                                   container_type=container_type)
             containers_stats = []
             for container in containers_list:
                 containers_stats.append(self.cli.stats(container['Id'], stream=False))
             return containers_stats
         except Exception as e:
             print(e, file=sys.stderr)
-            print("failed getting stats of containers where label is app_name=" + app_name)
+            print("failed getting stats of containers where label is " + container_type + "_name=" + app_name)
             os._exit(2)
 
     # check if a container is healthy by examining the result of the dockerfile healthcheck, if no healthcheck is
@@ -118,15 +117,14 @@ class DockerFunctions:
             os._exit(2)
 
     # create container
-    # TODO - add label for cron/app type of container support
     def create_container(self, app_name, container_name, image_name, host_configuration, container_ports=[],
-                         env_vars=[], volume_mounts=[], default_network="nebula"):
+                         env_vars=[], volume_mounts=[], default_network="nebula", container_type="app"):
         print("creating container " + container_name)
         try:
             container_created = self.cli.create_container(image=image_name, name=container_name, ports=container_ports,
                                                           environment=env_vars, host_config=host_configuration,
-                                                          volumes=volume_mounts, labels={"app_name": app_name,
-                                                                                         "orchestrator": "nebula"},
+                                                          labels={container_type + "_name": app_name,
+                                                                  "orchestrator": "nebula"}, volumes=volume_mounts,
                                                           networking_config=self.create_networking_config(
                                                               default_network))
             print(("successfully created container " + container_name))

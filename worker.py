@@ -448,8 +448,15 @@ if __name__ == "__main__":
                     cron_next_run_dict[remote_nebula_cron_job["cron_job_name"]] = cron_job_object.add_cron_job(
                         remote_nebula_cron_job["cron_job_name"], remote_nebula_cron_job["schedule"])
 
-            # TODO - logic that removes cron jobs from the cron_job object if that cron_job was removed from the
-            # TODO - device_group
+            # logic that removes containers of apps that was removed from the device_group
+            if remote_device_group_info["reply"]["device_group_id"] > local_device_group_info["reply"]["device_group_id"]:
+                monotonic_id_increase = True
+                for local_nebula_cron_job in local_device_group_info["reply"]["cron_jobs"]:
+                    if local_nebula_cron_job["cron_job_name"] not in remote_device_group_info["reply"]["cron_jobs_list"]:
+                        print("removing cron_job " + local_nebula_cron_job["cron_job_name"] +
+                              " schedule do to changes in the app configuration")
+                        cron_job_object.remove_cron_job(local_nebula_cron_job["cron_job_name"])
+                        cron_next_run_dict.pop(local_nebula_cron_job["cron_job_name"], None)
 
             # TODO - logic that runs the container of any cron_job that is scheduled to start since the last run in the
             # TODO - cron_job object & doesn't wait for it to run (OOB process) and updates it next run time

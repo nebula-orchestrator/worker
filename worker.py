@@ -423,6 +423,8 @@ if __name__ == "__main__":
                               " do to changes in the app configuration")
                         stop_containers(local_nebula_app)
 
+            # logic that checks if each of the cron_job_id was increased and updates the cron_job containers if the
+            # answer is yes, the logic also starts containers of newly added cron_jobs to the device_group
             for remote_nebula_cron_job in remote_device_group_info["reply"]["cron_jobs"]:
                 if remote_nebula_cron_job["cron_job_name"] in local_device_group_info["reply"]["cron_jobs_list"]:
                     local_cron_job_index = local_device_group_info["reply"]["cron_jobs_list"].index(remote_nebula_cron_job["cron_job_name"])

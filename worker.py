@@ -181,7 +181,7 @@ def restart_unhealthy_containers():
     try:
         while True:
             time.sleep(10)
-            nebula_containers = docker_socket.list_containers()
+            nebula_containers = docker_socket.list_containers(container_type="app")
             for nebula_container in nebula_containers:
                 if docker_socket.check_container_healthy(nebula_container["Id"]) is False:
                     docker_socket.restart_container(nebula_container["Id"])
@@ -280,7 +280,7 @@ if __name__ == "__main__":
 
         # stop all nebula managed containers on start to ensure a clean slate to work on
         print("stopping all preexisting nebula managed app containers in order to ensure a clean slate on boot")
-        stop_containers({"app_name": ""})
+        stop_containers({"app_name": ""}, container_type="all")
         # TODO - stop all cron containers that might still be running
 
         # get the initial device_group configuration and store it in memory

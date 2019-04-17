@@ -22,12 +22,20 @@ class DockerFunctions:
     # list containers based on said image, if no app_name provided gets all of nebula managed apps, if all=True will
     # also show containers that have exited
     def list_containers(self, app_name="", show_all_containers=False, container_type="app"):
-        if app_name == "":
+        if app_name == "" and container_type == "all":
             try:
                 return self.cli.containers(filters={"label": "orchestrator=nebula"}, all=show_all_containers)
             except Exception as e:
                 print(e, file=sys.stderr)
                 print("failed getting list of all containers")
+                os._exit(2)
+        elif app_name == "" and container_type != "all":
+            try:
+                return self.cli.containers(filters={"label": ["orchestrator=nebula", "type=" + container_type]},
+                                           all=show_all_containers)
+            except Exception as e:
+                print(e, file=sys.stderr)
+                print("failed getting list of all containers from type " + container_type)
                 os._exit(2)
         else:
             try:
@@ -125,7 +133,9 @@ class DockerFunctions:
             container_created = self.cli.create_container(image=image_name, name=container_name, ports=container_ports,
                                                           environment=env_vars, host_config=host_configuration,
                                                           labels={container_type + "_name": app_name,
-                                                                  "orchestrator": "nebula"}, volumes=volume_mounts,
+                                                                  "orchestrator": "nebula",
+                                                                  "container_type": container_type},
+                                                          volumes=volume_mounts,
                                                           networking_config=self.create_networking_config(
                                                               default_network))
             print(("successfully created container " + container_name))

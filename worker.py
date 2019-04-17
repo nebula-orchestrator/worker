@@ -69,8 +69,7 @@ def roll_containers(app_json, force_pull=True):
     if force_pull is True:
         docker_socket.pull_image(image_name, version_tag=version_name)
     # list current containers
-    # TODO - add label for app type of container support in list_containers
-    containers_list = docker_socket.list_containers(app_json["app_name"])
+    containers_list = docker_socket.list_containers(app_json["app_name"], container_type="app")
     # roll each container in turn - not threaded as the order is important when rolling
     containers_needed = containers_required(app_json)
     for idx, container in enumerate(sorted(containers_list, key=lambda k: k['Names'][0])):
@@ -98,10 +97,9 @@ def roll_containers(app_json, force_pull=True):
 
 
 # stop app function
-def stop_containers(app_json):
+def stop_containers(app_json, container_type="app"):
     # list current containers
-    # TODO - add label for app/cron type of container support in list_containers
-    containers_list = docker_socket.list_containers(app_json["app_name"])
+    containers_list = docker_socket.list_containers(app_json["app_name"], container_type=container_type)
     # stop running containers
     threads = []
     for container in containers_list:
@@ -120,8 +118,7 @@ def stop_containers(app_json):
 def start_containers(app_json, force_pull=True):
     # list current containers
     split_container_name_version(app_json["docker_image"])
-    # TODO - add label for app/cron type of container support in list_containers
-    containers_list = docker_socket.list_containers(app_json["app_name"])
+    containers_list = docker_socket.list_containers(app_json["app_name"], container_type="app")
     if len(containers_list) > 0:
         print("app already running so restarting rather then starting containers")
         restart_containers(app_json)
@@ -184,7 +181,6 @@ def restart_unhealthy_containers():
     try:
         while True:
             time.sleep(10)
-            # TODO - add label for app type of container support in list_containers
             nebula_containers = docker_socket.list_containers()
             for nebula_container in nebula_containers:
                 if docker_socket.check_container_healthy(nebula_container["Id"]) is False:

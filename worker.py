@@ -111,7 +111,7 @@ def stop_containers(app_json, container_type="app"):
     return
 
 
-# TODO - add start cron_job containers function with a random name part (to allow multiple runs at same time)
+# TODO - add start cron_job containers function with a unix timestamp name part (to allow multiple runs at same time)
 
 
 # start app function

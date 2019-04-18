@@ -9,11 +9,11 @@ freeze==1.0.10
 idna==2.8
 ipaddress==1.0.22
 kafka-python==1.4.6
-NebulaPythonSDK==2.4.0
+NebulaPythonSDK==2.4.1
 psutil==5.6.1
 python-dateutil==2.8.0
 requests==2.21.0
 retrying==1.3.3
 six==1.12.0
-urllib3==1.24.1
+urllib3==1.24.2
 websocket-client==0.54.0

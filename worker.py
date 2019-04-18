@@ -99,7 +99,8 @@ def roll_containers(app_json, force_pull=True):
 # stop app function
 def stop_containers(app_json, container_type="app"):
     # list current containers
-    containers_list = docker_socket.list_containers(app_json["app_name"], container_type=container_type)
+    containers_list = docker_socket.list_containers(app_json["app_name"], container_type=container_type,
+                                                    show_all_containers=True)
     # stop running containers
     threads = []
     for container in containers_list:
@@ -112,10 +113,10 @@ def stop_containers(app_json, container_type="app"):
 
 
 # start cron container function
-def start_cron_job_container(app_json, force_pull=True):
+def start_cron_job_container(cron_job_json, force_pull=True, container_type="cron_job"):
     # list current containers
-    if app_json["running"] is True:
-        image_registry_name, image_name, version_name = split_container_name_version(app_json["docker_image"])
+    if cron_job_json["running"] is True:
+        image_registry_name, image_name, version_name = split_container_name_version(cron_job_json["docker_image"])
         containers_needed = 1
         # pull required image
         if force_pull is True:
@@ -124,11 +125,14 @@ def start_cron_job_container(app_json, force_pull=True):
         container_number = 1
         threads = []
         while container_number <= containers_needed:
-            t = Thread(target=docker_socket.run_container, args=(app_json["app_name"], app_json["app_name"] + "-" +
+            t = Thread(target=docker_socket.run_container, args=(cron_job_json["cron_job_name"],
+                                                                 cron_job_json["cron_job_name"] + "-" +
                                                                  str(int(time.time())) + "-" + str(container_number),
-                                                                 image_name, {}, [], app_json["env_vars"], version_name,
-                                                                 app_json["volumes"], app_json["devices"],
-                                                                 app_json["privileged"], app_json["networks"], None))
+                                                                 image_name, {}, [], cron_job_json["env_vars"],
+                                                                 version_name, cron_job_json["volumes"],
+                                                                 cron_job_json["devices"], cron_job_json["privileged"],
+                                                                 cron_job_json["networks"], None),
+                       kwargs={"container_type": container_type})
             threads.append(t)
             t.start()
             container_number = container_number + 1
@@ -196,6 +200,11 @@ def containers_required(app_json):
 # prune unused images
 def prune_images():
     docker_socket.prune_images()
+
+
+# prune exited containers
+def prune_exited_containers(filters=None):
+    return docker_socket.prune_exited_containers(filters=filters)
 
 
 # loop forever and in any case where a container healthcheck shows a container as unhealthy restart it
@@ -458,8 +467,15 @@ if __name__ == "__main__":
                         cron_job_object.remove_cron_job(local_nebula_cron_job["cron_job_name"])
                         cron_next_run_dict.pop(local_nebula_cron_job["cron_job_name"], None)
 
-            # TODO - logic that runs the container of any cron_job that is scheduled to start since the last run in the
-            # TODO - cron_job object & doesn't wait for it to run (OOB process) and updates it next run time
+            # logic that starts cron_jobs according to their next scheduled run time then updates the next runtime
+            for cron_job_name, cron_job_next_run in cron_next_run_dict.items():
+                if datetime.now() > cron_job_next_run:
+                    local_cron_job_index = remote_device_group_info["reply"]["cron_jobs_list"].index(cron_job_name)
+                    cron_job_config = remote_device_group_info["reply"]["cron_jobs"][local_cron_job_index]
+                    start_cron_job_container(cron_job_config)
+                    cron_next_run_dict[cron_job_name] = cron_job_object.return_cron_job_next_runtime(cron_job_name)
+                    # clean previous completed cron containers
+                    prune_exited_containers(filters={"label": ["orchestrator=nebula", "container_type=cron_job"]})
 
             # logic that runs image pruning if prune_id increased
             if remote_device_group_info["reply"]["prune_id"] > local_device_group_info["reply"]["prune_id"]:

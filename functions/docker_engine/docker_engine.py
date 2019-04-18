@@ -21,7 +21,7 @@ class DockerFunctions:
 
     # list containers based on said image, if no app_name provided gets all of nebula managed apps, if all=True will
     # also show containers that have exited
-    def list_containers(self, app_name="", show_all_containers=False, container_type="app"):
+    def list_containers(self, app_name="", show_all_containers=True, container_type="app"):
         if app_name == "" and container_type == "all":
             try:
                 return self.cli.containers(filters={"label": "orchestrator=nebula"}, all=show_all_containers)
@@ -31,7 +31,7 @@ class DockerFunctions:
                 os._exit(2)
         elif app_name == "" and container_type != "all":
             try:
-                return self.cli.containers(filters={"label": ["orchestrator=nebula", "type=" + container_type]},
+                return self.cli.containers(filters={"label": ["orchestrator=nebula", "container_type=" + container_type]},
                                            all=show_all_containers)
             except Exception as e:
                 print(e, file=sys.stderr)
@@ -49,7 +49,7 @@ class DockerFunctions:
 
     # list containers stats on said container, if no app_name provided gets all of nebula managed apps, if all=True will
     # also show containers that have exited
-    def list_containers_stats(self, app_name="", show_all_containers=False, container_type="app"):
+    def list_containers_stats(self, app_name="", show_all_containers=True, container_type="app"):
         try:
             containers_list = self.list_containers(app_name, show_all_containers=show_all_containers,
                                                    container_type=container_type)
@@ -252,7 +252,8 @@ class DockerFunctions:
 
     # pull image, create hostconfig, create and start the container and bind to networks all in one simple function
     def run_container(self, app_name, container_name, image_name, bind_port, ports, env_vars, version_tag="latest",
-                      volumes=[], devices=[], privileged=False, networks=[], restart_policy="unless-stopped"):
+                      volumes=[], devices=[], privileged=False, networks=[], restart_policy="unless-stopped",
+                      container_type="app"):
         volume_mounts = []
         for volume in volumes:
             splitted_volume = volume.split(":")
@@ -265,8 +266,8 @@ class DockerFunctions:
             network_mode = "bridge"
         self.create_container(app_name, container_name, image_name + ":" + version_tag,
                               self.create_container_host_config(bind_port, volumes, devices, privileged, network_mode,
-                                                                restart_policy=restart_policy),
-                              ports, env_vars, volume_mounts, default_network=self.default_net(networks))
+                                                                restart_policy=restart_policy), ports, env_vars,
+                              volume_mounts, default_network=self.default_net(networks), container_type=container_type)
         self.start_container(container_name)
         for network in networks:
             # special networks which are created from the container creation as they have to be first
@@ -282,3 +283,13 @@ class DockerFunctions:
     def stop_and_remove_container(self, container_name):
         self.stop_container(container_name)
         self.remove_container(container_name)
+
+    # prune exited containers
+    def prune_exited_containers(self, filters=None):
+        print("pruning exited containers")
+        try:
+            print(self.cli.prune_containers(filters=filters))
+        except Exception as e:
+            print(e, file=sys.stderr)
+            print("problem pruning unused image")
+            os._exit(2)

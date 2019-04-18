@@ -10,7 +10,6 @@ class ReportingDocument:
         self.server_number_of_cores = get_number_of_cpu_cores()
         self.device_group = device_group
 
-    # TODO - add cron_jobs containers status of each run and time it started & completed (if not still running)
     def current_status_report(self, device_group_config):
         report = {
             "memory_usage": get_memory_usage(),
@@ -19,8 +18,8 @@ class ReportingDocument:
                 "cores": self.server_number_of_cores,
                 "used_percent": get_cpu_use_percentage()
             },
-            # TODO - add label for app type of container support in list_containers_stats
-            "apps_containers": self.docker_connection.list_containers_stats(),
+            "cron_jobs_containers": self.docker_connection.list_containers_stats(container_type="cron_job"),
+            "apps_containers": self.docker_connection.list_containers_stats(container_type="app"),
             "current_device_group_config": device_group_config,
             "device_group": self.device_group,
             "report_creation_time": int(time.time()),

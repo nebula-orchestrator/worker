@@ -1,7 +1,7 @@
 backports.ssl-match-hostname==3.5.0.1
 certifi==2019.3.9
 chardet==3.0.4
-croniter==0.3.29
+croniter==0.3.30
 dnspython==1.16.0
 docker==3.7.2
 docker-pycreds==0.4.0

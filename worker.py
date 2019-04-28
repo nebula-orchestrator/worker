@@ -7,25 +7,8 @@ from functions.misc.cron_schedule import *
 from threading import Thread
 from random import randint
 from retrying import retry
+from parse_it import ParseIt
 import os, sys, time
-
-
-# get setting from envvar with failover from config/conf.json file if envvar not set
-# using skip rather then None so passing a None type will still pass a None value rather then assuming there should be
-# default value thus allowing to have No value set where needed (like in the case of registry user\pass)
-def get_conf_setting(setting, settings_json, default_value="skip"):
-    try:
-        setting_value = os.getenv(setting.upper(), settings_json.get(setting, default_value))
-    except Exception as e:
-        print(e, file=sys.stderr)
-        print("missing " + setting + " config setting", file=sys.stderr)
-        print(("missing " + setting + " config setting"))
-        os._exit(2)
-    if setting_value == "skip":
-        print("missing " + setting + " config setting", file=sys.stderr)
-        print(("missing " + setting + " config setting"))
-        os._exit(2)
-    return setting_value
 
 
 # split container image name to the registry, image & version used with default of docker hub if registry not set.
@@ -231,46 +214,48 @@ def get_device_group_info(nebula_connection_object, device_group_to_get_info):
 if __name__ == "__main__":
 
     try:
-        # read config file/envvars at startup, order preference is envvar>config file>default value (if exists)
-        if os.path.exists("config/conf.json"):
-            print("reading config file")
-            auth_file = json.load(open("config/conf.json"))
-        else:
-            print("config file not found - skipping reading it and checking if needed params are given from envvars")
-            auth_file = {}
+        # read config file at startup
+        print("reading config variables")
+        parser = ParseIt(config_folder_location="config")
 
         print("reading config variables")
         # the following config variables are for configuring Nebula workers
-        nebula_manager_auth_user = get_conf_setting("nebula_manager_auth_user", auth_file, None)
-        nebula_manager_auth_password = get_conf_setting("nebula_manager_auth_password", auth_file, None)
-        nebula_manager_auth_token = get_conf_setting("nebula_manager_auth_token", auth_file, None)
-        nebula_manager_host = get_conf_setting("nebula_manager_host", auth_file)
-        nebula_manager_port = int(get_conf_setting("nebula_manager_port", auth_file, "80"))
-        nebula_manager_protocol = get_conf_setting("nebula_manager_protocol", auth_file, "http")
-        nebula_manager_request_timeout = int(get_conf_setting("nebula_manager_request_timeout", auth_file, "60"))
-        nebula_manager_check_in_time = int(get_conf_setting("nebula_manager_check_in_time", auth_file, "30"))
-        registry_auth_user = get_conf_setting("registry_auth_user", auth_file, None)
-        registry_auth_password = get_conf_setting("registry_auth_password", auth_file, None)
-        registry_host = get_conf_setting("registry_host", auth_file, "https://index.docker.io/v1/")
-        max_restart_wait_in_seconds = int(get_conf_setting("max_restart_wait_in_seconds", auth_file, 0))
-        device_group = get_conf_setting("device_group", auth_file)
+        nebula_manager_auth_user = parser.read_configuration_variable("nebula_manager_auth_user", default_value=None)
+        nebula_manager_auth_password = parser.read_configuration_variable("nebula_manager_auth_password",
+                                                                          default_value=None)
+        nebula_manager_auth_token = parser.read_configuration_variable("nebula_manager_auth_token", default_value=None)
+        nebula_manager_host = parser.read_configuration_variable("nebula_manager_host", required=True)
+        nebula_manager_port = parser.read_configuration_variable("nebula_manager_port", default_value=80)
+        nebula_manager_protocol = parser.read_configuration_variable("nebula_manager_protocol", default_value="http")
+        nebula_manager_request_timeout = parser.read_configuration_variable("nebula_manager_request_timeout",
+                                                                            default_value=60)
+        nebula_manager_check_in_time = parser.read_configuration_variable("nebula_manager_check_in_time",
+                                                                          default_value=30)
+        registry_auth_user = parser.read_configuration_variable("registry_auth_user", default_value=None)
+        registry_auth_password = parser.read_configuration_variable("registry_auth_password", default_value=None)
+        registry_host = parser.read_configuration_variable("registry_host", default_value="https://index.docker.io/v1/")
+        max_restart_wait_in_seconds = parser.read_configuration_variable("max_restart_wait_in_seconds", default_value=0)
+        device_group = parser.read_configuration_variable("device_group", required=True)
 
         # the following config variables are for configuring Nebula workers optional reporting, being optional non of it
         # is mandatory
-        reporting_fail_hard = get_conf_setting("reporting_fail_hard", auth_file, True)
-        kafka_bootstrap_servers = get_conf_setting("kafka_bootstrap_servers", auth_file, None)
-        kafka_security_protocol = get_conf_setting("kafka_security_protocol", auth_file, "PLAINTEXT")
-        kafka_sasl_mechanism = get_conf_setting("kafka_sasl_mechanism", auth_file, None)
-        kafka_sasl_plain_username = get_conf_setting("kafka_sasl_plain_username", auth_file, None)
-        kafka_sasl_plain_password = get_conf_setting("kafka_sasl_plain_password", auth_file, None)
-        kafka_ssl_keyfile = get_conf_setting("kafka_ssl_keyfile", auth_file, None)
-        kafka_ssl_password = get_conf_setting("kafka_ssl_password", auth_file, None)
-        kafka_ssl_certfile = get_conf_setting("kafka_ssl_certfile", auth_file, None)
-        kafka_ssl_cafile = get_conf_setting("kafka_ssl_cafile", auth_file, None)
-        kafka_ssl_crlfile = get_conf_setting("kafka_ssl_crlfile", auth_file, None)
-        kafka_sasl_kerberos_service_name = get_conf_setting("kafka_sasl_kerberos_service_name", auth_file, "kafka")
-        kafka_sasl_kerberos_domain_name = get_conf_setting("kafka_sasl_kerberos_domain_name", auth_file, "kafka")
-        kafka_topic = get_conf_setting("kafka_topic", auth_file, "nebula-reports")
+        reporting_fail_hard = parser.read_configuration_variable("reporting_fail_hard", default_value=True)
+        kafka_bootstrap_servers = parser.read_configuration_variable("kafka_bootstrap_servers", default_value=None)
+        kafka_security_protocol = parser.read_configuration_variable("kafka_security_protocol",
+                                                                     default_value="PLAINTEXT")
+        kafka_sasl_mechanism = parser.read_configuration_variable("kafka_sasl_mechanism", default_value=None)
+        kafka_sasl_plain_username = parser.read_configuration_variable("kafka_sasl_plain_username", default_value=None)
+        kafka_sasl_plain_password = parser.read_configuration_variable("kafka_sasl_plain_password", default_value=None)
+        kafka_ssl_keyfile = parser.read_configuration_variable("kafka_ssl_keyfile", default_value=None)
+        kafka_ssl_password = parser.read_configuration_variable("kafka_ssl_password", default_value=None)
+        kafka_ssl_certfile = parser.read_configuration_variable("kafka_ssl_certfile", default_value=None)
+        kafka_ssl_cafile = parser.read_configuration_variable("kafka_ssl_cafile", default_value=None)
+        kafka_ssl_crlfile = parser.read_configuration_variable("kafka_ssl_crlfile", default_value=None)
+        kafka_sasl_kerberos_service_name = parser.read_configuration_variable("kafka_sasl_kerberos_service_name",
+                                                                              default_value="kafka")
+        kafka_sasl_kerberos_domain_name = parser.read_configuration_variable("kafka_sasl_kerberos_domain_name",
+                                                                             default_value="kafka")
+        kafka_topic = parser.read_configuration_variable("kafka_topic", default_value="nebula-reports")
 
         # get number of cpu cores on host
         cpu_cores = get_number_of_cpu_cores()

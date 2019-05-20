@@ -4,7 +4,7 @@ chardet==3.0.4
 configobj==5.0.6
 croniter==0.3.30
 dnspython==1.16.0
-docker==3.7.2
+docker==4.0.1
 docker-pycreds==0.4.0
 freeze==1.0.10
 idna==2.8

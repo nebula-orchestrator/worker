@@ -10,11 +10,14 @@ env:
   - DOCKER_HUB_REPO=worker
 install:
 - pip install -r requirements.txt
+- pip install codecov
 script:
 - sudo sh test/travis_ci_scripts/travis_ci_build_script.sh
-- python -m unittest discover
+- coverage run -m unittest
 deploy:
   on:
     all_branches: true
   provider: script
   script: bash  test/travis_ci_scripts/deploy.sh
+after_success:
+- codecov

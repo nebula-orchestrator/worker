@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/nebula-orchestrator/worker/tree/HEAD)
+
+[Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.6.1...HEAD)
+
+**Implemented enhancements:**
+
+- Bump nebulapythonsdk from 2.5.2 to 2.6.1 [\#52](https://github.com/nebula-orchestrator/worker/pull/52) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [2.6.1](https://github.com/nebula-orchestrator/worker/tree/2.6.1) (2019-05-21)
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.5.0...2.6.1)
 
@@ -8,7 +16,6 @@
 - Add cron jobs management support [\#42](https://github.com/nebula-orchestrator/worker/issues/42)
 - Self update worker container on deployed remote devices [\#41](https://github.com/nebula-orchestrator/worker/issues/41)
 - Bump docker from 3.7.2 to 4.0.1 [\#50](https://github.com/nebula-orchestrator/worker/pull/50) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump nebulapythonsdk from 2.5.1 to 2.5.2 [\#49](https://github.com/nebula-orchestrator/worker/pull/49) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump parse-it from 0.5.11 to 0.7.0 [\#48](https://github.com/nebula-orchestrator/worker/pull/48) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump requests from 2.21.0 to 2.22.0 [\#47](https://github.com/nebula-orchestrator/worker/pull/47) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump parse-it from 0.5.5 to 0.5.11 [\#46](https://github.com/nebula-orchestrator/worker/pull/46) ([dependabot[bot]](https://github.com/apps/dependabot))

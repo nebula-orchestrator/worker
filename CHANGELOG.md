@@ -6,7 +6,8 @@
 
 **Implemented enhancements:**
 
-- Bump nebulapythonsdk from 2.5.2 to 2.6.1 [\#52](https://github.com/nebula-orchestrator/worker/pull/52) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump urllib3 from 1.25.2 to 1.25.3 [\#53](https://github.com/nebula-orchestrator/worker/pull/53) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump nebulapythonsdk from 2.5.2 to 2.6.1 [\#52](https://github.com/nebula-orchestrator/worker/pull/52) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [2.6.1](https://github.com/nebula-orchestrator/worker/tree/2.6.1) (2019-05-21)
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.5.0...2.6.1)
@@ -15,12 +16,13 @@
 
 - Add cron jobs management support [\#42](https://github.com/nebula-orchestrator/worker/issues/42)
 - Self update worker container on deployed remote devices [\#41](https://github.com/nebula-orchestrator/worker/issues/41)
-- Bump docker from 3.7.2 to 4.0.1 [\#50](https://github.com/nebula-orchestrator/worker/pull/50) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump parse-it from 0.5.11 to 0.7.0 [\#48](https://github.com/nebula-orchestrator/worker/pull/48) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump requests from 2.21.0 to 2.22.0 [\#47](https://github.com/nebula-orchestrator/worker/pull/47) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump parse-it from 0.5.5 to 0.5.11 [\#46](https://github.com/nebula-orchestrator/worker/pull/46) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump websocket-client from 0.54.0 to 0.56.0 [\#45](https://github.com/nebula-orchestrator/worker/pull/45) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump backports-ssl-match-hostname from 3.5.0.1 to 3.7.0.1 [\#44](https://github.com/nebula-orchestrator/worker/pull/44) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump docker from 3.7.2 to 4.0.1 [\#50](https://github.com/nebula-orchestrator/worker/pull/50) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump nebulapythonsdk from 2.5.1 to 2.5.2 [\#49](https://github.com/nebula-orchestrator/worker/pull/49) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump parse-it from 0.5.11 to 0.7.0 [\#48](https://github.com/nebula-orchestrator/worker/pull/48) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump requests from 2.21.0 to 2.22.0 [\#47](https://github.com/nebula-orchestrator/worker/pull/47) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump parse-it from 0.5.5 to 0.5.11 [\#46](https://github.com/nebula-orchestrator/worker/pull/46) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump websocket-client from 0.54.0 to 0.56.0 [\#45](https://github.com/nebula-orchestrator/worker/pull/45) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump backports-ssl-match-hostname from 3.5.0.1 to 3.7.0.1 [\#44](https://github.com/nebula-orchestrator/worker/pull/44) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [2.5.0](https://github.com/nebula-orchestrator/worker/tree/2.5.0) (2019-04-21)
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.4.0...2.5.0)

@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump pyyaml from 5.1 to 5.1.1 [\#55](https://github.com/nebula-orchestrator/worker/pull/55) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 0.7.0 to 0.8.1 [\#54](https://github.com/nebula-orchestrator/worker/pull/54) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump urllib3 from 1.25.2 to 1.25.3 [\#53](https://github.com/nebula-orchestrator/worker/pull/53) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.5.2 to 2.6.1 [\#52](https://github.com/nebula-orchestrator/worker/pull/52) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

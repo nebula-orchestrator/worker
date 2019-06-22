@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump docker from 4.0.1 to 4.0.2 [\#58](https://github.com/nebula-orchestrator/worker/pull/58) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump certifi from 2019.3.9 to 2019.6.16 [\#57](https://github.com/nebula-orchestrator/worker/pull/57) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump psutil from 5.6.2 to 5.6.3 [\#56](https://github.com/nebula-orchestrator/worker/pull/56) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyyaml from 5.1 to 5.1.1 [\#55](https://github.com/nebula-orchestrator/worker/pull/55) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

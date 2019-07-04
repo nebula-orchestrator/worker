@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump parse-it from 0.9.0 to 0.9.1 [\#61](https://github.com/nebula-orchestrator/worker/pull/61) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 0.8.1 to 0.9.0 [\#59](https://github.com/nebula-orchestrator/worker/pull/59) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump docker from 4.0.1 to 4.0.2 [\#58](https://github.com/nebula-orchestrator/worker/pull/58) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump certifi from 2019.3.9 to 2019.6.16 [\#57](https://github.com/nebula-orchestrator/worker/pull/57) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -15,6 +16,10 @@
 - Bump urllib3 from 1.25.2 to 1.25.3 [\#53](https://github.com/nebula-orchestrator/worker/pull/53) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.5.2 to 2.6.1 [\#52](https://github.com/nebula-orchestrator/worker/pull/52) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
+**Fixed bugs:**
+
+- Facing issue in running worker on remote device. [\#60](https://github.com/nebula-orchestrator/worker/issues/60)
+
 ## [2.6.1](https://github.com/nebula-orchestrator/worker/tree/2.6.1) (2019-05-21)
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.5.0...2.6.1)
 
@@ -22,7 +27,6 @@
 
 - Add cron jobs management support [\#42](https://github.com/nebula-orchestrator/worker/issues/42)
 - Self update worker container on deployed remote devices [\#41](https://github.com/nebula-orchestrator/worker/issues/41)
-- Bump docker from 3.7.2 to 4.0.1 [\#50](https://github.com/nebula-orchestrator/worker/pull/50) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.5.1 to 2.5.2 [\#49](https://github.com/nebula-orchestrator/worker/pull/49) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 0.5.11 to 0.7.0 [\#48](https://github.com/nebula-orchestrator/worker/pull/48) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump requests from 2.21.0 to 2.22.0 [\#47](https://github.com/nebula-orchestrator/worker/pull/47) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

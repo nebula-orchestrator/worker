@@ -8,10 +8,12 @@ class DockerFunctions:
 
     # check network exists:
     def check_network_exists(self, net_name):
-        if len(self.cli.networks(names=net_name)) > 0:
-            return True
-        else:
-            return False
+        docker_network_exist = False
+        for docker_network in self.cli.networks(names=net_name):
+            if docker_network["Name"] == net_name:
+                docker_network_exist = True
+                break
+        return docker_network_exist
 
     # create a network if it doesn't exist
     def create_docker_network(self, net_name, net_driver):

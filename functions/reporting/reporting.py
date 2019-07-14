@@ -10,7 +10,7 @@ class ReportingDocument:
         self.server_number_of_cores = get_number_of_cpu_cores()
         self.device_group = device_group
 
-    def current_status_report(self, device_group_config):
+    def current_status_report(self, device_group_config, updated):
         report = {
             "memory_usage": get_memory_usage(),
             "root_disk_usage": get_root_disk_usage(),
@@ -23,6 +23,7 @@ class ReportingDocument:
             "current_device_group_config": device_group_config,
             "device_group": self.device_group,
             "report_creation_time": int(time.time()),
-            "hostname": get_fqdn()
+            "hostname": get_fqdn(),
+            "updated": updated
         }
         return report

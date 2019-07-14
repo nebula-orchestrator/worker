@@ -475,7 +475,7 @@ if __name__ == "__main__":
             # send report to the optional kafka reporting if configured to be used
             if kafka_bootstrap_servers is not None:
                 try:
-                    report = reporting_object.current_status_report(local_device_group_info)
+                    report = reporting_object.current_status_report(local_device_group_info, monotonic_id_increase)
                     kafka_connection.push_report(report)
                 except Exception as e:
                     print(e, file=sys.stderr)

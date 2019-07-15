@@ -240,6 +240,7 @@ if __name__ == "__main__":
         # the following config variables are for configuring Nebula workers optional reporting, being optional non of it
         # is mandatory
         reporting_fail_hard = parser.read_configuration_variable("reporting_fail_hard", default_value=True)
+        report_on_update_only = parser.read_configuration_variable("report_on_update_only", default_value=False)
         kafka_bootstrap_servers = parser.read_configuration_variable("kafka_bootstrap_servers", default_value=None)
         kafka_security_protocol = parser.read_configuration_variable("kafka_security_protocol",
                                                                      default_value="PLAINTEXT")
@@ -475,8 +476,11 @@ if __name__ == "__main__":
             # send report to the optional kafka reporting if configured to be used
             if kafka_bootstrap_servers is not None:
                 try:
-                    report = reporting_object.current_status_report(local_device_group_info, monotonic_id_increase)
-                    kafka_connection.push_report(report)
+                    # if monotonic_id_increase is true something changed so any case we will want to report on it
+                    # otherwise we will report only if report_on_update_only is false
+                    if monotonic_id_increase is True or report_on_update_only is False:
+                        report = reporting_object.current_status_report(local_device_group_info, monotonic_id_increase)
+                        kafka_connection.push_report(report)
                 except Exception as e:
                     print(e, file=sys.stderr)
                     if reporting_fail_hard is False:

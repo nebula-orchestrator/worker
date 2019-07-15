@@ -20,6 +20,10 @@
 
 - Facing issue in running worker on remote device. [\#60](https://github.com/nebula-orchestrator/worker/issues/60)
 
+**Closed issues:**
+
+- Facing issue in creating reporting kafka connection object [\#62](https://github.com/nebula-orchestrator/worker/issues/62)
+
 ## [2.6.1](https://github.com/nebula-orchestrator/worker/tree/2.6.1) (2019-05-21)
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.5.0...2.6.1)
 
@@ -27,6 +31,7 @@
 
 - Add cron jobs management support [\#42](https://github.com/nebula-orchestrator/worker/issues/42)
 - Self update worker container on deployed remote devices [\#41](https://github.com/nebula-orchestrator/worker/issues/41)
+- Bump docker from 3.7.2 to 4.0.1 [\#50](https://github.com/nebula-orchestrator/worker/pull/50) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.5.1 to 2.5.2 [\#49](https://github.com/nebula-orchestrator/worker/pull/49) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 0.5.11 to 0.7.0 [\#48](https://github.com/nebula-orchestrator/worker/pull/48) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump requests from 2.21.0 to 2.22.0 [\#47](https://github.com/nebula-orchestrator/worker/pull/47) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump parse-it from 1.1.0 to 2.0.0 [\#70](https://github.com/nebula-orchestrator/worker/pull/70) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 1.0.0 to 1.1.0 [\#69](https://github.com/nebula-orchestrator/worker/pull/69) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 0.9.1 to 1.0.0 [\#67](https://github.com/nebula-orchestrator/worker/pull/67) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.6.1 to 2.6.2 [\#66](https://github.com/nebula-orchestrator/worker/pull/66) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

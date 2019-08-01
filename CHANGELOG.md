@@ -6,7 +6,7 @@
 
 **Implemented enhancements:**
 
-- Add ARM version of the worker-manager [\#22](https://github.com/nebula-orchestrator/worker/issues/22)
+- Bump pyyaml from 5.1.1 to 5.1.2 [\#71](https://github.com/nebula-orchestrator/worker/pull/71) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 1.1.0 to 2.0.0 [\#70](https://github.com/nebula-orchestrator/worker/pull/70) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 1.0.0 to 1.1.0 [\#69](https://github.com/nebula-orchestrator/worker/pull/69) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 0.9.1 to 1.0.0 [\#67](https://github.com/nebula-orchestrator/worker/pull/67) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -114,6 +114,7 @@
 **Implemented enhancements:**
 
 - Integrate with Dockerfile based healthchecks [\#28](https://github.com/nebula-orchestrator/worker/issues/28)
+- Add ARM version of the worker-manager [\#22](https://github.com/nebula-orchestrator/worker/issues/22)
 
 ## [1.4.0](https://github.com/nebula-orchestrator/worker/tree/1.4.0) (2018-08-21)
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/1.3.0...1.4.0)

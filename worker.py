@@ -216,7 +216,7 @@ if __name__ == "__main__":
     try:
         # read config file at startup
         print("reading config variables")
-        parser = ParseIt(config_folder_location="config", recurse=True)
+        parser = ParseIt(config_location="config", recurse=True)
 
         print("reading config variables")
         # the following config variables are for configuring Nebula workers

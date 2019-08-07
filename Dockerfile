@@ -1,5 +1,5 @@
 # it's offical so i'm using it + alpine so damn small
-FROM python:3.7.2-alpine3.9
+FROM python:3.7.4-alpine3.10
 
 # copy the codebase
 COPY . /worker

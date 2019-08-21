@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/nebula-orchestrator/worker/tree/HEAD)
-
-[Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.6.1...HEAD)
+## [2.6.2](https://github.com/nebula-orchestrator/worker/tree/2.6.2) (2019-08-20)
+[Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.6.1...2.6.2)
 
 **Implemented enhancements:**
 

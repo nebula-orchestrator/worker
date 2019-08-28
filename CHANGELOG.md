@@ -1,5 +1,16 @@
 # Change Log
 
+## [Unreleased](https://github.com/nebula-orchestrator/worker/tree/HEAD)
+
+[Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.7.0...HEAD)
+
+**Implemented enhancements:**
+
+- Bump nebulapythonsdk from 2.6.2 to 2.7.0 [\#75](https://github.com/nebula-orchestrator/worker/pull/75) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
+## [2.7.0](https://github.com/nebula-orchestrator/worker/tree/2.7.0) (2019-08-21)
+[Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.6.2...2.7.0)
+
 ## [2.6.2](https://github.com/nebula-orchestrator/worker/tree/2.6.2) (2019-08-20)
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.6.1...2.6.2)
 

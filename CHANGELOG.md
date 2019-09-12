@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump certifi from 2019.6.16 to 2019.9.11 [\#78](https://github.com/nebula-orchestrator/worker/pull/78) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.6.2 to 2.7.0 [\#75](https://github.com/nebula-orchestrator/worker/pull/75) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [2.7.0](https://github.com/nebula-orchestrator/worker/tree/2.7.0) (2019-08-21)

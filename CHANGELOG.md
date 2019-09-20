@@ -17,6 +17,7 @@
 
 **Implemented enhancements:**
 
+- Bump urllib3 from 1.25.3 to 1.25.5 [\#79](https://github.com/nebula-orchestrator/worker/pull/79) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 3.1.1 to 3.2.0 [\#74](https://github.com/nebula-orchestrator/worker/pull/74) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 3.0.0 to 3.1.1 [\#73](https://github.com/nebula-orchestrator/worker/pull/73) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 2.0.0 to 3.0.0 [\#72](https://github.com/nebula-orchestrator/worker/pull/72) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

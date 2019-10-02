@@ -10,7 +10,7 @@ dpath==1.4.2
 freeze==1.0.10
 idna==2.8
 ipaddress==1.0.22
-kafka-python==1.4.6
+kafka-python==1.4.7
 NebulaPythonSDK==2.7.0
 parse-it==3.3.2
 ply==3.11

@@ -19,7 +19,7 @@ class KafkaConnection:
 
     @staticmethod
     def on_send_error(excp):
-            print("Report delivery to kafka failed: " + str(excp))
+        print("Report delivery to kafka failed: " + str(excp))
 
     def push_report(self, report):
         try:

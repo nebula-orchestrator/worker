@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump pyhcl from 0.3.12 to 0.3.13 [\#86](https://github.com/nebula-orchestrator/worker/pull/86) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump ipaddress from 1.0.22 to 1.0.23 [\#85](https://github.com/nebula-orchestrator/worker/pull/85) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump docker from 4.0.2 to 4.1.0 [\#84](https://github.com/nebula-orchestrator/worker/pull/84) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump kafka-python from 1.4.6 to 1.4.7 [\#83](https://github.com/nebula-orchestrator/worker/pull/83) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -13,6 +14,7 @@
 - Bump parse-it from 3.2.0 to 3.3.2 [\#81](https://github.com/nebula-orchestrator/worker/pull/81) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump urllib3 from 1.25.3 to 1.25.5 [\#79](https://github.com/nebula-orchestrator/worker/pull/79) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump certifi from 2019.6.16 to 2019.9.11 [\#78](https://github.com/nebula-orchestrator/worker/pull/78) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump nebulapythonsdk from 2.6.2 to 2.7.0 [\#75](https://github.com/nebula-orchestrator/worker/pull/75) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [2.7.0](https://github.com/nebula-orchestrator/worker/tree/2.7.0) (2019-08-21)
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.6.2...2.7.0)
@@ -37,7 +39,6 @@
 - Bump psutil from 5.6.2 to 5.6.3 [\#56](https://github.com/nebula-orchestrator/worker/pull/56) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyyaml from 5.1 to 5.1.1 [\#55](https://github.com/nebula-orchestrator/worker/pull/55) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 0.7.0 to 0.8.1 [\#54](https://github.com/nebula-orchestrator/worker/pull/54) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
-- Bump urllib3 from 1.25.2 to 1.25.3 [\#53](https://github.com/nebula-orchestrator/worker/pull/53) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.5.2 to 2.6.1 [\#52](https://github.com/nebula-orchestrator/worker/pull/52) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 **Fixed bugs:**
@@ -56,6 +57,7 @@
 
 - Add cron jobs management support [\#42](https://github.com/nebula-orchestrator/worker/issues/42)
 - Self update worker container on deployed remote devices [\#41](https://github.com/nebula-orchestrator/worker/issues/41)
+- Bump urllib3 from 1.25.2 to 1.25.3 [\#53](https://github.com/nebula-orchestrator/worker/pull/53) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump docker from 3.7.2 to 4.0.1 [\#50](https://github.com/nebula-orchestrator/worker/pull/50) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.5.1 to 2.5.2 [\#49](https://github.com/nebula-orchestrator/worker/pull/49) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 0.5.11 to 0.7.0 [\#48](https://github.com/nebula-orchestrator/worker/pull/48) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

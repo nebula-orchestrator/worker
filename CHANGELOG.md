@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump urllib3 from 1.25.6 to 1.25.7 [\#91](https://github.com/nebula-orchestrator/worker/pull/91) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump six from 1.12.0 to 1.13.0 [\#90](https://github.com/nebula-orchestrator/worker/pull/90) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump psutil from 5.6.4 to 5.6.5 [\#89](https://github.com/nebula-orchestrator/worker/pull/89) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump python-dateutil from 2.8.0 to 2.8.1 [\#88](https://github.com/nebula-orchestrator/worker/pull/88) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

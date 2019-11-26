@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump psutil from 5.6.5 to 5.6.7 [\#92](https://github.com/nebula-orchestrator/worker/pull/92) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump urllib3 from 1.25.6 to 1.25.7 [\#91](https://github.com/nebula-orchestrator/worker/pull/91) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump six from 1.12.0 to 1.13.0 [\#90](https://github.com/nebula-orchestrator/worker/pull/90) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump psutil from 5.6.4 to 5.6.5 [\#89](https://github.com/nebula-orchestrator/worker/pull/89) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -29,6 +30,7 @@
 
 **Implemented enhancements:**
 
+- Add ARM version of the worker-manager [\#22](https://github.com/nebula-orchestrator/worker/issues/22)
 - Bump parse-it from 3.1.1 to 3.2.0 [\#74](https://github.com/nebula-orchestrator/worker/pull/74) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 3.0.0 to 3.1.1 [\#73](https://github.com/nebula-orchestrator/worker/pull/73) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 2.0.0 to 3.0.0 [\#72](https://github.com/nebula-orchestrator/worker/pull/72) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -140,7 +142,6 @@
 **Implemented enhancements:**
 
 - Integrate with Dockerfile based healthchecks [\#28](https://github.com/nebula-orchestrator/worker/issues/28)
-- Add ARM version of the worker-manager [\#22](https://github.com/nebula-orchestrator/worker/issues/22)
 
 ## [1.4.0](https://github.com/nebula-orchestrator/worker/tree/1.4.0) (2018-08-21)
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/1.3.0...1.4.0)

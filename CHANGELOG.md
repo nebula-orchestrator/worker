@@ -1,4 +1,4 @@
-# Change Log
+# Changelog
 
 ## [Unreleased](https://github.com/nebula-orchestrator/worker/tree/HEAD)
 
@@ -23,10 +23,16 @@
 - Bump certifi from 2019.6.16 to 2019.9.11 [\#78](https://github.com/nebula-orchestrator/worker/pull/78) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.6.2 to 2.7.0 [\#75](https://github.com/nebula-orchestrator/worker/pull/75) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
+**Merged pull requests:**
+
+- Bump python from 3.7.4-alpine3.10 to 3.8.0-alpine3.10 [\#94](https://github.com/nebula-orchestrator/worker/pull/94) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
 ## [2.7.0](https://github.com/nebula-orchestrator/worker/tree/2.7.0) (2019-08-21)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.6.2...2.7.0)
 
 ## [2.6.2](https://github.com/nebula-orchestrator/worker/tree/2.6.2) (2019-08-20)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.6.1...2.6.2)
 
 **Implemented enhancements:**
@@ -34,6 +40,7 @@
 - Bump parse-it from 3.1.1 to 3.2.0 [\#74](https://github.com/nebula-orchestrator/worker/pull/74) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 3.0.0 to 3.1.1 [\#73](https://github.com/nebula-orchestrator/worker/pull/73) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 2.0.0 to 3.0.0 [\#72](https://github.com/nebula-orchestrator/worker/pull/72) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump pyyaml from 5.1.1 to 5.1.2 [\#71](https://github.com/nebula-orchestrator/worker/pull/71) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 1.1.0 to 2.0.0 [\#70](https://github.com/nebula-orchestrator/worker/pull/70) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 1.0.0 to 1.1.0 [\#69](https://github.com/nebula-orchestrator/worker/pull/69) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 0.9.1 to 1.0.0 [\#67](https://github.com/nebula-orchestrator/worker/pull/67) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -58,13 +65,13 @@
 - Facing issue in creating reporting kafka connection object [\#62](https://github.com/nebula-orchestrator/worker/issues/62)
 
 ## [2.6.1](https://github.com/nebula-orchestrator/worker/tree/2.6.1) (2019-05-21)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.5.0...2.6.1)
 
 **Implemented enhancements:**
 
 - Add cron jobs management support [\#42](https://github.com/nebula-orchestrator/worker/issues/42)
 - Self update worker container on deployed remote devices [\#41](https://github.com/nebula-orchestrator/worker/issues/41)
-- Bump pyyaml from 5.1.1 to 5.1.2 [\#71](https://github.com/nebula-orchestrator/worker/pull/71) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump docker from 3.7.2 to 4.0.1 [\#50](https://github.com/nebula-orchestrator/worker/pull/50) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.5.1 to 2.5.2 [\#49](https://github.com/nebula-orchestrator/worker/pull/49) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 0.5.11 to 0.7.0 [\#48](https://github.com/nebula-orchestrator/worker/pull/48) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -74,6 +81,7 @@
 - Bump backports-ssl-match-hostname from 3.5.0.1 to 3.7.0.1 [\#44](https://github.com/nebula-orchestrator/worker/pull/44) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [2.5.0](https://github.com/nebula-orchestrator/worker/tree/2.5.0) (2019-04-21)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.4.0...2.5.0)
 
 **Implemented enhancements:**
@@ -81,6 +89,7 @@
 - have worker have the option to connect to the managers with a UUID token instead of basic auth [\#40](https://github.com/nebula-orchestrator/worker/issues/40)
 
 ## [2.4.0](https://github.com/nebula-orchestrator/worker/tree/2.4.0) (2019-03-12)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.3.0...2.4.0)
 
 **Fixed bugs:**
@@ -88,6 +97,7 @@
 - Support for multiple authenticated registries  [\#26](https://github.com/nebula-orchestrator/worker/issues/26)
 
 ## [2.3.0](https://github.com/nebula-orchestrator/worker/tree/2.3.0) (2019-03-05)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.2.0...2.3.0)
 
 **Implemented enhancements:**
@@ -95,6 +105,7 @@
 - Move automatic Docker imags build from Docker Hub to Travis-CI [\#39](https://github.com/nebula-orchestrator/worker/issues/39)
 
 ## [2.2.0](https://github.com/nebula-orchestrator/worker/tree/2.2.0) (2019-02-27)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.1.0...2.2.0)
 
 **Implemented enhancements:**
@@ -102,12 +113,15 @@
 - Migrate to Python 3.x [\#32](https://github.com/nebula-orchestrator/worker/issues/32)
 
 ## [2.1.0](https://github.com/nebula-orchestrator/worker/tree/2.1.0) (2019-02-17)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.0.1...2.1.0)
 
 ## [2.0.1](https://github.com/nebula-orchestrator/worker/tree/2.0.1) (2019-01-15)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.0.0...2.0.1)
 
 ## [2.0.0](https://github.com/nebula-orchestrator/worker/tree/2.0.0) (2019-01-14)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/1.6.0...2.0.0)
 
 **Implemented enhancements:**
@@ -126,6 +140,7 @@
 - 2.0.0a [\#37](https://github.com/nebula-orchestrator/worker/pull/37) ([naorlivne](https://github.com/naorlivne))
 
 ## [1.6.0](https://github.com/nebula-orchestrator/worker/tree/1.6.0) (2018-12-06)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/1.5.0...1.6.0)
 
 **Implemented enhancements:**
@@ -137,6 +152,7 @@
 - Registry login should only happen once at start  [\#23](https://github.com/nebula-orchestrator/worker/issues/23)
 
 ## [1.5.0](https://github.com/nebula-orchestrator/worker/tree/1.5.0) (2018-10-07)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/1.4.0...1.5.0)
 
 **Implemented enhancements:**
@@ -145,6 +161,7 @@
 - Add ARM version of the worker-manager [\#22](https://github.com/nebula-orchestrator/worker/issues/22)
 
 ## [1.4.0](https://github.com/nebula-orchestrator/worker/tree/1.4.0) (2018-08-21)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/1.3.0...1.4.0)
 
 **Implemented enhancements:**
@@ -156,9 +173,9 @@
 **Fixed bugs:**
 
 - RabbitMQ connections are not closed properly  [\#31](https://github.com/nebula-orchestrator/worker/issues/31)
-- MongoDB should only disconnect after getting the required data for all needed apps on boot [\#27](https://github.com/nebula-orchestrator/worker/issues/27)
 
 ## [1.3.0](https://github.com/nebula-orchestrator/worker/tree/1.3.0) (2018-07-24)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/1.2.0...1.3.0)
 
 **Implemented enhancements:**
@@ -171,6 +188,7 @@
 - add protection against missing fanout exchanges [\#14](https://github.com/nebula-orchestrator/worker/issues/14)
 
 ## [1.2.0](https://github.com/nebula-orchestrator/worker/tree/1.2.0) (2017-10-24)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/1.1.1...1.2.0)
 
 **Implemented enhancements:**
@@ -182,9 +200,9 @@
 **Fixed bugs:**
 
 - Remove unneeded modules from requirements.txt file [\#11](https://github.com/nebula-orchestrator/worker/issues/11)
-- get rolling restart rolling [\#2](https://github.com/nebula-orchestrator/worker/issues/2)
 
 ## [1.1.1](https://github.com/nebula-orchestrator/worker/tree/1.1.1) (2017-09-18)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/1.1.0...1.1.1)
 
 **Implemented enhancements:**
@@ -192,6 +210,7 @@
 - add support for user networks [\#20](https://github.com/nebula-orchestrator/worker/issues/20)
 
 ## [1.1.0](https://github.com/nebula-orchestrator/worker/tree/1.1.0) (2017-09-18)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/1.0.0...1.1.0)
 
 **Implemented enhancements:**
@@ -201,6 +220,7 @@
 - Add support for running an app as privileged [\#5](https://github.com/nebula-orchestrator/worker/issues/5)
 
 ## [1.0.0](https://github.com/nebula-orchestrator/worker/tree/1.0.0) (2017-08-16)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/0.9.0...1.0.0)
 
 **Implemented enhancements:**
@@ -208,6 +228,7 @@
 - Add support for mounting [\#8](https://github.com/nebula-orchestrator/worker/issues/8)
 
 ## [0.9.0](https://github.com/nebula-orchestrator/worker/tree/0.9.0) (2017-08-03)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/0.8.0...0.9.0)
 
 **Implemented enhancements:**
@@ -215,12 +236,17 @@
 - Refactor to use newest version of docker-py [\#7](https://github.com/nebula-orchestrator/worker/issues/7)
 
 ## [0.8.0](https://github.com/nebula-orchestrator/worker/tree/0.8.0) (2017-06-14)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/0.7...0.8.0)
 
 ## [0.7](https://github.com/nebula-orchestrator/worker/tree/0.7) (2017-05-29)
+
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/v0.7...0.7)
 
 ## [v0.7](https://github.com/nebula-orchestrator/worker/tree/v0.7) (2017-05-29)
 
+[Full Changelog](https://github.com/nebula-orchestrator/worker/compare/015610cc53cd73b10bf5fc57bb52316a5bcc4291...v0.7)
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*

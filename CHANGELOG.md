@@ -23,10 +23,10 @@
 - Bump urllib3 from 1.25.3 to 1.25.5 [\#79](https://github.com/nebula-orchestrator/worker/pull/79) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump certifi from 2019.6.16 to 2019.9.11 [\#78](https://github.com/nebula-orchestrator/worker/pull/78) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.6.2 to 2.7.0 [\#75](https://github.com/nebula-orchestrator/worker/pull/75) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
-- Bump pyyaml from 5.1.1 to 5.1.2 [\#71](https://github.com/nebula-orchestrator/worker/pull/71) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 **Merged pull requests:**
 
+- Bump python from 3.8.0-alpine3.10 to 3.8.1-alpine3.10 [\#96](https://github.com/nebula-orchestrator/worker/pull/96) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump python from 3.7.4-alpine3.10 to 3.8.0-alpine3.10 [\#94](https://github.com/nebula-orchestrator/worker/pull/94) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [2.7.0](https://github.com/nebula-orchestrator/worker/tree/2.7.0) (2019-08-21)
@@ -42,6 +42,7 @@
 - Bump parse-it from 3.1.1 to 3.2.0 [\#74](https://github.com/nebula-orchestrator/worker/pull/74) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 3.0.0 to 3.1.1 [\#73](https://github.com/nebula-orchestrator/worker/pull/73) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 2.0.0 to 3.0.0 [\#72](https://github.com/nebula-orchestrator/worker/pull/72) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump pyyaml from 5.1.1 to 5.1.2 [\#71](https://github.com/nebula-orchestrator/worker/pull/71) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 1.1.0 to 2.0.0 [\#70](https://github.com/nebula-orchestrator/worker/pull/70) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 1.0.0 to 1.1.0 [\#69](https://github.com/nebula-orchestrator/worker/pull/69) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 0.9.1 to 1.0.0 [\#67](https://github.com/nebula-orchestrator/worker/pull/67) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

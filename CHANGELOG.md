@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump websocket-client from 0.56.0 to 0.57.0 [\#97](https://github.com/nebula-orchestrator/worker/pull/97) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyyaml from 5.1.2 to 5.2 [\#95](https://github.com/nebula-orchestrator/worker/pull/95) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump certifi from 2019.9.11 to 2019.11.28 [\#93](https://github.com/nebula-orchestrator/worker/pull/93) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump psutil from 5.6.5 to 5.6.7 [\#92](https://github.com/nebula-orchestrator/worker/pull/92) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

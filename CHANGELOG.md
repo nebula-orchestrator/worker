@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump croniter from 0.3.30 to 0.3.31 [\#99](https://github.com/nebula-orchestrator/worker/pull/99) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump dpath from 1.4.2 to 1.5.0 [\#98](https://github.com/nebula-orchestrator/worker/pull/98) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump websocket-client from 0.56.0 to 0.57.0 [\#97](https://github.com/nebula-orchestrator/worker/pull/97) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyyaml from 5.1.2 to 5.2 [\#95](https://github.com/nebula-orchestrator/worker/pull/95) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

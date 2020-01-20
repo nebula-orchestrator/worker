@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump python-dotenv from 0.10.3 to 0.10.5 [\#104](https://github.com/nebula-orchestrator/worker/pull/104) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump six from 1.13.0 to 1.14.0 [\#103](https://github.com/nebula-orchestrator/worker/pull/103) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyhcl from 0.3.15 to 0.4.0 [\#102](https://github.com/nebula-orchestrator/worker/pull/102) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyyaml from 5.2 to 5.3 [\#101](https://github.com/nebula-orchestrator/worker/pull/101) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -89,6 +90,10 @@
 - Bump websocket-client from 0.54.0 to 0.56.0 [\#45](https://github.com/nebula-orchestrator/worker/pull/45) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump backports-ssl-match-hostname from 3.5.0.1 to 3.7.0.1 [\#44](https://github.com/nebula-orchestrator/worker/pull/44) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
+**Merged pull requests:**
+
+- 2.0.0a [\#37](https://github.com/nebula-orchestrator/worker/pull/37) ([naorlivne](https://github.com/naorlivne))
+
 ## [2.5.0](https://github.com/nebula-orchestrator/worker/tree/2.5.0) (2019-04-21)
 
 [Full Changelog](https://github.com/nebula-orchestrator/worker/compare/2.4.0...2.5.0)
@@ -143,10 +148,6 @@
 
 - host network leaves container with no network [\#35](https://github.com/nebula-orchestrator/worker/issues/35)
 - Allow starting the worker with no conf.json file present [\#34](https://github.com/nebula-orchestrator/worker/issues/34)
-
-**Merged pull requests:**
-
-- 2.0.0a [\#37](https://github.com/nebula-orchestrator/worker/pull/37) ([naorlivne](https://github.com/naorlivne))
 
 ## [1.6.0](https://github.com/nebula-orchestrator/worker/tree/1.6.0) (2018-12-06)
 

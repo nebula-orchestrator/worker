@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump dpath from 1.5.0 to 2.0.1 [\#106](https://github.com/nebula-orchestrator/worker/pull/106) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump urllib3 from 1.25.7 to 1.25.8 [\#105](https://github.com/nebula-orchestrator/worker/pull/105) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump python-dotenv from 0.10.3 to 0.10.5 [\#104](https://github.com/nebula-orchestrator/worker/pull/104) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump six from 1.13.0 to 1.14.0 [\#103](https://github.com/nebula-orchestrator/worker/pull/103) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

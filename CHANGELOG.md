@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump idna from 2.8 to 2.9 [\#111](https://github.com/nebula-orchestrator/worker/pull/111) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump kafka-python from 1.4.7 to 2.0.0 [\#110](https://github.com/nebula-orchestrator/worker/pull/110) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump python-dotenv from 0.10.5 to 0.11.0 [\#109](https://github.com/nebula-orchestrator/worker/pull/109) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump docker from 4.1.0 to 4.2.0 [\#108](https://github.com/nebula-orchestrator/worker/pull/108) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -35,7 +36,6 @@
 - Bump urllib3 from 1.25.5 to 1.25.6 [\#82](https://github.com/nebula-orchestrator/worker/pull/82) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 3.2.0 to 3.3.2 [\#81](https://github.com/nebula-orchestrator/worker/pull/81) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump urllib3 from 1.25.3 to 1.25.5 [\#79](https://github.com/nebula-orchestrator/worker/pull/79) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
-- Bump certifi from 2019.6.16 to 2019.9.11 [\#78](https://github.com/nebula-orchestrator/worker/pull/78) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.6.2 to 2.7.0 [\#75](https://github.com/nebula-orchestrator/worker/pull/75) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 **Merged pull requests:**
@@ -53,6 +53,7 @@
 
 **Implemented enhancements:**
 
+- Bump certifi from 2019.6.16 to 2019.9.11 [\#78](https://github.com/nebula-orchestrator/worker/pull/78) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 3.1.1 to 3.2.0 [\#74](https://github.com/nebula-orchestrator/worker/pull/74) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 3.0.0 to 3.1.1 [\#73](https://github.com/nebula-orchestrator/worker/pull/73) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump parse-it from 2.0.0 to 3.0.0 [\#72](https://github.com/nebula-orchestrator/worker/pull/72) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

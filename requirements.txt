@@ -8,7 +8,7 @@ docker==4.2.0
 docker-pycreds==0.4.0
 dpath==2.0.1
 freeze==1.0.10
-idna==2.8
+idna==2.9
 ipaddress==1.0.23
 kafka-python==2.0.0
 NebulaPythonSDK==2.7.0

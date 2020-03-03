@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump python-dotenv from 0.11.0 to 0.12.0 [\#116](https://github.com/nebula-orchestrator/worker/pull/116) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump requests from 2.22.0 to 2.23.0 [\#114](https://github.com/nebula-orchestrator/worker/pull/114) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump kafka-python from 2.0.0 to 2.0.1 [\#113](https://github.com/nebula-orchestrator/worker/pull/113) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump psutil from 5.6.7 to 5.7.0 [\#112](https://github.com/nebula-orchestrator/worker/pull/112) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

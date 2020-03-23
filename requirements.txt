@@ -15,7 +15,7 @@ NebulaPythonSDK==2.7.0
 parse-it==3.4.0
 ply==3.11
 psutil==5.7.0
-pyhcl==0.4.0
+pyhcl==0.4.1
 python-dateutil==2.8.1
 python-dotenv==0.12.0
 PyYAML==5.3

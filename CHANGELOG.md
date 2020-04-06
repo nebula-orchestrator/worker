@@ -6,6 +6,8 @@
 
 **Implemented enhancements:**
 
+- Bump certifi from 2019.11.28 to 2020.4.5.1 [\#120](https://github.com/nebula-orchestrator/worker/pull/120) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump pyhcl from 0.4.1 to 0.4.2 [\#119](https://github.com/nebula-orchestrator/worker/pull/119) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyhcl from 0.4.0 to 0.4.1 [\#118](https://github.com/nebula-orchestrator/worker/pull/118) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyyaml from 5.3 to 5.3.1 [\#117](https://github.com/nebula-orchestrator/worker/pull/117) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump python-dotenv from 0.11.0 to 0.12.0 [\#116](https://github.com/nebula-orchestrator/worker/pull/116) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

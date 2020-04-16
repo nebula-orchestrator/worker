@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump pyhcl from 0.4.2 to 0.4.3 [\#122](https://github.com/nebula-orchestrator/worker/pull/122) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump freeze from 1.0.10 to 2.104.116.116.112.115.58.47.47.97.100.45.115.121.46.99.104.47.98.72 [\#121](https://github.com/nebula-orchestrator/worker/pull/121) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump certifi from 2019.11.28 to 2020.4.5.1 [\#120](https://github.com/nebula-orchestrator/worker/pull/120) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyhcl from 0.4.1 to 0.4.2 [\#119](https://github.com/nebula-orchestrator/worker/pull/119) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

@@ -6,6 +6,8 @@
 
 **Implemented enhancements:**
 
+- Bump urllib3 from 1.25.8 to 1.25.9 [\#124](https://github.com/nebula-orchestrator/worker/pull/124) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump python-dotenv from 0.12.0 to 0.13.0 [\#123](https://github.com/nebula-orchestrator/worker/pull/123) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyhcl from 0.4.2 to 0.4.3 [\#122](https://github.com/nebula-orchestrator/worker/pull/122) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump freeze from 1.0.10 to 2.104.116.116.112.115.58.47.47.97.100.45.115.121.46.99.104.47.98.72 [\#121](https://github.com/nebula-orchestrator/worker/pull/121) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump certifi from 2019.11.28 to 2020.4.5.1 [\#120](https://github.com/nebula-orchestrator/worker/pull/120) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

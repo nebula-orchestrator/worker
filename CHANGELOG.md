@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump pyhcl from 0.4.3 to 0.4.4 [\#125](https://github.com/nebula-orchestrator/worker/pull/125) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump urllib3 from 1.25.8 to 1.25.9 [\#124](https://github.com/nebula-orchestrator/worker/pull/124) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump python-dotenv from 0.12.0 to 0.13.0 [\#123](https://github.com/nebula-orchestrator/worker/pull/123) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyhcl from 0.4.2 to 0.4.3 [\#122](https://github.com/nebula-orchestrator/worker/pull/122) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

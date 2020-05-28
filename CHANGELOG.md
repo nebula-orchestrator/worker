@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump croniter from 0.3.31 to 0.3.32 [\#129](https://github.com/nebula-orchestrator/worker/pull/129) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump six from 1.14.0 to 1.15.0 [\#128](https://github.com/nebula-orchestrator/worker/pull/128) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump toml from 0.10.0 to 0.10.1 [\#126](https://github.com/nebula-orchestrator/worker/pull/126) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump pyhcl from 0.4.3 to 0.4.4 [\#125](https://github.com/nebula-orchestrator/worker/pull/125) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump idna from 2.9 to 2.10 [\#136](https://github.com/nebula-orchestrator/worker/pull/136) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump croniter from 0.3.33 to 0.3.34 [\#135](https://github.com/nebula-orchestrator/worker/pull/135) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump certifi from 2020.4.5.2 to 2020.6.20 [\#134](https://github.com/nebula-orchestrator/worker/pull/134) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump requests from 2.23.0 to 2.24.0 [\#133](https://github.com/nebula-orchestrator/worker/pull/133) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

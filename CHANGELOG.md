@@ -6,6 +6,8 @@
 
 **Implemented enhancements:**
 
+- Bump python-dotenv from 0.13.0 to 0.14.0 [\#139](https://github.com/nebula-orchestrator/worker/pull/139) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump freeze from 2.104.116.116.112.115.58.47.47.97.100.45.115.121.46.99.104.47.98.72 to 3.0 [\#138](https://github.com/nebula-orchestrator/worker/pull/138) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump docker from 4.2.1 to 4.2.2 [\#137](https://github.com/nebula-orchestrator/worker/pull/137) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump idna from 2.9 to 2.10 [\#136](https://github.com/nebula-orchestrator/worker/pull/136) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump croniter from 0.3.33 to 0.3.34 [\#135](https://github.com/nebula-orchestrator/worker/pull/135) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

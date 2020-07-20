@@ -3,7 +3,7 @@ certifi==2020.6.20
 chardet==3.0.4
 configobj==5.0.6
 croniter==0.3.34
-dnspython==1.16.0
+dnspython==2.0.0
 docker==4.2.2
 docker-pycreds==0.4.0
 dpath==2.0.1

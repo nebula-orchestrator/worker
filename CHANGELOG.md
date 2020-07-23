@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump urllib3 from 1.25.9 to 1.25.10 [\#142](https://github.com/nebula-orchestrator/worker/pull/142) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump dnspython from 1.16.0 to 2.0.0 [\#141](https://github.com/nebula-orchestrator/worker/pull/141) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump psutil from 5.7.0 to 5.7.2 [\#140](https://github.com/nebula-orchestrator/worker/pull/140) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump python-dotenv from 0.13.0 to 0.14.0 [\#139](https://github.com/nebula-orchestrator/worker/pull/139) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

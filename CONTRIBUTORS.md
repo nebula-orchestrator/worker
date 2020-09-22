@@ -16,3 +16,7 @@ Nebula contributors
 * **[shippable](https://github.com/shippable.com/)**
 
   * Free ARM CI/CD
+
+* **[Viney Yadav](https://github.com/vineyyadav/)**
+
+  * Fix for #145

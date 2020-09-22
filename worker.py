@@ -224,9 +224,10 @@ if __name__ == "__main__":
         nebula_manager_auth_password = parser.read_configuration_variable("nebula_manager_auth_password",
                                                                           default_value=None)
         nebula_manager_auth_token = parser.read_configuration_variable("nebula_manager_auth_token", default_value=None)
-        nebula_manager_host = parser.read_configuration_variable("nebula_manager_host", required=True)
+        nebula_manager_host = parser.read_configuration_variable("nebula_manager_host", default_value=None)
         nebula_manager_port = parser.read_configuration_variable("nebula_manager_port", default_value=80)
         nebula_manager_protocol = parser.read_configuration_variable("nebula_manager_protocol", default_value="http")
+        nebula_manager_uri = parser.read_configuration_variable("nebula_manager_uri", default_value=None)
         nebula_manager_request_timeout = parser.read_configuration_variable("nebula_manager_request_timeout",
                                                                             default_value=60)
         nebula_manager_check_in_time = parser.read_configuration_variable("nebula_manager_check_in_time",
@@ -237,7 +238,7 @@ if __name__ == "__main__":
         max_restart_wait_in_seconds = parser.read_configuration_variable("max_restart_wait_in_seconds", default_value=0)
         device_group = parser.read_configuration_variable("device_group", required=True)
 
-        # the following config variables are for configuring Nebula workers optional reporting, being optional non of it
+        # the following config variables are for configuring Nebula workers optional reporting, being optional none of it
         # is mandatory
         reporting_fail_hard = parser.read_configuration_variable("reporting_fail_hard", default_value=True)
         report_on_update_only = parser.read_configuration_variable("report_on_update_only", default_value=False)
@@ -278,7 +279,8 @@ if __name__ == "__main__":
         # login to the nebula manager
         nebula_connection = Nebula(username=nebula_manager_auth_user, password=nebula_manager_auth_password,
                                    host=nebula_manager_host, port=nebula_manager_port, protocol=nebula_manager_protocol,
-                                   request_timeout=nebula_manager_request_timeout, token=nebula_manager_auth_token)
+                                   host_uri=nebula_manager_uri, request_timeout=nebula_manager_request_timeout,
+                                   token=nebula_manager_auth_token)
 
         # make sure the nebula manager connects properly
         try:

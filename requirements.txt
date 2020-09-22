@@ -11,7 +11,7 @@ freeze==3.0
 idna==2.10
 ipaddress==1.0.23
 kafka-python==2.0.1
-NebulaPythonSDK==2.7.0
+NebulaPythonSDK==2.8.0
 parse-it==3.4.0
 ply==3.11
 psutil==5.7.2

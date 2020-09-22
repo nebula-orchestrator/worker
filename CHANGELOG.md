@@ -70,8 +70,13 @@
 - Bump certifi from 2019.6.16 to 2019.9.11 [\#78](https://github.com/nebula-orchestrator/worker/pull/78) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump nebulapythonsdk from 2.6.2 to 2.7.0 [\#75](https://github.com/nebula-orchestrator/worker/pull/75) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
+**Fixed bugs:**
+
+- Connecting to a nebula managr hosted at a non root path [\#145](https://github.com/nebula-orchestrator/worker/issues/145)
+
 **Merged pull requests:**
 
+- Fixed \#145 [\#146](https://github.com/nebula-orchestrator/worker/pull/146) ([vineyyadav](https://github.com/vineyyadav))
 - Bump python from 3.8.2-alpine3.10 to 3.8.3-alpine3.10 [\#127](https://github.com/nebula-orchestrator/worker/pull/127) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump python from 3.8.1-alpine3.10 to 3.8.2-alpine3.10 [\#115](https://github.com/nebula-orchestrator/worker/pull/115) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump python from 3.8.0-alpine3.10 to 3.8.1-alpine3.10 [\#96](https://github.com/nebula-orchestrator/worker/pull/96) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

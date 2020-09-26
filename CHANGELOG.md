@@ -72,10 +72,12 @@
 
 **Fixed bugs:**
 
+- Dependabot couldn't authenticate with https://pypi.python.org/simple/ [\#148](https://github.com/nebula-orchestrator/worker/issues/148)
 - Connecting to a nebula managr hosted at a non root path [\#145](https://github.com/nebula-orchestrator/worker/issues/145)
 
 **Merged pull requests:**
 
+- Create Dependabot config file [\#149](https://github.com/nebula-orchestrator/worker/pull/149) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Fixed \#145 [\#146](https://github.com/nebula-orchestrator/worker/pull/146) ([vineyyadav](https://github.com/vineyyadav))
 - Bump python from 3.8.2-alpine3.10 to 3.8.3-alpine3.10 [\#127](https://github.com/nebula-orchestrator/worker/pull/127) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump python from 3.8.1-alpine3.10 to 3.8.2-alpine3.10 [\#115](https://github.com/nebula-orchestrator/worker/pull/115) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

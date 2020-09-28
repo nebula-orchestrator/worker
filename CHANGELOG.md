@@ -72,6 +72,7 @@
 
 **Fixed bugs:**
 
+- Prune image API not working [\#150](https://github.com/nebula-orchestrator/worker/issues/150)
 - Dependabot couldn't authenticate with https://pypi.python.org/simple/ [\#148](https://github.com/nebula-orchestrator/worker/issues/148)
 - Connecting to a nebula managr hosted at a non root path [\#145](https://github.com/nebula-orchestrator/worker/issues/145)
 

@@ -121,7 +121,7 @@ class DockerFunctions:
     def prune_images(self):
         print("pruning unused images")
         try:
-            print(self.cli.prune_images())
+            print(self.cli.prune_images(filters={'dangling': False}))
         except Exception as e:
             print(e, file=sys.stderr)
             print("problem pruning unused image")

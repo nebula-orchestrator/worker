@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump croniter from 0.3.34 to 0.3.35 [\#152](https://github.com/nebula-orchestrator/worker/pull/152) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump kafka-python from 2.0.1 to 2.0.2 [\#151](https://github.com/nebula-orchestrator/worker/pull/151) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump docker from 4.3.0 to 4.3.1 [\#144](https://github.com/nebula-orchestrator/worker/pull/144) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump docker from 4.2.2 to 4.3.0 [\#143](https://github.com/nebula-orchestrator/worker/pull/143) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))

@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump psutil from 5.7.2 to 5.7.3 [\#155](https://github.com/nebula-orchestrator/worker/pull/155) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump urllib3 from 1.25.10 to 1.25.11 [\#154](https://github.com/nebula-orchestrator/worker/pull/154) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump croniter from 0.3.34 to 0.3.35 [\#152](https://github.com/nebula-orchestrator/worker/pull/152) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump kafka-python from 2.0.1 to 2.0.2 [\#151](https://github.com/nebula-orchestrator/worker/pull/151) ([dependabot[bot]](https://github.com/apps/dependabot))

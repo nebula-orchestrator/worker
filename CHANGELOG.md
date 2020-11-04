@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump croniter from 0.3.35 to 0.3.36 [\#158](https://github.com/nebula-orchestrator/worker/pull/158) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump toml from 0.10.1 to 0.10.2 [\#157](https://github.com/nebula-orchestrator/worker/pull/157) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump python-dotenv from 0.14.0 to 0.15.0 [\#156](https://github.com/nebula-orchestrator/worker/pull/156) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump psutil from 5.7.2 to 5.7.3 [\#155](https://github.com/nebula-orchestrator/worker/pull/155) ([dependabot[bot]](https://github.com/apps/dependabot))

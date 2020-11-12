@@ -6,6 +6,8 @@
 
 **Implemented enhancements:**
 
+- Bump requests from 2.24.0 to 2.25.0 [\#162](https://github.com/nebula-orchestrator/worker/pull/162) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump urllib3 from 1.25.11 to 1.26.1 [\#161](https://github.com/nebula-orchestrator/worker/pull/161) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump certifi from 2020.6.20 to 2020.11.8 [\#159](https://github.com/nebula-orchestrator/worker/pull/159) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump croniter from 0.3.35 to 0.3.36 [\#158](https://github.com/nebula-orchestrator/worker/pull/158) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump toml from 0.10.1 to 0.10.2 [\#157](https://github.com/nebula-orchestrator/worker/pull/157) ([dependabot[bot]](https://github.com/apps/dependabot))

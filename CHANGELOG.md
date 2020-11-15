@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump urllib3 from 1.26.1 to 1.26.2 [\#163](https://github.com/nebula-orchestrator/worker/pull/163) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump requests from 2.24.0 to 2.25.0 [\#162](https://github.com/nebula-orchestrator/worker/pull/162) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump urllib3 from 1.25.11 to 1.26.1 [\#161](https://github.com/nebula-orchestrator/worker/pull/161) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump certifi from 2020.6.20 to 2020.11.8 [\#159](https://github.com/nebula-orchestrator/worker/pull/159) ([dependabot[bot]](https://github.com/apps/dependabot))

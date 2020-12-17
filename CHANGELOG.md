@@ -6,6 +6,8 @@
 
 **Implemented enhancements:**
 
+- Bump requests from 2.25.0 to 2.25.1 [\#168](https://github.com/nebula-orchestrator/worker/pull/168) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump chardet from 3.0.4 to 4.0.0 [\#167](https://github.com/nebula-orchestrator/worker/pull/167) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump parse-it from 3.4.0 to 3.5.0 [\#166](https://github.com/nebula-orchestrator/worker/pull/166) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump certifi from 2020.11.8 to 2020.12.5 [\#165](https://github.com/nebula-orchestrator/worker/pull/165) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump docker from 4.3.1 to 4.4.0 [\#164](https://github.com/nebula-orchestrator/worker/pull/164) ([dependabot[bot]](https://github.com/apps/dependabot))

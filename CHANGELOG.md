@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump psutil from 5.7.3 to 5.8.0 [\#169](https://github.com/nebula-orchestrator/worker/pull/169) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump requests from 2.25.0 to 2.25.1 [\#168](https://github.com/nebula-orchestrator/worker/pull/168) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump chardet from 3.0.4 to 4.0.0 [\#167](https://github.com/nebula-orchestrator/worker/pull/167) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump parse-it from 3.4.0 to 3.5.0 [\#166](https://github.com/nebula-orchestrator/worker/pull/166) ([dependabot[bot]](https://github.com/apps/dependabot))
@@ -84,13 +85,16 @@
 - Bump parse-it from 3.2.0 to 3.3.2 [\#81](https://github.com/nebula-orchestrator/worker/pull/81) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump urllib3 from 1.25.3 to 1.25.5 [\#79](https://github.com/nebula-orchestrator/worker/pull/79) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump certifi from 2019.6.16 to 2019.9.11 [\#78](https://github.com/nebula-orchestrator/worker/pull/78) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
-- Bump nebulapythonsdk from 2.6.2 to 2.7.0 [\#75](https://github.com/nebula-orchestrator/worker/pull/75) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 **Fixed bugs:**
 
 - Prune image API not working [\#150](https://github.com/nebula-orchestrator/worker/issues/150)
 - Dependabot couldn't authenticate with https://pypi.python.org/simple/ [\#148](https://github.com/nebula-orchestrator/worker/issues/148)
 - Connecting to a nebula managr hosted at a non root path [\#145](https://github.com/nebula-orchestrator/worker/issues/145)
+
+**Closed issues:**
+
+- Query about a container running standalone script !! [\#147](https://github.com/nebula-orchestrator/worker/issues/147)
 
 **Merged pull requests:**
 

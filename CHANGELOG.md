@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- Bump croniter from 0.3.36 to 0.3.37 [\#171](https://github.com/nebula-orchestrator/worker/pull/171) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump docker from 4.4.0 to 4.4.1 [\#170](https://github.com/nebula-orchestrator/worker/pull/170) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump psutil from 5.7.3 to 5.8.0 [\#169](https://github.com/nebula-orchestrator/worker/pull/169) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump requests from 2.25.0 to 2.25.1 [\#168](https://github.com/nebula-orchestrator/worker/pull/168) ([dependabot[bot]](https://github.com/apps/dependabot))
@@ -83,7 +84,6 @@
 - Bump docker from 4.0.2 to 4.1.0 [\#84](https://github.com/nebula-orchestrator/worker/pull/84) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump kafka-python from 1.4.6 to 1.4.7 [\#83](https://github.com/nebula-orchestrator/worker/pull/83) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump urllib3 from 1.25.5 to 1.25.6 [\#82](https://github.com/nebula-orchestrator/worker/pull/82) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
-- Bump parse-it from 3.2.0 to 3.3.2 [\#81](https://github.com/nebula-orchestrator/worker/pull/81) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 **Fixed bugs:**
 

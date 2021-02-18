@@ -6,6 +6,8 @@
 
 **Implemented enhancements:**
 
+- Bump docker from 4.4.1 to 4.4.2 [\#182](https://github.com/nebula-orchestrator/worker/pull/182) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump croniter from 1.0.2 to 1.0.6 [\#181](https://github.com/nebula-orchestrator/worker/pull/181) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump urllib3 from 1.26.2 to 1.26.3 [\#179](https://github.com/nebula-orchestrator/worker/pull/179) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump pyyaml from 5.3.1 to 5.4.1 [\#178](https://github.com/nebula-orchestrator/worker/pull/178) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump croniter from 1.0.1 to 1.0.2 [\#177](https://github.com/nebula-orchestrator/worker/pull/177) ([dependabot[bot]](https://github.com/apps/dependabot))
@@ -84,8 +86,6 @@
 - Bump psutil from 5.6.4 to 5.6.5 [\#89](https://github.com/nebula-orchestrator/worker/pull/89) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump python-dateutil from 2.8.0 to 2.8.1 [\#88](https://github.com/nebula-orchestrator/worker/pull/88) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump psutil from 5.6.3 to 5.6.4 [\#87](https://github.com/nebula-orchestrator/worker/pull/87) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
-- Bump pyhcl from 0.3.12 to 0.3.13 [\#86](https://github.com/nebula-orchestrator/worker/pull/86) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
-- Bump ipaddress from 1.0.22 to 1.0.23 [\#85](https://github.com/nebula-orchestrator/worker/pull/85) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 **Fixed bugs:**
 

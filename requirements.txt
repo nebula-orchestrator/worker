@@ -1,5 +1,5 @@
 backports.ssl-match-hostname==3.7.0.1
-certifi==2020.12.5
+certifi==2021.5.30
 chardet==4.0.0
 configobj==5.0.6
 croniter==1.0.13

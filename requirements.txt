@@ -15,7 +15,7 @@ parse-it==2021.6.21.18.0
 ply==3.11
 psutil==5.8.0
 pyhcl==0.4.4
-python-dateutil==2.8.1
+python-dateutil==2.8.2
 python-dotenv==0.18.0
 PyYAML==5.4.1
 requests==2.25.1

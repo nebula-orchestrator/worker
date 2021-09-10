@@ -67,6 +67,13 @@ def get_memory_usage():
         print("error getting memory usage")
         os._exit(2)
 
+def get_ip_address_from_env():
+    try:
+        return(os.environ["HOST_MACHINE_IP"])
+    except Exception as e:
+        print(e, file=sys.stderr)
+        print("HOST_MACHINE_IP not set")
+        os._exit(2)
 
 # return host fqdn
 def get_fqdn():

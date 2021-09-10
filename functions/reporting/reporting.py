@@ -23,7 +23,7 @@ class ReportingDocument:
             "current_device_group_config": device_group_config,
             "device_group": self.device_group,
             "report_creation_time": int(time.time()),
-            "hostname": get_fqdn(),
+            "hostname": get_ip_address_from_env(),
             "updated": updated
         }
         return report

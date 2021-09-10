@@ -20,3 +20,7 @@ Nebula contributors
 * **[Viney Yadav](https://github.com/vineyyadav/)**
 
   * Fix for #145
+
+* **[Paritosh Ramanan](https://github.com/paritoshpr/)**
+
+  * Redis Support

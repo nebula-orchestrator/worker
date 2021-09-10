@@ -69,7 +69,11 @@ def get_memory_usage():
 
 def get_ip_address_from_env():
     try:
-        return(os.environ["HOST_MACHINE_IP"])
+        machine_ip = "unset"
+        if "HOST_MACHINE_IP" in os.environ.keys():
+            machine_ip = os.environ["HOST_MACHINE_IP"]
+        return machine_ip
+
     except Exception as e:
         print(e, file=sys.stderr)
         print("HOST_MACHINE_IP not set")

@@ -524,10 +524,10 @@ if __name__ == "__main__":
                 except Exception as e:
                     print(e, file=sys.stderr)
                     if reporting_fail_hard is False:
-                        print("failed reporting state to kafka")
+                        print("failed reporting state to redis")
                         pass
                     else:
-                        print("failed reporting state to kafka - exiting")
+                        print("failed reporting state to redis - exiting")
                         os._exit(2)
 
     except Exception as e:

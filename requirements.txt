@@ -6,7 +6,7 @@ croniter==1.0.15
 dnspython==2.1.0
 docker==5.0.2
 docker-pycreds==0.4.0
-dpath==2.0.3
+dpath==2.0.5
 idna==3.2
 ipaddress==1.0.23
 kafka-python==2.0.2

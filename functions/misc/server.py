@@ -67,7 +67,6 @@ def get_memory_usage():
         print("error getting memory usage")
         os._exit(2)
 
-
 # return host fqdn
 def get_fqdn():
     try:

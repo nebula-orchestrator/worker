@@ -11,7 +11,7 @@ idna==3.3
 ipaddress==1.0.23
 kafka-python==2.0.2
 NebulaPythonSDK==2.8.0
-parse-it==2022.3.30.7.29
+parse-it==2022.5.10.11.27
 ply==3.11
 psutil==5.9.0
 pyhcl==0.4.4

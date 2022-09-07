@@ -13,7 +13,7 @@ kafka-python==2.0.2
 NebulaPythonSDK==2.8.0
 parse-it==2022.9.7.8.5
 ply==3.11
-psutil==5.9.1
+psutil==5.9.2
 pyhcl==0.4.4
 python-dateutil==2.8.2
 python-dotenv==0.20.0

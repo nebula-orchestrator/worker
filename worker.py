@@ -521,6 +521,7 @@ if __name__ == "__main__":
                     if monotonic_id_increase is True or report_on_update_only is False:
                         report = reporting_object.current_status_report(local_device_group_info, monotonic_id_increase)
                         redis_connection.push_report(report)
+                        redis_connection.map_container_id(report)
                 except Exception as e:
                     print(e, file=sys.stderr)
                     if reporting_fail_hard is False:

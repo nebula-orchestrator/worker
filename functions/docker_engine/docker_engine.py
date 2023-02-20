@@ -111,7 +111,10 @@ class DockerFunctions:
         try:
             print(image_name)
             for line in self.cli.pull(image_name, str(version_tag), stream=True):
-                print(json.dumps(json.loads(line), indent=4))
+                try:
+                    print(json.dumps(json.loads(line), indent=4))
+                except Exception as e:
+                    print(line)
         except Exception as e:
             print(e, file=sys.stderr)
             print("problem pulling image " + image_name + ":" + str(version_tag))

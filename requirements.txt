@@ -22,6 +22,6 @@ requests==2.31.0
 retrying==1.3.4
 six==1.16.0
 toml==0.10.2
-urllib3==2.0.4
+urllib3==2.0.5
 websocket-client==1.6.3
 xmltodict==0.13.0

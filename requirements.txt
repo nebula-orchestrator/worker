@@ -9,7 +9,7 @@ docker-pycreds==0.4.0
 dpath==2.2.0
 idna==3.10
 ipaddress==1.0.23
-kafka-python==2.0.2
+kafka-python==2.0.5
 NebulaPythonSDK==2.8.0
 parse-it==2024.11.20.9.55
 ply==3.11

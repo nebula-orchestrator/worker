@@ -24,4 +24,4 @@ six==1.17.0
 toml==0.10.2
 urllib3==2.3.0
 websocket-client==1.8.0
-xmltodict==0.14.2
+xmltodict==0.15.0

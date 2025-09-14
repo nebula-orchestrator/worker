@@ -16,7 +16,7 @@ ply==3.11
 psutil==7.0.0
 pyhcl==0.4.5
 python-dateutil==2.9.0.post0
-python-dotenv==1.0.1
+python-dotenv==1.1.1
 PyYAML==6.0.2
 requests==2.32.4
 retrying==1.3.4

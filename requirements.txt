@@ -18,8 +18,8 @@ pyhcl==0.4.5
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.1
 PyYAML==6.0.2
+retrying==1.4.2
 requests==2.32.5
-retrying==1.3.4
 six==1.17.0
 toml==0.10.2
 urllib3==2.5.0
